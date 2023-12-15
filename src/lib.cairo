@@ -1,4 +1,10 @@
-mod actions;
-mod models;
-mod utils;
+mod models {
+    mod character;
+    mod game;
+    mod map;
+}
+// mod systems {
+//     // mod game;
+// }
+
 
