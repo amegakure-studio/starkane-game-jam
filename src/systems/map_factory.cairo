@@ -11,7 +11,7 @@ mod actions {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use starkane::models::map::{Map, Position, Tile};
+    use arcane_abyss::models::map::{Map, Position, Tile};
 
     #[storage]
     struct Storage {}
