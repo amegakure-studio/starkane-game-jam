@@ -11,13 +11,13 @@ mod actions {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use arcane_abyss::models::map::{Map, Position, Tile};
+    use starkane::models::map::{Map, Position, Tile};
 
     #[storage]
     struct Storage {}
 
     #[external(v0)]
     impl Actions of IActions<ContractState> {
-        fn init(self: @ContractState, world: IWorldDispatcher) {}
+        fn create(self: @ContractState, world: IWorldDispatcher) {}
     }
 }

@@ -1,4 +1,4 @@
-use arcane_abyss::models::map::{Position, Map};
+use starkane::models::map::{Position, Map};
 
 #[derive(Model, Copy, Drop, Serde)]
 struct ActionState {
@@ -47,5 +47,4 @@ trait GameTrait {
 //         }
 //     }
 // }
-
 

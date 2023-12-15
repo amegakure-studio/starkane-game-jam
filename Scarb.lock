@@ -2,16 +2,9 @@
 version = 1
 
 [[package]]
-name = "arcane_abyss"
-version = "0.4.0"
-dependencies = [
- "dojo",
-]
-
-[[package]]
 name = "dojo"
-version = "0.4.0"
-source = "git+https://github.com/dojoengine/dojo#17c1b42910cb751fe3986ed44ce4e3a6a16b1e51"
+version = "0.4.1"
+source = "git+https://github.com/dojoengine/dojo#9ba9192b8ccd0e5c12c8b9fe592f53ebe5b20f7e"
 dependencies = [
  "dojo_plugin",
 ]
@@ -20,3 +13,10 @@ dependencies = [
 name = "dojo_plugin"
 version = "0.3.11"
 source = "git+https://github.com/dojoengine/dojo?tag=v0.3.11#1e651b5d4d3b79b14a7d8aa29a92062fcb9e6659"
+
+[[package]]
+name = "starkane"
+version = "0.4.0"
+dependencies = [
+ "dojo",
+]
