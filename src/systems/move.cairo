@@ -10,7 +10,7 @@ mod actions {
     use super::IActions;
     use starkane::models::character::{CharacterOwned, Character, CharacterImpl, CharacterTrait};
     use starkane::models::game::{GameState, CharacterState};
-    use starkane::models::map::{Map, MapTrait};
+    use starkane::models::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
@@ -21,7 +21,7 @@ mod actions {
         fn move(self: @ContractState, world: IWorldDispatcher, game_id: u32, player_address: felt252, character_id: u32, position: (u128, u128)) {
             let game_state = get!(world, (game_id), (GameState));
             assert(!game_state.over, 'ERR: this game is over!');
-            assert(game_state.player_address_turn == player_address, 'ERR: wait for your turn!');
+            assert(game_state.player_turn == player_address, 'ERR: wait for your turn!');
 
             let character_owned = CharacterImpl::has_character_owned(world, character_id, player_address);
             assert(character_owned, 'ERR: player wrong character_id');
@@ -32,6 +32,8 @@ mod actions {
             let (to_x, to_y) = position; 
             assert(MapTrait::is_inside((to_x, to_y)), 'position is outside of map');
             assert(character_state.x != to_x && character_state.y != to_y, 'already in that position');
+            // TODO: height hardcoded, this should be taken from map
+            assert(get!(world, (to_y * DEFAULT_MAP_WIDTH + to_x), (Tile)).walkable, 'tile not walkable');
 
             let character = get!(world, (character_id), (Character));
             let distance_to = distance((character_state.x, character_state.y), (to_x, to_y));

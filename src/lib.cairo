@@ -5,8 +5,8 @@ mod models {
     mod skill;
 }
 mod systems {
-    // mod move;
     mod attack;
-    // mod game;
+    mod game_factory;
+    mod move;
 }
 

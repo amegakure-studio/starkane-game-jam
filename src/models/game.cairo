@@ -32,37 +32,47 @@ struct GameState {
     #[key]
     game_id: u32,
     turn: u32,
-    player_address_turn: felt252,
+    player_turn: felt252,
+    players_len: u32,
+    characters_len: u32, 
     map: Map,
     over: bool,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
-struct GameIdx {
+struct GamePlayer {
     #[key]
-    world_address: felt252,
-    idx: u32,
+    game_id: u32,
+    #[key]
+    id: u32,
+    player: felt252,
+}
+
+const GAME_IDX_KEY: felt252 = 'game_idx_key';
+
+#[derive(Model, Copy, Drop, Serde)]
+struct GameIndex {
+    #[key]
+    id: felt252,
+    index: u32,
 }
 
 trait GameTrait {
-    fn new(world: IWorldDispatcher, world_address: felt252) -> GameState;
+    fn new(game_id: u32) -> GameState;
 }
 
 impl GameImpl of GameTrait {
     #[inline(always)]
-    fn new(world: IWorldDispatcher, world_address: felt252) -> GameState {
-        let game_idx = get!(world, (world_address), (GameIdx));
-        let new_game_state = GameState {
-            game_id: game_idx.idx + 1,
+    fn new(game_id: u32) -> GameState {
+        GameState {
+            game_id: game_id,
             turn: 0,
-            player_address_turn: 0,
+            player_turn: 0,
+            players_len: 0,
+            characters_len: 0,
             // TODO: for now we only have one map
             map: MapTrait::new(0),
             over: false
-        };
-
-        set!(world, (new_game_state));
-        set!(world, GameIdx {world_address: game_idx.world_address, idx: game_idx.idx + 1 });
-        new_game_state
+        }
     }
 }

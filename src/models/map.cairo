@@ -12,8 +12,6 @@ struct Tile {
     map_id: u32,
     #[key]
     id: u32,
-    x: u128,
-    y: u128,
     walkable: bool,
 }
 
@@ -45,20 +43,19 @@ impl MapImpl of MapTrait {
 fn create_tiles(map: Map) -> Array<Tile> {
     let mut tiles = array![];
 
-    let mut i = 0;
-    let mut j = 0;
+    let mut x = 0;
+    let mut y = 0;
     loop {
-        if j == map.height {
+        if y == map.height {
             break;
         }
-        let index = (j * map.width) + i;
-        // let position = Position { tile_id: index, id: index, x: i, y: j, index: index };
+        let index = (y * map.width) + x;
         // TODO: for now, all tiles are walkeables
-        tiles.append(Tile { map_id: map.id, id: index.try_into().unwrap(), x: i, y: j, walkable: true });
-        i += 1;
-        if i == map.width {
-            j += 1;
-            i = 0;
+        tiles.append(Tile { map_id: map.id, id: index.try_into().unwrap(), walkable: true });
+        x += 1;
+        if x == map.width {
+            y += 1;
+            x = 0;
         }
     };
     tiles
