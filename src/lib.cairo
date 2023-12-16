@@ -1,9 +1,18 @@
 mod models {
-    mod character;
-    mod game;
-    mod map;
-    mod skill;
+    mod entities {
+        mod character;
+        mod map;
+        mod skill;
+    }
+    mod data {
+        mod starkane;
+    }
+    mod states {
+        mod character_state;
+        mod match_state;
+    }
 }
+
 mod systems {
     mod attack;
     mod character_manager;

@@ -2,25 +2,29 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
 trait IActions<TContractState> {
-    fn attack(
+    fn action(
         self: @TContractState,
         world: IWorldDispatcher,
-        game_id: u32,
-        player_address: felt252,
-        attacker_id: u32,
+        match_id: u32,
+        player: felt252,
+        player_character_id: u32,
         skill_id: u32,
-        receiver_id: u32
+        receiver: felt252,
+        receiver_character_id: u32
     );
 }
 
 #[starknet::contract]
 mod actions {
     use super::IActions;
-    // use core::option::OptionTrait;
 
-    use starkane::models::character::{CharacterOwned, Character, CharacterImpl, CharacterTrait};
-    use starkane::models::game::{GameState, CharacterState};
-    use starkane::models::skill::{Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType};
+    //CharacterPlayerProgress
+    use starkane::models::entities::character::{Character, CharacterTrait};
+    use starkane::models::entities::skill::{
+        Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType
+    };
+    use starkane::models::states::match_state::MatchState;
+    use starkane::models::states::character_state::CharacterState;
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -31,48 +35,49 @@ mod actions {
     #[external(v0)]
     impl Actions of IActions<ContractState> {
         // Character -> Character
-        fn attack(
+        fn action(
             self: @ContractState,
             world: IWorldDispatcher,
-            game_id: u32,
-            player_address: felt252,
-            attacker_id: u32,
+            match_id: u32,
+            player: felt252,
+            player_character_id: u32,
             skill_id: u32,
-            receiver_id: u32
+            receiver: felt252,
+            receiver_character_id: u32
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
-            // let game_state = get!(world, (game_id), (GameState));
-            let game_state = store.get_game_state(game_id);
+            // let match_state = get!(world, (match_id), (MatchState));
+            let match_state = store.get_match_state(match_id);
 
-            let attacker = get!(world, (attacker_id), (Character));
-            let attacker_state = get!(
-                world, (game_id, attacker_id, game_state.turn), (CharacterState)
+            let player_character = get!(world, (player_character_id), (Character));
+            let player_character_state = get!(
+                world, (match_id, player_character_id, player), (CharacterState)
             );
 
-            let receiver = get!(world, (receiver_id), (Character));
-            let receiver_state = get!(
-                world, (game_id, receiver_id, game_state.turn), (CharacterState)
+            let receiver_character = get!(world, (receiver_character_id), (Character));
+            let receiver_character_state = get!(
+                world, (match_id, receiver_character_id, receiver), (CharacterState)
             );
 
             // obtener skill
-            let skill = get!(world, (attacker_id, skill_id), (Skill));
+            let skill = get!(world, (player_character_id, skill_id), (Skill));
 
             // fijarse que tenga el skill el que ataca
             let skill_type: SkillType = skill.skill_type.try_into().unwrap();
 
             match skill_type {
                 SkillType::MeeleAttack => attack(
-                    world, attacker, attacker_state, skill, receiver, receiver_state
+                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
                 ),
                 SkillType::RangeAttack => attack(
-                    world, attacker, attacker_state, skill, receiver, receiver_state
+                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
                 ),
                 SkillType::Fireball => attack(
-                    world, attacker, attacker_state, skill, receiver, receiver_state
+                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
                 ),
-                SkillType::Heal => heal(world, attacker_state, skill, receiver, receiver_state)
+                SkillType::Heal => heal(world, player_character_state, skill, receiver_character, receiver_character_state)
             }
         }
     }
@@ -111,8 +116,7 @@ mod actions {
         skill: Skill,
         receiver: Character,
         receiver_state: CharacterState
-    ) {// si es heal que sea aliado
-
+    ) { // si es heal que sea aliado
     }
 
     fn distance(from: (u128, u128), to: (u128, u128)) -> u128 {

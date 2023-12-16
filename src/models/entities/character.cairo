@@ -8,39 +8,6 @@ enum CharacterType {
     Pig,
 }
 
-impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
-    #[inline(always)]
-    fn into(self: CharacterType) -> u8 {
-        match self {
-            CharacterType::Archer => 1,
-            CharacterType::Cleric => 2,
-            CharacterType::Warrior => 3,
-            CharacterType::Pig => 4,
-        }
-    }
-}
-
-impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
-    #[inline(always)]
-    fn into(self: CharacterType) -> u32 {
-        match self {
-            CharacterType::Archer => 1,
-            CharacterType::Cleric => 2,
-            CharacterType::Warrior => 3,
-            CharacterType::Pig => 4,
-        }
-    }
-}
-
-#[derive(Model, Copy, Drop, Serde)]
-struct CharacterOwned {
-    #[key]
-    owner: felt252,
-    #[key]
-    character_id: u32,
-    owned: bool,
-}
-
 #[derive(Model, Copy, Drop, Serde)]
 struct Character {
     #[key]
@@ -129,5 +96,31 @@ fn create_pig(id: u32) -> Character {
         crit_chance: 15,
         crit_rate: 2,
         movement_range: 4,
+    }
+}
+
+// Converters
+
+impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
+    #[inline(always)]
+    fn into(self: CharacterType) -> u8 {
+        match self {
+            CharacterType::Archer => 1,
+            CharacterType::Cleric => 2,
+            CharacterType::Warrior => 3,
+            CharacterType::Pig => 4,
+        }
+    }
+}
+
+impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
+    #[inline(always)]
+    fn into(self: CharacterType) -> u32 {
+        match self {
+            CharacterType::Archer => 1,
+            CharacterType::Cleric => 2,
+            CharacterType::Warrior => 3,
+            CharacterType::Pig => 4,
+        }
     }
 }

@@ -19,7 +19,7 @@ impl SkillTypeIntoU8 of Into<SkillType, u8> {
     }
 }
 
-impl U8TryIntoSkillType of TryInto<u8, SkillType > {
+impl U8TryIntoSkillType of TryInto<u8, SkillType> {
     #[inline(always)]
     fn try_into(self: u8) -> Option<SkillType> {
         if self == 0 {
@@ -92,78 +92,80 @@ fn create_range(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
 
 fn create_fireball(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     assert(level == 0 || level > 3, 'fireball level > 3');
-    let mut skill = 
-        Skill {
-            character_id: character_id,
-            id: id,
-            skill_type: SkillType::Fireball.into(),
-            level: 1,
-            power: 20,
-            mp_cost: 40,
-            range: 4
-        };
+    let mut skill = Skill {
+        character_id: character_id,
+        id: id,
+        skill_type: SkillType::Fireball.into(),
+        level: 1,
+        power: 20,
+        mp_cost: 40,
+        range: 4
+    };
 
     if level == 2 {
-        skill = Skill {
-            character_id: character_id,
-            id: id, 
-            skill_type: SkillType::Fireball.into(),
-            level: 2,
-            power: 40,
-            mp_cost: 50,
-            range: 4
-        }
-    } 
+        skill =
+            Skill {
+                character_id: character_id,
+                id: id,
+                skill_type: SkillType::Fireball.into(),
+                level: 2,
+                power: 40,
+                mp_cost: 50,
+                range: 4
+            }
+    }
 
     if level == 3 {
-        skill = Skill {
-            character_id: character_id,
-            id: id,
-            skill_type: SkillType::Fireball.into(),
-            level: 3,
-            power: 60,
-            mp_cost: 60,
-            range: 5
-        }
+        skill =
+            Skill {
+                character_id: character_id,
+                id: id,
+                skill_type: SkillType::Fireball.into(),
+                level: 3,
+                power: 60,
+                mp_cost: 60,
+                range: 5
+            }
     }
     skill
 }
 
 fn create_heal(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     assert(level == 0 || level > 3, 'heal level > 3');
-    let mut skill = 
-        Skill {
-            character_id: character_id,
-            id: id,
-            skill_type: SkillType::Heal.into(),
-            level: 1,
-            power: 40,
-            mp_cost: 60,
-            range: 3
-        };
+    let mut skill = Skill {
+        character_id: character_id,
+        id: id,
+        skill_type: SkillType::Heal.into(),
+        level: 1,
+        power: 40,
+        mp_cost: 60,
+        range: 3
+    };
 
     if level == 2 {
-        skill = Skill {
-            character_id: character_id,
-            id: id,
-            skill_type: SkillType::Heal.into(),
-            level: 2,
-            power: 80,
-            mp_cost: 90,
-            range: 4
-        }
-    } 
+        skill =
+            Skill {
+                character_id: character_id,
+                id: id,
+                skill_type: SkillType::Heal.into(),
+                level: 2,
+                power: 80,
+                mp_cost: 90,
+                range: 4
+            }
+    }
 
     if level == 3 {
-        skill = Skill {
-            character_id: character_id,
-            id: id,
-            skill_type: SkillType::Heal.into(),
-            level: 3,
-            power: 120,
-            mp_cost: 110,
-            range: 5
-        }
+        skill =
+            Skill {
+                character_id: character_id,
+                id: id,
+                skill_type: SkillType::Heal.into(),
+                level: 3,
+                power: 120,
+                mp_cost: 110,
+                range: 5
+            }
     }
     skill
 }

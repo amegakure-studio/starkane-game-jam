@@ -1,4 +1,4 @@
-use starkane::models::character::Character;
+use starkane::models::entities::character::Character;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[derive(Copy, Drop, Serde)]
@@ -9,27 +9,34 @@ struct PlayerCharacter {
 
 #[starknet::interface]
 trait IActions<TContractState> {
-    fn create(self: @TContractState, world: IWorldDispatcher, players_characters: Array<PlayerCharacter>);
+    fn create(
+        self: @TContractState, world: IWorldDispatcher, players_characters: Array<PlayerCharacter>
+    );
 }
 
 #[starknet::contract]
 mod actions {
     use super::{IActions, PlayerCharacter};
-    use starkane::models::game::{ActionState, CharacterState, GameState, GameTrait, GameIndex, GamePlayer, GAME_IDX_KEY};
-    use starkane::models::map::{Map, MapTrait};
-    use starkane::models::character::{Character};
+    use starkane::models::data::starkane::{MatchIndex, GAME_IDX_KEY};
+    use starkane::models::entities::map::{Map, MapTrait};
+    use starkane::models::entities::character::Character;
+    use starkane::models::states::character_state::{ActionState, CharacterState};
+    use starkane::models::states::match_state::{MatchState, MatchTrait, MatchPlayers,};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
     struct Storage {}
 
-
     #[external(v0)]
     impl Actions of IActions<ContractState> {
-        fn create(self: @ContractState, world: IWorldDispatcher, players_characters: Array<PlayerCharacter>) {
+        fn create(
+            self: @ContractState,
+            world: IWorldDispatcher,
+            players_characters: Array<PlayerCharacter>
+        ) {
             assert(players_characters.len() > 0, 'characters cannot be empty');
-            let game_index = get!(world, (GAME_IDX_KEY), (GameIndex)).index;
-            let mut new_game = GameTrait::new(game_index);
+            let game_index = get!(world, (GAME_IDX_KEY), (MatchIndex)).index;
+            let mut new_game = MatchTrait::new(game_index);
 
             let players = get_players(@players_characters);
             let players_len = players.len();
@@ -41,7 +48,7 @@ mod actions {
                     break;
                 }
                 let player = *players[i];
-                set!(world, GamePlayer { game_id: game_index, id: i, player: player });
+                set!(world, MatchPlayers { game_id: game_index, id: i, player: player });
                 i += 1;
             };
             new_game.players_len = players_len;
@@ -54,22 +61,30 @@ mod actions {
                 }
                 let p: PlayerCharacter = *players_characters[i];
                 let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
-                set!(world, CharacterState {
-                    game_id: game_index,
-                    character_id: p.character.character_id,
-                    turn: 0,
-                    player: p.player,
-                    action_state: ActionState { game_id: game_index, character_id: p.character.character_id, action: false, movement: false },
-                    remain_hp: p.character.hp,
-                    remain_mp: p.character.mp,
-                    x: x,
-                    y: y
-                });
+                set!(
+                    world,
+                    CharacterState {
+                        game_id: game_index,
+                        character_id: p.character.character_id,
+                        turn: 0,
+                        player: p.player,
+                        action_state: ActionState {
+                            game_id: game_index,
+                            character_id: p.character.character_id,
+                            action: false,
+                            movement: false
+                        },
+                        remain_hp: p.character.hp,
+                        remain_mp: p.character.mp,
+                        x: x,
+                        y: y
+                    }
+                );
                 i += 1;
             };
 
             set!(world, (new_game));
-            set!(world, GameIndex { id: GAME_IDX_KEY, index: game_index + 1 });
+            set!(world, MatchIndex { id: GAME_IDX_KEY, index: game_index + 1 });
         }
     }
 
@@ -97,13 +112,13 @@ mod actions {
             }
             i += 1;
         };
-        @ret        
+        @ret
     }
 
     fn contains(item: felt252, arr: @Array<felt252>) -> bool {
         let mut i = 0;
         let mut founded = false;
-         loop {
+        loop {
             if i == arr.len() {
                 break;
             }

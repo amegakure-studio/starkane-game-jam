@@ -25,19 +25,13 @@ trait MapTrait {
 
 impl MapImpl of MapTrait {
     fn new(id: u32) -> Map {
-        Map {
-            id: id,
-            width: DEFAULT_MAP_WIDTH,
-            height: DEFAULT_MAP_HEIGHT
-        }
+        Map { id: id, width: DEFAULT_MAP_WIDTH, height: DEFAULT_MAP_HEIGHT }
     }
 
     fn is_inside(position: (u128, u128)) -> bool {
-        let (x, y) = position; 
-        x >= 0 && x < DEFAULT_MAP_WIDTH &&
-        y >= 0 && y < DEFAULT_MAP_HEIGHT 
+        let (x, y) = position;
+        x >= 0 && x < DEFAULT_MAP_WIDTH && y >= 0 && y < DEFAULT_MAP_HEIGHT
     }
-
 }
 
 fn create_tiles(map: Map) -> Array<Tile> {
