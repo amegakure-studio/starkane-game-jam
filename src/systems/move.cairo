@@ -8,7 +8,8 @@ trait IActions<TContractState> {
 #[starknet::contract]
 mod actions {
     use super::IActions;
-    use starkane::models::character::{CharacterOwned, Character, CharacterImpl, CharacterTrait};
+    use starkane::models::character::{CharacterOwned, Character, CharacterTypeIntoU32};
+    use starkane::systems::character_manager::actions::Actions as CharacterActions;
     use starkane::models::game::{GameState, CharacterState};
     use starkane::models::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -23,8 +24,8 @@ mod actions {
             assert(!game_state.over, 'ERR: this game is over!');
             assert(game_state.player_turn == player_address, 'ERR: wait for your turn!');
 
-            let character_owned = CharacterImpl::has_character_owned(world, character_id, player_address);
-            assert(character_owned, 'ERR: player wrong character_id');
+            // let character_owned = CharacterActions::has_character_owned(self, world, character_id.into(), player_address);
+            // assert(character_owned, 'ERR: player wrong character_id');
 
             let mut character_state = get!(world, (game_id, character_id, game_state.turn), (CharacterState));
             assert(!character_state.action_state.movement, 'already move in this turn');

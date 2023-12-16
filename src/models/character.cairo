@@ -32,8 +32,6 @@ impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
     }
 }
 
-// 0x1 -> 1, 2, 3, 4
-// 1155 balance_of(token_id)
 #[derive(Model, Copy, Drop, Serde)]
 struct CharacterOwned {
     #[key]
@@ -59,44 +57,19 @@ struct Character {
 }
 
 trait CharacterTrait {
-    fn new(world: IWorldDispatcher, character_type: CharacterType) -> Character;
-    fn mint(world: IWorldDispatcher, id: u32, owner_address: felt252);
-    fn has_character_owned(world: IWorldDispatcher, id: u32, player_address: felt252) -> bool;
+    fn new(character_type: CharacterType) -> Character;
 }
 
 impl CharacterImpl of CharacterTrait {
-    fn new(world: IWorldDispatcher, character_type: CharacterType) -> Character {
+    fn new(character_type: CharacterType) -> Character {
         let character = match character_type {
             CharacterType::Archer => create_archer(character_type.into()),
             CharacterType::Cleric => create_cleric(character_type.into()),
             CharacterType::Warrior => create_warrior(character_type.into()),
             CharacterType::Pig => create_pig(character_type.into()),
         };
-        set!(world, (character));
         character
     }
-
-    fn mint(world: IWorldDispatcher, id: u32, owner_address: felt252) {
-        assert(owner_address.is_non_zero(), 'owner cannot be zero');
-        assert(character_exists(world, id), 'character id doesnt exists');
-        assert(!has_character_owned(world: world, id: id, player_address: owner_address), 'character already owned');
-
-        set!(world, (CharacterOwned { owner: owner_address, character_id: id, owned: true }));
-    }
-    
-    fn has_character_owned(world: IWorldDispatcher, id: u32, player_address: felt252) -> bool {
-        has_character_owned(world, id, player_address)
-    }
-}
-
-fn has_character_owned(world: IWorldDispatcher, id: u32, player_address: felt252) -> bool {
-    let character_owned_key = (id, player_address);
-    get!(world, character_owned_key.into(), (CharacterOwned)).owned
-}
-
-fn character_exists(world: IWorldDispatcher, id: u32) -> bool {
-    // TODO: validate how to know if actually exists
-    get!(world, (id), (Character)).character_type == Zeroable::zero()
 }
 
 fn create_archer(id: u32) -> Character {

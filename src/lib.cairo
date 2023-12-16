@@ -6,7 +6,10 @@ mod models {
 }
 mod systems {
     mod attack;
+    mod character_manager;
     mod game_factory;
     mod move;
 }
+
+mod store;
 
