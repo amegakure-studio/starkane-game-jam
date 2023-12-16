@@ -8,9 +8,9 @@ trait IActions<TContractState> {
 #[starknet::contract]
 mod actions {
     use super::IActions;
-    use arcane_abyss::models::character::{CharacterOwned, Character, CharacterImpl, CharacterTrait};
-    use arcane_abyss::models::game::{GameState, CharacterState};
-    use arcane_abyss::models::map::{Map, MapTrait};
+    use starkane::models::character::{CharacterOwned, Character, CharacterImpl, CharacterTrait};
+    use starkane::models::game::{GameState, CharacterState};
+    use starkane::models::map::{Map, MapTrait};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]

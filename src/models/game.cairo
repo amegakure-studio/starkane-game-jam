@@ -1,5 +1,5 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use arcane_abyss::models::map::{Map, MapTrait};
+use starkane::models::map::{Map, MapTrait};
 
 #[derive(Model, Copy, Drop, Serde)]
 struct ActionState {

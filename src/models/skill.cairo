@@ -1,3 +1,4 @@
+use core::traits::Into;
 #[derive(Serde, Copy, Drop, PartialEq)]
 enum SkillType {
     MeeleAttack,
@@ -18,12 +19,28 @@ impl SkillTypeIntoU8 of Into<SkillType, u8> {
     }
 }
 
+impl U8TryIntoSkillType of TryInto<u8, SkillType > {
+    #[inline(always)]
+    fn try_into(self: u8) -> Option<SkillType> {
+        if self == 0 {
+            Option::Some(SkillType::MeeleAttack)
+        } else if self == 1 {
+            Option::Some(SkillType::RangeAttack)
+        } else if self == 2 {
+            Option::Some(SkillType::Fireball)
+        } else if self == 3 {
+            Option::Some(SkillType::Heal)
+        } else {
+            Option::None(())
+        }
+    }
+}
+
 #[derive(Model, Copy, Drop, Serde)]
 struct Skill {
     #[key]
     character_id: u32,
     #[key]
-    key: u32,
     id: u32,
     skill_type: u8,
     level: u8,
@@ -51,7 +68,6 @@ fn create_meele(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     assert(level != 1, 'meele attack only has level 1');
     Skill {
         character_id: character_id,
-        key: key,
         id: id,
         skill_type: SkillType::MeeleAttack.into(),
         level: 1,
@@ -65,7 +81,6 @@ fn create_range(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     assert(level != 1, 'range attack only has level 1');
     Skill {
         character_id: character_id,
-        key: key,
         id: id,
         skill_type: SkillType::RangeAttack.into(),
         level: 1,
@@ -80,7 +95,6 @@ fn create_fireball(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     let mut skill = 
         Skill {
             character_id: character_id,
-            key: key,
             id: id,
             skill_type: SkillType::Fireball.into(),
             level: 1,
@@ -92,7 +106,6 @@ fn create_fireball(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     if level == 2 {
         skill = Skill {
             character_id: character_id,
-            key: key,
             id: id, 
             skill_type: SkillType::Fireball.into(),
             level: 2,
@@ -105,7 +118,6 @@ fn create_fireball(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     if level == 3 {
         skill = Skill {
             character_id: character_id,
-            key: key,
             id: id,
             skill_type: SkillType::Fireball.into(),
             level: 3,
@@ -122,7 +134,6 @@ fn create_heal(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     let mut skill = 
         Skill {
             character_id: character_id,
-            key: key,
             id: id,
             skill_type: SkillType::Heal.into(),
             level: 1,
@@ -134,7 +145,6 @@ fn create_heal(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     if level == 2 {
         skill = Skill {
             character_id: character_id,
-            key: key,
             id: id,
             skill_type: SkillType::Heal.into(),
             level: 2,
@@ -147,7 +157,6 @@ fn create_heal(key: u32, character_id: u32, id: u32, level: u8) -> Skill {
     if level == 3 {
         skill = Skill {
             character_id: character_id,
-            key: key,
             id: id,
             skill_type: SkillType::Heal.into(),
             level: 3,
