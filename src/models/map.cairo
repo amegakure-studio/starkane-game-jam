@@ -22,6 +22,7 @@ const DEFAULT_MAP_HEIGHT: u128 = 30;
 
 trait MapTrait {
     fn new(id: u32) -> Map;
+    fn is_inside(position: (u128, u128)) -> bool;
 }
 
 impl MapImpl of MapTrait {
@@ -32,6 +33,13 @@ impl MapImpl of MapTrait {
             height: DEFAULT_MAP_HEIGHT
         }
     }
+
+    fn is_inside(position: (u128, u128)) -> bool {
+        let (x, y) = position; 
+        x >= 0 && x < DEFAULT_MAP_WIDTH &&
+        y >= 0 && y < DEFAULT_MAP_HEIGHT 
+    }
+
 }
 
 fn create_tiles(map: Map) -> Array<Tile> {

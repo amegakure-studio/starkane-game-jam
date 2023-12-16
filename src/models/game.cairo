@@ -19,6 +19,7 @@ struct CharacterState {
     character_id: u32,
     #[key]
     turn: u32,
+    player: felt252,
     action_state: ActionState,
     remain_hp: u128,
     remain_mp: u128,
