@@ -1,4 +1,4 @@
-const GAME_IDX_KEY: felt252 = 'game_idx_key';
+const MATCH_IDX_KEY: felt252 = 'match_idx_key';
 
 #[derive(Model, Copy, Drop, Serde)]
 struct MatchIndex {
@@ -20,13 +20,13 @@ struct CharacterPlayerProgress {
 
 // calculate_attack(cahracetr, character_progress.level)  
 
-// relacion user -> score by game o total score
+// relacion user -> score by match o total score
 #[derive(Model, Copy, Drop, Serde)]
 struct PlayerStadistics {
     #[key]
     owner: felt252,
-    games_won: u128,
-    games_lost: u128,
+    matchs_won: u128,
+    matchs_lost: u128,
     characters_owned: u32,
     total_score: u256,
 }

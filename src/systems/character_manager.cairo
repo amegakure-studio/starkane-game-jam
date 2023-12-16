@@ -23,6 +23,7 @@ mod actions {
     use super::IActions;
     use starkane::models::data::starkane::CharacterPlayerProgress;
     use starkane::models::entities::character::{Character, CharacterTrait, CharacterType};
+    use starkane::store::{Store, StoreTrait};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
@@ -31,15 +32,18 @@ mod actions {
     #[external(v0)]
     impl Actions of IActions<ContractState> {
         fn initialize(self: @ContractState, world: IWorldDispatcher) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
             let archer = CharacterTrait::new(CharacterType::Archer);
             let cleric = CharacterTrait::new(CharacterType::Cleric);
             let warrior = CharacterTrait::new(CharacterType::Warrior);
             let pig = CharacterTrait::new(CharacterType::Pig);
 
-            set!(world, (archer));
-            set!(world, (cleric));
-            set!(world, (warrior));
-            set!(world, (pig));
+            store.set_character(archer);
+            store.set_character(cleric);
+            store.set_character(warrior);
+            store.set_character(pig);
         }
 
         fn mint(
@@ -48,6 +52,9 @@ mod actions {
             character_type: CharacterType,
             owner_address: felt252
         ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
             assert(owner_address.is_non_zero(), 'owner cannot be zero');
             // assert(CharacterTrait::character_exists(character_type.into()), 'character id doesnt exists');
             assert(
@@ -55,12 +62,10 @@ mod actions {
                 'character already owned'
             );
 
-            set!(
-                world,
-                (CharacterPlayerProgress {
-                    owner: owner_address, character_id: character_type.into(), owned: true, level: 1
-                })
-            );
+            let character_player_progress = CharacterPlayerProgress {
+                owner: owner_address, character_id: character_type.into(), owned: true, level: 1
+            };
+            store.set_character_player_progress(character_player_progress);
         }
 
         fn has_character_owned(
@@ -71,7 +76,9 @@ mod actions {
         ) -> bool {
             let character_id: u32 = character_type.into();
             let character_owned_key = (character_id, player_address);
-            get!(world, character_owned_key.into(), (CharacterPlayerProgress)).owned
+            // TODO: revisar
+            // get!(world, character_owned_key.into(), (CharacterPlayerProgress)).owned
+            true
         }
     }
 }

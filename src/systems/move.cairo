@@ -5,7 +5,7 @@ trait IActions<TContractState> {
     fn move(
         self: @TContractState,
         world: IWorldDispatcher,
-        game_id: u32,
+        match_id: u32,
         player: felt252,
         character_id: u32,
         position: (u128, u128)
@@ -21,6 +21,8 @@ mod actions {
     use starkane::models::entities::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
     use starkane::models::entities::character::{Character, CharacterTypeIntoU32};
     use starkane::systems::character_manager::actions::Actions as CharacterActions;
+    use starkane::store::{Store, StoreTrait};
+
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
@@ -31,13 +33,16 @@ mod actions {
         fn move(
             self: @ContractState,
             world: IWorldDispatcher,
-            game_id: u32,
+            match_id: u32,
             player: felt252,
             character_id: u32,
             position: (u128, u128)
         ) {
-            let match_state = get!(world, (game_id), (MatchState));
-            assert(!match_state.over, 'ERR: this game is over!');
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let match_state = store.get_match_state(match_id);
+            assert(match_state.winner == 0, 'ERR: this match is over!');
             assert(match_state.player_turn == player, 'ERR: wait for your turn!');
 
             // TODO: resolve this into Store
@@ -45,9 +50,7 @@ mod actions {
             // );
             // assert(character_owned, 'ERR: player wrong character_id');
 
-            let mut character_state = get!(
-                world, (game_id, character_id, player), (CharacterState)
-            );
+            let mut character_state = store.get_character_state(match_state, character_id, player);
             assert(!character_state.action_state.movement, 'already move in this turn');
 
             let (to_x, to_y) = position;
@@ -57,17 +60,18 @@ mod actions {
             );
             // TODO: height hardcoded, this should be taken from map
             assert(
-                get!(world, (to_y * DEFAULT_MAP_WIDTH + to_x), (Tile)).walkable, 'tile not walkable'
+                store.get_tile(1, (to_y * DEFAULT_MAP_WIDTH + to_x).try_into().unwrap()).walkable,
+                'tile not walkable'
             );
 
-            let character = get!(world, (character_id), (Character));
+            let character = store.get_character(character_id);
             let distance_to = distance((character_state.x, character_state.y), (to_x, to_y));
             assert(distance_to <= character.movement_range, 'character cannot move that far');
 
             character_state.x = to_x;
             character_state.y = to_y;
             character_state.action_state.movement = true;
-            set!(world, (character_state))
+            store.set_character_state(character_state);
         }
     }
 

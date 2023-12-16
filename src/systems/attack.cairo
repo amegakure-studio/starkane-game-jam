@@ -48,36 +48,54 @@ mod actions {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
-            // let match_state = get!(world, (match_id), (MatchState));
             let match_state = store.get_match_state(match_id);
 
-            let player_character = get!(world, (player_character_id), (Character));
-            let player_character_state = get!(
-                world, (match_id, player_character_id, player), (CharacterState)
-            );
+            let player_character = store.get_character(player_character_id);
+            let player_character_state = store
+                .get_character_state(match_state, player_character_id, player);
 
-            let receiver_character = get!(world, (receiver_character_id), (Character));
-            let receiver_character_state = get!(
-                world, (match_id, receiver_character_id, receiver), (CharacterState)
-            );
+            let receiver_character = store.get_character(receiver_character_id);
+            let receiver_character_state = store
+                .get_character_state(match_state, receiver_character_id, receiver);
 
             // obtener skill
-            let skill = get!(world, (player_character_id, skill_id), (Skill));
+            let skill = store.get_skill(player_character_id, skill_id);
 
             // fijarse que tenga el skill el que ataca
             let skill_type: SkillType = skill.skill_type.try_into().unwrap();
 
             match skill_type {
                 SkillType::MeeleAttack => attack(
-                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
+                    world,
+                    player_character,
+                    player_character_state,
+                    skill,
+                    receiver_character,
+                    receiver_character_state
                 ),
                 SkillType::RangeAttack => attack(
-                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
+                    world,
+                    player_character,
+                    player_character_state,
+                    skill,
+                    receiver_character,
+                    receiver_character_state
                 ),
                 SkillType::Fireball => attack(
-                    world, player_character, player_character_state, skill, receiver_character, receiver_character_state
+                    world,
+                    player_character,
+                    player_character_state,
+                    skill,
+                    receiver_character,
+                    receiver_character_state
                 ),
-                SkillType::Heal => heal(world, player_character_state, skill, receiver_character, receiver_character_state)
+                SkillType::Heal => heal(
+                    world,
+                    player_character_state,
+                    skill,
+                    receiver_character,
+                    receiver_character_state
+                )
             }
         }
     }
@@ -106,7 +124,7 @@ mod actions {
                 } else {
                     receiver_state.remain_hp - (attacker.attack + skill.power)
                 };
-        // save
+        // TODO: revisar
         set!(world, (receiver_state));
     }
 

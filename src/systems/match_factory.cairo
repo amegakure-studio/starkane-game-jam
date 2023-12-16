@@ -17,11 +17,13 @@ trait IActions<TContractState> {
 #[starknet::contract]
 mod actions {
     use super::{IActions, PlayerCharacter};
-    use starkane::models::data::starkane::{MatchIndex, GAME_IDX_KEY};
+    use starkane::models::data::starkane::{MatchIndex, MATCH_IDX_KEY};
     use starkane::models::entities::map::{Map, MapTrait};
     use starkane::models::entities::character::Character;
     use starkane::models::states::character_state::{ActionState, CharacterState};
     use starkane::models::states::match_state::{MatchState, MatchTrait, MatchPlayers,};
+    use starkane::store::{Store, StoreTrait};
+
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
@@ -34,26 +36,29 @@ mod actions {
             world: IWorldDispatcher,
             players_characters: Array<PlayerCharacter>
         ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
             assert(players_characters.len() > 0, 'characters cannot be empty');
-            let game_index = get!(world, (GAME_IDX_KEY), (MatchIndex)).index;
-            let mut new_game = MatchTrait::new(game_index);
+            let match_index = store.get_match_index(MATCH_IDX_KEY).index;
+            let mut new_match = MatchTrait::new(match_index);
 
             let players = get_players(@players_characters);
             let players_len = players.len();
 
-            // Add players to the game
+            // Add players to the match
             let mut i = 0;
             loop {
                 if i == players_len {
                     break;
                 }
                 let player = *players[i];
-                set!(world, MatchPlayers { game_id: game_index, id: i, player: player });
+                set!(world, MatchPlayers { match_id: match_index, id: i, player: player });
                 i += 1;
             };
-            new_game.players_len = players_len;
+            new_match.players_len = players_len;
 
-            // Add player characters to the game
+            // Add player characters to the match
             let mut i = 0;
             loop {
                 if i == players_characters.len() {
@@ -64,12 +69,12 @@ mod actions {
                 set!(
                     world,
                     CharacterState {
-                        game_id: game_index,
+                        match_id: match_index,
                         character_id: p.character.character_id,
                         turn: 0,
                         player: p.player,
                         action_state: ActionState {
-                            game_id: game_index,
+                            match_id: match_index,
                             character_id: p.character.character_id,
                             action: false,
                             movement: false
@@ -83,8 +88,9 @@ mod actions {
                 i += 1;
             };
 
-            set!(world, (new_game));
-            set!(world, MatchIndex { id: GAME_IDX_KEY, index: game_index + 1 });
+            // TODO: agregar mapa y asignar id
+            set!(world, (new_match));
+            set!(world, MatchIndex { id: MATCH_IDX_KEY, index: match_index + 1 });
         }
     }
 

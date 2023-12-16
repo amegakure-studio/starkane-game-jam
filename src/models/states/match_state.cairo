@@ -9,14 +9,14 @@ struct MatchState {
     player_turn: felt252,
     players_len: u32,
     characters_len: u32,
-    map: Map,
-    over: bool,
+    map_id: u32,
+    winner: felt252,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
 struct MatchPlayers {
     #[key]
-    game_id: u32,
+    match_id: u32,
     #[key]
     id: u32,
     player: felt252,
@@ -36,8 +36,8 @@ impl MatchImpl of MatchTrait {
             players_len: 0,
             characters_len: 0,
             // TODO: for now we only have one map
-            map: MapTrait::new(0),
-            over: false
+            map_id: 0,
+            winner: 0
         }
     }
 }
