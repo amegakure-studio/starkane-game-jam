@@ -1,3 +1,6 @@
+<p align="center">
+  <img alt="Dojo logo" width="650" src="https://github.com/amegakure-starknet/starkane/assets/58611754/5b8bf89e-8e4c-4316-a58c-b1e853092248">
+</p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/mark-dark.svg">
   <img alt="Dojo logo" align="right" width="120" src=".github/mark-light.svg">
