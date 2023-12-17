@@ -1,3 +1,5 @@
+mod store;
+
 mod models {
     mod entities {
         mod character;
@@ -20,5 +22,9 @@ mod systems {
     mod move;
 }
 
-mod store;
+#[cfg(test)]
+mod tests {
+    mod setup;
+    mod test_match_factory;
+}
 

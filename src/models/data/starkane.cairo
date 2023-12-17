@@ -14,6 +14,7 @@ struct CharacterPlayerProgress {
     owner: felt252,
     #[key]
     character_id: u32,
+    skin_id: u32,
     owned: bool,
     level: u32,
 }

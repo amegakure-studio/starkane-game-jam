@@ -51,7 +51,7 @@ mod actions {
             let match_state = store.get_match_state(match_id);
 
             let player_character = store.get_character(player_character_id);
-            let player_character_state = store
+            let mut player_character_state = store
                 .get_character_state(match_state, player_character_id, player);
 
             let receiver_character = store.get_character(receiver_character_id);
@@ -91,12 +91,17 @@ mod actions {
                 ),
                 SkillType::Heal => heal(
                     world,
+                    player_character,
                     player_character_state,
                     skill,
                     receiver_character,
                     receiver_character_state
                 )
             }
+
+            // character can do the action, so we have to save that
+            player_character_state.action_state.action = true;
+            store.set_character_state(player_character_state);
         }
     }
 
@@ -109,6 +114,7 @@ mod actions {
         receiver_state: CharacterState
     ) {
         assert(attacker_state.player != receiver_state.player, 'Cannot attack yourself');
+        assert(attacker_state.remain_mp >= skill.mp_cost, 'out of mana to cast that skill');
         assert(receiver_state.remain_hp > 0, 'Character already dead');
 
         let distance_to = distance(
@@ -130,11 +136,31 @@ mod actions {
 
     fn heal(
         world: IWorldDispatcher,
-        attacker_state: CharacterState,
+        player_character: Character,
+        player_character_state: CharacterState,
         skill: Skill,
         receiver: Character,
         receiver_state: CharacterState
-    ) { // si es heal que sea aliado
+    ) { 
+        assert(player_character_state.player == receiver_state.player, 'cannot heal an enemy');
+        assert(player_character_state.remain_mp >= skill.mp_cost, 'out of mana to cast that skill');
+        assert(receiver_state.remain_hp > 0, 'character already dead');
+
+        let distance_to = distance(
+            (player_character_state.x, player_character_state.y), (receiver_state.x, receiver_state.y)
+        );
+        assert(distance_to <= skill.range, 'character cannot heal that far');
+
+        let mut receiver_state = receiver_state;
+        receiver_state
+            .remain_hp =
+                if receiver.hp < receiver_state.remain_hp + skill.power {
+                    receiver.hp
+                } else {
+                    receiver_state.remain_hp + skill.power
+                };
+
+        set!(world, (receiver_state));
     }
 
     fn distance(from: (u128, u128), to: (u128, u128)) -> u128 {

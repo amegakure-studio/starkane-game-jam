@@ -8,7 +8,8 @@ trait IActions<TContractState> {
         self: @TContractState,
         world: IWorldDispatcher,
         character_type: CharacterType,
-        owner_address: felt252
+        owner_address: felt252,
+        skin_id: u32
     );
     fn has_character_owned(
         self: @TContractState,
@@ -50,7 +51,8 @@ mod actions {
             self: @ContractState,
             world: IWorldDispatcher,
             character_type: CharacterType,
-            owner_address: felt252
+            owner_address: felt252,
+            skin_id: u32
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -63,7 +65,7 @@ mod actions {
             );
 
             let character_player_progress = CharacterPlayerProgress {
-                owner: owner_address, character_id: character_type.into(), owned: true, level: 1
+                owner: owner_address, character_id: character_type.into(), skin_id: skin_id, owned: true, level: 1
             };
             store.set_character_player_progress(character_player_progress);
         }
