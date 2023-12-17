@@ -20,6 +20,7 @@ mod setup {
 
     use starkane::systems::character_system::{character_system, ICharacterSystemDispatcher};
     use starkane::systems::skill_system::{skill_system, ISkillSystemDispatcher};
+    use starkane::systems::map_system::{map_system, IMapSystemDispatcher};
 
     // Constants
 
@@ -31,6 +32,7 @@ mod setup {
     struct Systems {
         character_system: ICharacterSystemDispatcher,
         skill_system: ISkillSystemDispatcher,
+        map_system: IMapSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -53,10 +55,14 @@ mod setup {
         let skill_system_address = deploy_contract(
             skill_system::TEST_CLASS_HASH, array![].span()
         );
+        let map_system_address = deploy_contract(
+            map_system::TEST_CLASS_HASH, array![].span()
+        );
 
         let systems = Systems {
             character_system: ICharacterSystemDispatcher { contract_address: character_system_address },
             skill_system: ISkillSystemDispatcher { contract_address: skill_system_address },
+            map_system: IMapSystemDispatcher { contract_address: map_system_address },
         };
 
         // [Return]

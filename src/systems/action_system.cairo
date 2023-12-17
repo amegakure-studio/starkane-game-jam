@@ -1,7 +1,7 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
-trait IActions<TContractState> {
+trait IActionSystem<TContractState> {
     fn action(
         self: @TContractState,
         world: IWorldDispatcher,
@@ -16,10 +16,9 @@ trait IActions<TContractState> {
 }
 
 #[starknet::contract]
-mod actions {
-    use super::IActions;
+mod action_system {
+    use super::IActionSystem;
 
-    //CharacterPlayerProgress
     use starkane::models::entities::character::{Character, CharacterTrait};
     use starkane::models::entities::skill::{
         Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType
@@ -34,7 +33,7 @@ mod actions {
     struct Storage {}
 
     #[external(v0)]
-    impl Actions of IActions<ContractState> {
+    impl ActionSystem of IActionSystem<ContractState> {
         // Character -> Character
         fn action(
             self: @ContractState,

@@ -4,19 +4,19 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 #[derive(Copy, Drop, Serde)]
 struct PlayerCharacter {
     player: felt252,
-    character: Character
+    character_id: u32
 }
 
 #[starknet::interface]
-trait IActions<TContractState> {
-    fn create(
+trait IMatchSystem<TContractState> {
+    fn init(
         self: @TContractState, world: IWorldDispatcher, players_characters: Array<PlayerCharacter>
     );
 }
 
 #[starknet::contract]
 mod actions {
-    use super::{IActions, PlayerCharacter};
+    use super::{IMatchSystem, PlayerCharacter};
     use starkane::models::data::starkane::{MatchIndex, MATCH_IDX_KEY};
     use starkane::models::entities::map::{Map, MapTrait};
     use starkane::models::entities::character::Character;
@@ -30,8 +30,8 @@ mod actions {
     struct Storage {}
 
     #[external(v0)]
-    impl Actions of IActions<ContractState> {
-        fn create(
+    impl MatchSystem of IMatchSystem<ContractState> {
+        fn init(
             self: @ContractState,
             world: IWorldDispatcher,
             players_characters: Array<PlayerCharacter>
@@ -66,21 +66,22 @@ mod actions {
                 }
                 let p: PlayerCharacter = *players_characters[i];
                 let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
+                let character = store.get_character(p.character_id);
                 set!(
                     world,
                     CharacterState {
                         match_id: match_index,
-                        character_id: p.character.character_id,
+                        character_id: character.character_id,
                         turn: 0,
                         player: p.player,
                         action_state: ActionState {
                             match_id: match_index,
-                            character_id: p.character.character_id,
+                            character_id: character.character_id,
                             action: false,
                             movement: false
                         },
-                        remain_hp: p.character.hp,
-                        remain_mp: p.character.mp,
+                        remain_hp: character.hp,
+                        remain_mp: character.mp,
                         x: x,
                         y: y
                     }

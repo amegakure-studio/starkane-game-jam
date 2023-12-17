@@ -10,7 +10,7 @@ use starkane::models::states::match_state::MatchState;
 use starkane::models::states::character_state::CharacterState;
 use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
-use starkane::models::entities::map::Tile;
+use starkane::models::entities::map::{Map, Tile};
 use starkane::models::data::starkane::{CharacterPlayerProgress, MatchIndex};
 
 /// Store struct.
@@ -36,6 +36,8 @@ trait StoreTrait {
     fn set_skill(ref self: Store, skill: Skill);
     fn get_tile(ref self: Store, map_id: u32, tile_id: u32) -> Tile;
     fn set_tile(ref self: Store, tile: Tile);
+    fn get_map(ref self: Store, map_id: u32) -> Map;
+    fn set_map(ref self: Store, map: Map);
     // Data
     fn get_match_index(ref self: Store, id: felt252) -> MatchIndex;
     fn set_match_index(ref self: Store, match_index: MatchIndex);
@@ -103,6 +105,14 @@ impl StoreImpl of StoreTrait {
 
     fn set_tile(ref self: Store, tile: Tile) {
         set!(self.world, (tile));
+    }
+
+    fn get_map(ref self: Store, map_id: u32) -> Map {
+        get!(self.world, map_id, (Map))
+    }
+
+    fn set_map(ref self: Store, map: Map) {
+        set!(self.world, (map));
     }
 
     // Data

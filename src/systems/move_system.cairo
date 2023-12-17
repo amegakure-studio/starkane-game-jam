@@ -1,7 +1,7 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
-trait IActions<TContractState> {
+trait IMoveSystem<TContractState> {
     fn move(
         self: @TContractState,
         world: IWorldDispatcher,
@@ -13,14 +13,13 @@ trait IActions<TContractState> {
 }
 
 #[starknet::contract]
-mod actions {
-    use super::IActions;
+mod move_system {
+    use super::IMoveSystem;
     use starkane::models::states::match_state::MatchState;
     use starkane::models::states::character_state::CharacterState;
 
     use starkane::models::entities::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
     use starkane::models::entities::character::Character;
-    // use starkane::systems::character_system::character_system::CharacterSystem;
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -29,7 +28,7 @@ mod actions {
     struct Storage {}
 
     #[external(v0)]
-    impl Actions of IActions<ContractState> {
+    impl MoveSystem of IMoveSystem<ContractState> {
         fn move(
             self: @ContractState,
             world: IWorldDispatcher,
