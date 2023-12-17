@@ -2,8 +2,8 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starkane::models::entities::character::CharacterType;
 
 #[starknet::interface]
-trait IActions<TContractState> {
-    fn initialize(self: @TContractState, world: IWorldDispatcher);
+trait ICharacterSystem<TContractState> {
+    fn init(self: @TContractState, world: IWorldDispatcher);
     fn mint(
         self: @TContractState,
         world: IWorldDispatcher,
@@ -14,8 +14,8 @@ trait IActions<TContractState> {
 }
 
 #[starknet::contract]
-mod actions {
-    use super::IActions;
+mod character_system {
+    use super::ICharacterSystem;
     use starkane::models::data::starkane::CharacterPlayerProgress;
     use starkane::models::entities::character::{Character, CharacterTrait, CharacterType};
     use starkane::store::{Store, StoreTrait};
@@ -25,20 +25,15 @@ mod actions {
     struct Storage {}
 
     #[external(v0)]
-    impl Actions of IActions<ContractState> {
-        fn initialize(self: @ContractState, world: IWorldDispatcher) {
+    impl CharacterSystem of ICharacterSystem<ContractState> {
+        fn init(self: @ContractState, world: IWorldDispatcher) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
-            let archer = CharacterTrait::new(CharacterType::Archer);
-            let cleric = CharacterTrait::new(CharacterType::Cleric);
-            let warrior = CharacterTrait::new(CharacterType::Warrior);
-            let pig = CharacterTrait::new(CharacterType::Pig);
-
-            store.set_character(archer);
-            store.set_character(cleric);
-            store.set_character(warrior);
-            store.set_character(pig);
+            store.set_character(CharacterTrait::new(CharacterType::Archer));
+            store.set_character(CharacterTrait::new(CharacterType::Cleric));
+            store.set_character(CharacterTrait::new(CharacterType::Warrior));
+            store.set_character(CharacterTrait::new(CharacterType::Pig));
         }
 
         fn mint(

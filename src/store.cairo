@@ -32,7 +32,7 @@ trait StoreTrait {
     // Entities
     fn get_character(ref self: Store, character_id: u32) -> Character;
     fn set_character(ref self: Store, character: Character);
-    fn get_skill(ref self: Store, character_id: u32, skill_id: u32) -> Skill;
+    fn get_skill(ref self: Store, skill_id: u32, character_id: u32, level: u32) -> Skill;
     fn set_skill(ref self: Store, skill: Skill);
     fn get_tile(ref self: Store, map_id: u32, tile_id: u32) -> Tile;
     fn set_tile(ref self: Store, tile: Tile);
@@ -87,8 +87,8 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (character));
     }
 
-    fn get_skill(ref self: Store, character_id: u32, skill_id: u32) -> Skill {
-        let skill_key = (character_id, skill_id);
+    fn get_skill(ref self: Store, skill_id: u32, character_id: u32, level: u32) -> Skill {
+        let skill_key = (skill_id, character_id, level);
         get!(self.world, skill_key.into(), (Skill))
     }
 

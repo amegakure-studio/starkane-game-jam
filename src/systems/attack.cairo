@@ -9,6 +9,7 @@ trait IActions<TContractState> {
         player: felt252,
         player_character_id: u32,
         skill_id: u32,
+        level: u32,
         receiver: felt252,
         receiver_character_id: u32
     );
@@ -42,6 +43,7 @@ mod actions {
             player: felt252,
             player_character_id: u32,
             skill_id: u32,
+            level: u32,
             receiver: felt252,
             receiver_character_id: u32
         ) {
@@ -59,7 +61,7 @@ mod actions {
                 .get_character_state(match_state, receiver_character_id, receiver);
 
             // obtener skill
-            let skill = store.get_skill(player_character_id, skill_id);
+            let skill = store.get_skill(player_character_id, skill_id, level);
 
             // fijarse que tenga el skill el que ataca
             let skill_type: SkillType = skill.skill_type.try_into().unwrap();

@@ -19,8 +19,8 @@ mod actions {
     use starkane::models::states::character_state::CharacterState;
 
     use starkane::models::entities::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
-    use starkane::models::entities::character::{Character, CharacterTypeIntoU32};
-    use starkane::systems::character_manager::actions::Actions as CharacterActions;
+    use starkane::models::entities::character::Character;
+    // use starkane::systems::character_system::character_system::CharacterSystem;
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};

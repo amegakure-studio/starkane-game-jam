@@ -17,14 +17,16 @@ mod models {
 
 mod systems {
     mod attack;
-    mod character_manager;
+    mod character_system;
     mod match_factory;
     mod move;
+    mod skill_system;
 }
 
 #[cfg(test)]
 mod tests {
     mod setup;
-    mod test_character_manager;
+    mod test_character_system;
+    mod test_skill_system;
 }
 

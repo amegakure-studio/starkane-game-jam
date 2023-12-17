@@ -18,7 +18,8 @@ mod setup {
     use starkane::models::entities::map::{tile, Tile};
     use starkane::models::data::starkane::{character_player_progress, CharacterPlayerProgress, match_index, MatchIndex};
 
-    use starkane::systems::character_manager::{actions as player_actions, IActionsDispatcher};
+    use starkane::systems::character_system::{character_system, ICharacterSystemDispatcher};
+    use starkane::systems::skill_system::{skill_system, ISkillSystemDispatcher};
 
     // Constants
 
@@ -28,7 +29,8 @@ mod setup {
 
     #[derive(Drop)]
     struct Systems {
-        player_actions: IActionsDispatcher,
+        character_system: ICharacterSystemDispatcher,
+        skill_system: ISkillSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -45,12 +47,16 @@ mod setup {
         let world = spawn_test_world(models);
 
         // [Setup] Systems
-        let player_actions_address = deploy_contract(
-            player_actions::TEST_CLASS_HASH, array![].span()
+        let character_system_address = deploy_contract(
+            character_system::TEST_CLASS_HASH, array![].span()
+        );
+        let skill_system_address = deploy_contract(
+            skill_system::TEST_CLASS_HASH, array![].span()
         );
 
         let systems = Systems {
-            player_actions: IActionsDispatcher { contract_address: player_actions_address },
+            character_system: ICharacterSystemDispatcher { contract_address: character_system_address },
+            skill_system: ISkillSystemDispatcher { contract_address: skill_system_address },
         };
 
         // [Return]
