@@ -25,6 +25,6 @@ mod systems {
 #[cfg(test)]
 mod tests {
     mod setup;
-    mod test_match_factory;
+    mod test_character_manager;
 }
 

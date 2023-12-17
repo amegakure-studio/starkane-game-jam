@@ -45,10 +45,8 @@ mod actions {
             assert(match_state.winner == 0, 'ERR: this match is over!');
             assert(match_state.player_turn == player, 'ERR: wait for your turn!');
 
-            // TODO: resolve this into Store
-            // let character_owned = CharacterActions::has_character_owned(world, character_id, player
-            // );
-            // assert(character_owned, 'ERR: player wrong character_id');
+            let character_progress = store.get_character_player_progress(player, character_id);
+            assert(character_progress.owned, 'ERR: player wrong character_id');
 
             let mut character_state = store.get_character_state(match_state, character_id, player);
             assert(!character_state.action_state.movement, 'already move in this turn');

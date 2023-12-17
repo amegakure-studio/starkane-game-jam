@@ -9,7 +9,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Internal imports
 
 use starkane::store::{Store, StoreTrait};
-use starkane::systems::match_factory::{IActionsDispatcherTrait, PlayerCharacter};
+use starkane::systems::character_manager::IActionsDispatcherTrait;
 use starkane::models::entities::character::{Character, CharacterType};
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
@@ -28,28 +28,11 @@ fn test_create() {
     let mut store = StoreTrait::new(world);
 
     // // [Create]
-    let mut players_characters = array![];
-    let player_character = PlayerCharacter {
-        player: ACCOUNT,
-        character: Character {
-            character_id: 1,
-            character_type: CharacterType::Archer.into(),
-            hp: 250,
-            mp: 100,
-            attack: 15,
-            defense: 10,
-            evasion: 15,
-            crit_chance: 20,
-            crit_rate: 2,
-            movement_range: 6,
-        }
-    };
-    players_characters.append(player_character);
-    systems.player_actions.create(world, players_characters);
+    systems.player_actions.initialize(world);
 
     // // [Assert] Game
-    // let game: Game = store.game(ACCOUNT);
-    // assert(game.id == 0, 'Game: wrong id');
+    let archer = store.get_character(1);
+    assert(archer.hp == 250, 'error');
     // assert(game.seed == SEED, 'Game: wrong seed');
     // assert(game.over == false, 'Game: wrong status');
     // assert(game.gold == GAME_INITIAL_GOLD, 'Game: wrong gold');

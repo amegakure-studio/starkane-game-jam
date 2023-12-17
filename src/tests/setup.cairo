@@ -18,7 +18,7 @@ mod setup {
     use starkane::models::entities::map::{tile, Tile};
     use starkane::models::data::starkane::{character_player_progress, CharacterPlayerProgress, match_index, MatchIndex};
 
-    use starkane::systems::match_factory::{actions as player_actions, IActionsDispatcher};
+    use starkane::systems::character_manager::{actions as player_actions, IActionsDispatcher};
 
     // Constants
 
