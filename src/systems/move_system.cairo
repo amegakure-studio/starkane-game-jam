@@ -18,7 +18,7 @@ mod move_system {
     use starkane::models::states::match_state::MatchState;
     use starkane::models::states::character_state::{CharacterState, ActionState};
 
-    use starkane::models::entities::map::{Map, Tile, MapTrait, DEFAULT_MAP_WIDTH};
+    use starkane::models::entities::map::{Map, Tile, MapTrait};
     use starkane::models::entities::character::Character;
     use starkane::store::{Store, StoreTrait};
 
@@ -52,14 +52,16 @@ mod move_system {
             assert(!last_action_state.movement, 'already move in this turn');
 
             let (to_x, to_y) = position;
-            assert(MapTrait::is_inside((to_x, to_y)), 'position is outside of map');
+            let map = store.get_map(match_state.map_id);
+            assert(map.is_inside((to_x, to_y)), 'position is outside of map');
+            
             let mut character_state = store.get_character_state(match_state, character_id, player);
             assert(
                 character_state.x != to_x && character_state.y != to_y, 'already in that position'
             );
-            // TODO: height hardcoded, this should be taken from map
+
             assert(
-                store.get_tile(1, (to_y * DEFAULT_MAP_WIDTH + to_x).try_into().unwrap()).walkable,
+                store.get_tile(1, (to_y * map.width + to_x).try_into().unwrap()).walkable,
                 'tile not walkable'
             );
 

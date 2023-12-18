@@ -26,30 +26,27 @@ enum TerrainType {
     Montain,
 }
 
-const DEFAULT_MAP_WIDTH: u128 = 25;
-const DEFAULT_MAP_HEIGHT: u128 = 25;
-
 trait MapTrait {
     fn new(id: u32) -> (Map, Array<Tile>);
-    fn is_inside(position: (u128, u128)) -> bool;
+    fn is_inside(self: Map, position: (u128, u128)) -> bool;
 }
 
 impl MapImpl of MapTrait {
     fn new(id: u32) -> (Map, Array<Tile>) {
         // if id == 1 
-        // Map { id: id, width: DEFAULT_MAP_WIDTH, height: DEFAULT_MAP_HEIGHT }
         create_map_1()
     }
 
-    fn is_inside(position: (u128, u128)) -> bool {
+    fn is_inside(self: Map, position: (u128, u128)) -> bool {
         let (x, y) = position;
-        x >= 0 && x < DEFAULT_MAP_WIDTH && y >= 0 && y < DEFAULT_MAP_HEIGHT
+        x >= 0 && x < self.width && y >= 0 && y < self.height
     }
 }
 
 fn create_map_1() -> (Map, Array<Tile>) {
-    let map = Map { id: 1, width: DEFAULT_MAP_WIDTH, height: DEFAULT_MAP_HEIGHT };
-    let tiles = create_tiles_by_array(map, constants::MAP_1());
+    let (tiles, (width, height)) = constants::MAP_1();
+    let map = Map { id: 1, width, height };
+    let tiles = create_tiles_by_array(map, tiles);
     (map, tiles)
 }
 

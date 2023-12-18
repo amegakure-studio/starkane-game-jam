@@ -7,9 +7,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Internal imports
 use starkane::store::{Store, StoreTrait};
-use starkane::models::entities::map::{
-    Map, Tile, TerrainType, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT
-};
+use starkane::models::entities::map::{Map, Tile, TerrainType};
 use starkane::systems::map_system::IMapSystemDispatcherTrait;
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
@@ -32,11 +30,11 @@ fn test_initialize_map() {
     let map_id = 1;
     let map = store.get_map(map_id);
     assert(map.id == map_id, 'map wrong id');
-    assert(map.width == DEFAULT_MAP_WIDTH, 'map wrong width');
-    assert(map.height == DEFAULT_MAP_HEIGHT, 'map wrong height');
+    assert(map.width == 25, 'map wrong width');
+    assert(map.height == 25, 'map wrong height');
 
     let mut index: u32 = 0;
-    let len: u32 = (DEFAULT_MAP_HEIGHT * DEFAULT_MAP_WIDTH).try_into().unwrap();
+    let len: u32 = (map.width * map.height).try_into().unwrap();
     loop {
         if index == len {
             break;
