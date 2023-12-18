@@ -20,8 +20,13 @@ mod match_system {
     use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
     use starkane::models::entities::map::{Map, MapTrait};
     use starkane::models::entities::character::Character;
-    use starkane::models::states::character_state::{ActionState, ActionStateTrait, CharacterState, CharacterStateTrait};
-    use starkane::models::states::match_state::{MatchState, MatchTrait, MatchPlayers,};
+    use starkane::models::states::character_state::{
+        ActionState, ActionStateTrait, CharacterState, CharacterStateTrait
+    };
+    use starkane::models::states::match_state::{
+        MatchState, MatchTrait, MatchPlayer, MatchPlayerLen, MatchPlayerCharacter,
+        MatchPlayerCharacterLen
+    };
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -47,54 +52,80 @@ mod match_system {
 
             let players = get_players(@players_characters);
             let players_len = players.len();
+            assert(players_len > 1, 'at least 2 players for a match');
 
             // Add players to the match
+            store.set_match_player_len(MatchPlayerLen { match_id: match_count, players_len });
             let mut i = 0;
             loop {
                 if i == players_len {
                     break;
                 }
-                let player = *players[i];
-                let match_players = MatchPlayers { match_id: match_count, id: i, player: player };
-                store.set_match_players(match_players);
+                let match_player = MatchPlayer {
+                    match_id: match_count, id: i, player: *players[i]
+                };
+                store.set_match_player(match_player);
                 i += 1;
             };
-            new_match.players_len = players_len;
 
             // Add player characters to the match
+            let mut characters_per_player: Felt252Dict<u32> = Default::default();
             let mut i = 0;
             loop {
                 if i == players_characters.len() {
                     break;
                 }
                 let p: PlayerCharacter = *players_characters[i];
+                // track how many character has every player
+                characters_per_player.insert(p.player, characters_per_player.get(p.player) + 1);
+
                 let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
                 let character = store.get_character(p.character_id);
 
+                let match_player_character = MatchPlayerCharacter {
+                    match_id: match_count,
+                    player: p.player,
+                    id: i,
+                    character_id: character.character_id
+                };
+                store.set_match_player_character(match_player_character);
+
+                // create a state for that character
                 let character_state = CharacterStateTrait::new(
-                    match_count,
-                    character.character_id,
-                    p.player,
-                    0,
-                    character.hp,
-                    character.mp,
-                    x,
-                    y
+                    match_count, character.character_id, p.player, character.hp, character.mp, x, y
                 );
                 store.set_character_state(character_state);
+
+                // create init action state for that character
                 let action_state = ActionStateTrait::new(
-                    match_count,
-                    character.character_id,
-                    p.player,
-                    false,
-                    false
+                    match_count, character.character_id, p.player, false, false
                 );
+
                 store.set_action_state(action_state);
                 i += 1;
             };
-        // TODO: agregar mapa y asignar id
-        // set!(world, (new_match));
-        // set!(world, MatchCount { id: MATCH_COUNT_KEY, index: match_count + 1 });
+
+            // Add characters len per player
+            i = 0;
+            loop {
+                if players_len == i {
+                    break;
+                }
+                store
+                    .set_match_player_character_len(
+                        MatchPlayerCharacterLen {
+                            match_id: match_count,
+                            player: *players[i],
+                            characters_len: characters_per_player.get(*players[i])
+                        }
+                    );
+                i += 1;
+            };
+
+            // TODO: agregar mapa y asignar id
+            new_match.player_turn = *players[0];
+            store.set_match_state(new_match);
+            store.set_match_count(MatchCount { id: MATCH_COUNT_KEY, index: match_count + 1 });
         }
     }
 

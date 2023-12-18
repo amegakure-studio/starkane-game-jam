@@ -15,7 +15,6 @@ use starkane::models::entities::character::{Character, CharacterType};
 use starkane::models::entities::skill::{Skill, SkillType};
 use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
 
-
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
 
 // Constants

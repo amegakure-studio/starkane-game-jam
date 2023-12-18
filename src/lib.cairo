@@ -23,6 +23,7 @@ mod systems {
     mod move_system;
     mod skill_system;
     mod map_system;
+    mod turn_system;
 }
 
 
@@ -33,5 +34,6 @@ mod tests {
     mod test_skill_system;
     mod test_map_system;
     mod test_match_system;
+    // mod test_turn_system;
 }
 

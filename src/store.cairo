@@ -6,7 +6,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Components imports
 
-use starkane::models::states::match_state::{MatchState, MatchPlayers};
+use starkane::models::states::match_state::{MatchState, MatchPlayerLen, MatchPlayer, MatchPlayerCharacterLen, MatchPlayerCharacter};
 use starkane::models::states::character_state::{CharacterState, ActionState};
 use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
@@ -31,8 +31,10 @@ trait StoreTrait {
     fn set_character_state(ref self: Store, character_state: CharacterState);
     fn get_action_state(ref self: Store, match_state_id: u32, character_id: u32, player: felt252) -> ActionState;
     fn set_action_state(ref self: Store, action_state: ActionState);
-    fn get_match_players(ref self: Store, match_state_id: u32, match_players_id: u32) -> MatchPlayers;
-    fn set_match_players(ref self: Store, match_players: MatchPlayers);
+    fn get_match_players(ref self: Store, match_id: u32) -> Array<MatchPlayer>;
+    // fn set_match_players(ref self: Store, match_players: MatchPlayers);
+    fn get_match_player_characters_states(ref self: Store, match_id: u32, player: felt252) -> Array<CharacterState>;
+    fn get_match_player_characters(ref self: Store, match_id: u32, player: felt252) -> Array<Character>;
     // Entities
     fn get_character(ref self: Store, character_id: u32) -> Character;
     fn set_character(ref self: Store, character: Character);
@@ -61,7 +63,6 @@ impl StoreImpl of StoreTrait {
     }
 
     // State
-
     #[inline(always)]
     fn get_match_state(ref self: Store, match_state_id: u32) -> MatchState {
         get!(self.world, match_state_id, (MatchState))
@@ -71,7 +72,7 @@ impl StoreImpl of StoreTrait {
     fn set_match_state(ref self: Store, match_state: MatchState) {
         set!(self.world, (match_state));
     }
-
+    
     fn get_character_state(
         ref self: Store, match_state_id: u32, character_id: u32, player: felt252
     ) -> CharacterState {
@@ -92,13 +93,57 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (action_state));
     }
 
-    fn get_match_players(ref self: Store, match_state_id: u32, match_players_id: u32) -> MatchPlayers {
-        let match_players_state_key = (match_state_id, match_players_id);
-        get!(self.world, match_players_state_key.into(), (MatchPlayers))
+    fn get_match_players(ref self: Store, match_id: u32) -> Array<MatchPlayer> {
+        let match_players_len = get!(self.world, (match_id), (MatchPlayerLen));
+        let mut i = 0;
+        let mut match_players = array![];
+
+        loop {
+            if match_players_len.players_len == i {
+                break;
+            }
+            match_players.append(get!(self.world, (match_id, i).into(), (MatchPlayer)));
+            i += 1;
+        };
+        match_players
     }
     
-    fn set_match_players(ref self: Store, match_players: MatchPlayers) {
-        set!(self.world, (match_players));
+    // fn set_match_players(ref self: Store, match_players: MatchPlayers) {
+    //     set!(self.world, (match_players));
+    // }
+
+    fn get_match_player_characters_states(ref self: Store, match_id: u32, player: felt252) -> Array<CharacterState> {
+        let match_player_info = get!(self.world, (match_id, player).into(), (MatchPlayerCharacterLen));
+        
+        assert(match_player_info.characters_len.is_non_zero(), 'player characters is zero');
+        let mut characters_states = array![]; 
+        let mut i = 0;
+        loop {
+            if match_player_info.characters_len == i {
+                break;
+            }
+            let match_player_character = get!(self.world, (match_id, player, i), (MatchPlayerCharacter));
+            characters_states.append(get!(self.world, (match_id, match_player_character.character_id, player), (CharacterState)));
+            i += 1;
+        };
+        characters_states
+    }
+
+    fn get_match_player_characters(ref self: Store, match_id: u32, player: felt252) -> Array<Character> {
+        let match_player_info = get!(self.world, (match_id, player).into(), (MatchPlayerCharacterLen));
+        
+        assert(match_player_info.characters_len.is_non_zero(), 'player characters is zero');
+        let mut characters = array![]; 
+        let mut i = 0;
+        loop {
+            if match_player_info.characters_len == i {
+                break;
+            }
+            let match_player_character = get!(self.world, (match_id, player, i), (MatchPlayerCharacter));
+            characters.append(get!(self.world, match_player_character.character_id, (Character)));
+            i += 1;
+        };
+        characters
     }
 
     // Entities
