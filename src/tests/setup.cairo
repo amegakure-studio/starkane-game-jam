@@ -17,7 +17,7 @@ mod setup {
     use starkane::models::entities::skill::{skill, Skill};
     use starkane::models::entities::map::{tile, Tile};
     use starkane::models::data::starkane::{
-        character_player_progress, CharacterPlayerProgress, match_index, MatchIndex
+        character_player_progress, CharacterPlayerProgress, match_count, MatchCount
     };
 
     use starkane::systems::character_system::{character_system, ICharacterSystemDispatcher};
@@ -52,7 +52,7 @@ mod setup {
         models.append(skill::TEST_CLASS_HASH);
         models.append(tile::TEST_CLASS_HASH);
         models.append(character_player_progress::TEST_CLASS_HASH);
-        models.append(match_index::TEST_CLASS_HASH);
+        models.append(match_count::TEST_CLASS_HASH);
 
         let world = spawn_test_world(models);
 

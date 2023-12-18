@@ -24,7 +24,7 @@ mod action_system {
         Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType
     };
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::{CharacterState, ActionState};
+    use starkane::models::states::character_state::{CharacterState, ActionState, ActionStateTrait};
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -51,17 +51,16 @@ mod action_system {
 
             let match_state = store.get_match_state(match_id);
 
-            let action_key = (match_id, player_character_id, player);
-            let last_action_state = get!(world, action_key, (ActionState));
+            let last_action_state = store.get_action_state(match_id, player_character_id, player);
             assert(!last_action_state.action, 'already do action in this turn');
 
             let player_character = store.get_character(player_character_id);
             let mut player_character_state = store
-                .get_character_state(match_state, player_character_id, player);
+                .get_character_state(match_state.id, player_character_id, player);
 
             let receiver_character = store.get_character(receiver_character_id);
             let receiver_character_state = store
-                .get_character_state(match_state, receiver_character_id, receiver);
+                .get_character_state(match_state.id, receiver_character_id, receiver);
 
             // obtener skill
             let skill = store.get_skill(skill_id, player_character_id, level);
@@ -106,14 +105,14 @@ mod action_system {
 
             // character can do the action, so we have to save that
 
-            let action_state = ActionState {
+            let action_state = ActionStateTrait::new(
                 match_id,
-                character_id: player_character_id,
+                player_character_id,
                 player,
-                action: true,
-                movement: last_action_state.movement
-            };
-            set!(world, (action_state));
+                true,
+                last_action_state.movement
+            );
+            store.set_action_state(action_state);
         }
     }
 

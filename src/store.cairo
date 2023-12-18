@@ -6,12 +6,12 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Components imports
 
-use starkane::models::states::match_state::MatchState;
-use starkane::models::states::character_state::CharacterState;
+use starkane::models::states::match_state::{MatchState, MatchPlayers};
+use starkane::models::states::character_state::{CharacterState, ActionState};
 use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
 use starkane::models::entities::map::{Map, Tile};
-use starkane::models::data::starkane::{CharacterPlayerProgress, MatchIndex};
+use starkane::models::data::starkane::{CharacterPlayerProgress, MatchCount};
 
 /// Store struct.
 #[derive(Drop)]
@@ -26,9 +26,13 @@ trait StoreTrait {
     fn get_match_state(ref self: Store, match_state_id: u32) -> MatchState;
     fn set_match_state(ref self: Store, match_state: MatchState);
     fn get_character_state(
-        ref self: Store, match_state: MatchState, character_id: u32, player: felt252
+        ref self: Store, match_state_id: u32, character_id: u32, player: felt252
     ) -> CharacterState;
     fn set_character_state(ref self: Store, character_state: CharacterState);
+    fn get_action_state(ref self: Store, match_state_id: u32, character_id: u32, player: felt252) -> ActionState;
+    fn set_action_state(ref self: Store, action_state: ActionState);
+    fn get_match_players(ref self: Store, match_state_id: u32, match_players_id: u32) -> MatchPlayers;
+    fn set_match_players(ref self: Store, match_players: MatchPlayers);
     // Entities
     fn get_character(ref self: Store, character_id: u32) -> Character;
     fn set_character(ref self: Store, character: Character);
@@ -39,8 +43,8 @@ trait StoreTrait {
     fn get_map(ref self: Store, map_id: u32) -> Map;
     fn set_map(ref self: Store, map: Map);
     // Data
-    fn get_match_index(ref self: Store, id: felt252) -> MatchIndex;
-    fn set_match_index(ref self: Store, match_index: MatchIndex);
+    fn get_match_count(ref self: Store, id: felt252) -> MatchCount;
+    fn set_match_count(ref self: Store, match_count: MatchCount);
     fn get_character_player_progress(
         ref self: Store, owner: felt252, character_id: u32
     ) -> CharacterPlayerProgress;
@@ -69,14 +73,32 @@ impl StoreImpl of StoreTrait {
     }
 
     fn get_character_state(
-        ref self: Store, match_state: MatchState, character_id: u32, player: felt252
+        ref self: Store, match_state_id: u32, character_id: u32, player: felt252
     ) -> CharacterState {
-        let character_state_key = (match_state.id, character_id, player);
+        let character_state_key = (match_state_id, character_id, player);
         get!(self.world, character_state_key.into(), (CharacterState))
     }
 
     fn set_character_state(ref self: Store, character_state: CharacterState) {
         set!(self.world, (character_state));
+    }
+
+    fn get_action_state(ref self: Store, match_state_id: u32, character_id: u32, player: felt252) -> ActionState {
+        let action_state_key = (match_state_id, character_id, player);
+        get!(self.world, action_state_key.into(), (ActionState))
+    }
+
+    fn set_action_state(ref self: Store, action_state: ActionState) {
+        set!(self.world, (action_state));
+    }
+
+    fn get_match_players(ref self: Store, match_state_id: u32, match_players_id: u32) -> MatchPlayers {
+        let match_players_state_key = (match_state_id, match_players_id);
+        get!(self.world, match_players_state_key.into(), (MatchPlayers))
+    }
+    
+    fn set_match_players(ref self: Store, match_players: MatchPlayers) {
+        set!(self.world, (match_players));
     }
 
     // Entities
@@ -117,12 +139,12 @@ impl StoreImpl of StoreTrait {
 
     // Data
 
-    fn get_match_index(ref self: Store, id: felt252) -> MatchIndex {
-        get!(self.world, id, (MatchIndex))
+    fn get_match_count(ref self: Store, id: felt252) -> MatchCount {
+        get!(self.world, id, (MatchCount))
     }
 
-    fn set_match_index(ref self: Store, match_index: MatchIndex) {
-        set!(self.world, (match_index));
+    fn set_match_count(ref self: Store, match_count: MatchCount) {
+        set!(self.world, (match_count));
     }
 
     fn get_character_player_progress(

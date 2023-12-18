@@ -23,20 +23,19 @@ struct MatchPlayers {
 }
 
 trait MatchTrait {
-    fn new(match_id: u32) -> MatchState;
+    fn new(match_id: u32, map_id: u32) -> MatchState;
 }
 
 impl MatchImpl of MatchTrait {
     #[inline(always)]
-    fn new(match_id: u32) -> MatchState {
+    fn new(match_id: u32, map_id: u32) -> MatchState {
         MatchState {
             id: match_id,
             turn: 0,
             player_turn: 0,
             players_len: 0,
             characters_len: 0,
-            // TODO: for now we only have one map
-            map_id: 0,
+            map_id,
             winner: 0
         }
     }

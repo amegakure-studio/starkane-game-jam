@@ -13,7 +13,7 @@ use starkane::systems::match_system::{IMatchSystemDispatcherTrait, PlayerCharact
 use starkane::systems::action_system::IActionSystemDispatcherTrait;
 use starkane::models::entities::character::{Character, CharacterType};
 use starkane::models::entities::skill::{Skill, SkillType};
-use starkane::models::data::starkane::{MatchIndex, MATCH_IDX_KEY};
+use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
 
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
@@ -45,13 +45,13 @@ fn test_attack() {
     ];
 
     systems.match_system.init(world, player_characters);
-    let match_idx = store.get_match_index(MATCH_IDX_KEY);
+    let match_idx = store.get_match_count(MATCH_COUNT_KEY);
     let match_state = store.get_match_state(match_idx.index);
 
     let mut cs_player_1 = store
-        .get_character_state(match_state, CharacterType::Warrior.into(), '0x1');
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), '0x1');
     let mut cs_player_2 = store
-        .get_character_state(match_state, CharacterType::Warrior.into(), '0x2');
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), '0x2');
 
     cs_player_1.x = 1;
     cs_player_1.y = 1;
@@ -78,7 +78,7 @@ fn test_attack() {
 
 
     let mut cs_player_2_af = store
-        .get_character_state(match_state, CharacterType::Warrior.into(), '0x2');
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), '0x2');
 
     // 300 start hp minus 20 + 25 from warrior attack + skill power
     assert(cs_player_2_af.match_id == cs_player_2.match_id, 'wrong player 2 char match_id');
@@ -91,7 +91,7 @@ fn test_attack() {
     assert(cs_player_2_af.player == cs_player_2.player, 'wrong player 2 character turn');
 
     let mut cs_player_1_af = store
-        .get_character_state(match_state, CharacterType::Warrior.into(), '0x1');
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), '0x1');
 
     assert(cs_player_1_af.match_id == cs_player_1.match_id, 'wrong player 1 char match_id');
     assert(cs_player_1_af.character_id == cs_player_1.character_id, 'wrong player 1 character_id');

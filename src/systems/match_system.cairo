@@ -17,10 +17,10 @@ trait IMatchSystem<TContractState> {
 #[starknet::contract]
 mod match_system {
     use super::{IMatchSystem, PlayerCharacter};
-    use starkane::models::data::starkane::{MatchIndex, MATCH_IDX_KEY};
+    use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
     use starkane::models::entities::map::{Map, MapTrait};
     use starkane::models::entities::character::Character;
-    use starkane::models::states::character_state::{ActionState, CharacterState};
+    use starkane::models::states::character_state::{ActionState, ActionStateTrait, CharacterState, CharacterStateTrait};
     use starkane::models::states::match_state::{MatchState, MatchTrait, MatchPlayers,};
     use starkane::store::{Store, StoreTrait};
 
@@ -40,8 +40,10 @@ mod match_system {
             let mut store: Store = StoreTrait::new(world);
 
             assert(players_characters.len() > 0, 'characters cannot be empty');
-            let match_index = store.get_match_index(MATCH_IDX_KEY).index;
-            let mut new_match = MatchTrait::new(match_index);
+            let match_count = store.get_match_count(MATCH_COUNT_KEY).index;
+            // TODO: ver en que mapa van a jugar
+            let map_id = 1;
+            let mut new_match = MatchTrait::new(match_count, map_id);
 
             let players = get_players(@players_characters);
             let players_len = players.len();
@@ -53,7 +55,8 @@ mod match_system {
                     break;
                 }
                 let player = *players[i];
-                set!(world, MatchPlayers { match_id: match_index, id: i, player: player });
+                let match_players = MatchPlayers { match_id: match_count, id: i, player: player };
+                store.set_match_players(match_players);
                 i += 1;
             };
             new_match.players_len = players_len;
@@ -68,34 +71,30 @@ mod match_system {
                 let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
                 let character = store.get_character(p.character_id);
 
-                set!(
-                    world,
-                    CharacterState {
-                        match_id: match_index,
-                        character_id: character.character_id,
-                        player: p.player,
-                        turn: 0,
-                        remain_hp: character.hp,
-                        remain_mp: character.mp,
-                        x: x,
-                        y: y
-                    }
+                let character_state = CharacterStateTrait::new(
+                    match_count,
+                    character.character_id,
+                    p.player,
+                    0,
+                    character.hp,
+                    character.mp,
+                    x,
+                    y
                 );
-                set!(
-                    world,
-                    ActionState {
-                        match_id: match_index,
-                        player: p.player,
-                        character_id: character.character_id,
-                        action: false,
-                        movement: false
-                    }
+                store.set_character_state(character_state);
+                let action_state = ActionStateTrait::new(
+                    match_count,
+                    character.character_id,
+                    p.player,
+                    false,
+                    false
                 );
+                store.set_action_state(action_state);
                 i += 1;
             };
         // TODO: agregar mapa y asignar id
         // set!(world, (new_match));
-        // set!(world, MatchIndex { id: MATCH_IDX_KEY, index: match_index + 1 });
+        // set!(world, MatchCount { id: MATCH_COUNT_KEY, index: match_count + 1 });
         }
     }
 

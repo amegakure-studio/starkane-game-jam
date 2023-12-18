@@ -16,7 +16,7 @@ trait IMoveSystem<TContractState> {
 mod move_system {
     use super::IMoveSystem;
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::{CharacterState, ActionState};
+    use starkane::models::states::character_state::{CharacterState, ActionState, ActionStateTrait};
 
     use starkane::models::entities::map::{Map, Tile, MapTrait};
     use starkane::models::entities::character::Character;
@@ -47,15 +47,14 @@ mod move_system {
             let character_progress = store.get_character_player_progress(player, character_id);
             assert(character_progress.owned, 'ERR: player wrong character_id');
 
-            let action_key = (match_id, character_id, player);
-            let last_action_state = get!(world, action_key, (ActionState));
+            let last_action_state = store.get_action_state(match_id, character_id, player);
             assert(!last_action_state.movement, 'already move in this turn');
 
             let (to_x, to_y) = position;
             let map = store.get_map(match_state.map_id);
             assert(map.is_inside((to_x, to_y)), 'position is outside of map');
             
-            let mut character_state = store.get_character_state(match_state, character_id, player);
+            let mut character_state = store.get_character_state(match_state.id, character_id, player);
             assert(
                 character_state.x != to_x && character_state.y != to_y, 'already in that position'
             );
@@ -72,10 +71,10 @@ mod move_system {
             character_state.x = to_x;
             character_state.y = to_y;
 
-            let action_state = ActionState {
+            let action_state = ActionStateTrait::new(
                 match_id, character_id, player, action: last_action_state.action, movement: true
-            };
-            set!(world, (action_state));
+            );
+            store.set_action_state(action_state);
         }
     }
 
