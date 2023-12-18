@@ -24,10 +24,12 @@ mod action_system {
         Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType
     };
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::CharacterState;
+    use starkane::models::states::character_state::{CharacterState, ActionState};
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+
+    use debug::PrintTrait;
 
     #[storage]
     struct Storage {}
@@ -51,6 +53,10 @@ mod action_system {
 
             let match_state = store.get_match_state(match_id);
 
+            let action_key = (match_id, player_character_id, player);
+            let last_action_state = get!(world, action_key, (ActionState));
+            assert(!last_action_state.action, 'already do action in this turn');
+
             let player_character = store.get_character(player_character_id);
             let mut player_character_state = store
                 .get_character_state(match_state, player_character_id, player);
@@ -63,7 +69,10 @@ mod action_system {
             let skill = store.get_skill(player_character_id, skill_id, level);
 
             // fijarse que tenga el skill el que ataca
+            'antes skilltpye'.print();
+            skill.skill_type.print();
             let skill_type: SkillType = skill.skill_type.try_into().unwrap();
+            'me re pego'.print();
 
             match skill_type {
                 SkillType::MeeleAttack => attack(
@@ -101,8 +110,15 @@ mod action_system {
             }
 
             // character can do the action, so we have to save that
-            player_character_state.action_state.action = true;
-            store.set_character_state(player_character_state);
+
+            let action_state = ActionState {
+                match_id,
+                character_id: player_character_id,
+                player,
+                action: true,
+                movement: last_action_state.movement
+            };
+            set!(world, (action_state));
         }
     }
 
@@ -142,13 +158,14 @@ mod action_system {
         skill: Skill,
         receiver: Character,
         receiver_state: CharacterState
-    ) { 
+    ) {
         assert(player_character_state.player == receiver_state.player, 'cannot heal an enemy');
         assert(player_character_state.remain_mp >= skill.mp_cost, 'out of mana to cast that skill');
         assert(receiver_state.remain_hp > 0, 'character already dead');
 
         let distance_to = distance(
-            (player_character_state.x, player_character_state.y), (receiver_state.x, receiver_state.y)
+            (player_character_state.x, player_character_state.y),
+            (receiver_state.x, receiver_state.y)
         );
         assert(distance_to <= skill.range, 'character cannot heal that far');
 

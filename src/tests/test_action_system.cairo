@@ -7,6 +7,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Internal imports
 use starkane::store::{Store, StoreTrait};
 use starkane::systems::character_system::ICharacterSystemDispatcherTrait;
+use starkane::systems::action_system::IActionSystemDispatcherTrait;
 use starkane::models::entities::character::{Character, CharacterType};
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
@@ -18,14 +19,17 @@ const NAME: felt252 = 'NAME';
 
 #[test]
 #[available_gas(1_000_000_000)]
-fn test_initialize_characters() {
+fn test_attack() {
     // [Setup]
     let (world, systems) = setup::spawn_game();
     let mut store = StoreTrait::new(world);
 
     // [Create]
     systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
 
+    system.match_system();
     // [Assert] Archer
     let archer = store.get_character(1);
     assert(archer.character_type == 1, 'archer wrong id');

@@ -7,7 +7,9 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Internal imports
 use starkane::store::{Store, StoreTrait};
-use starkane::models::entities::map::{Map, Tile, TerrainType, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT};
+use starkane::models::entities::map::{
+    Map, Tile, TerrainType, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT
+};
 use starkane::systems::map_system::IMapSystemDispatcherTrait;
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};

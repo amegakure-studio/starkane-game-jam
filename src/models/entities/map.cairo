@@ -64,7 +64,15 @@ fn create_tiles(map: Map) -> Array<Tile> {
         }
         let index = (y * map.width) + x;
         // TODO: for now, all tiles are walkeables
-        tiles.append(Tile { map_id: map.id, id: index.try_into().unwrap(), walkable: true, terrain_type: TerrainType::Grass.into() });
+        tiles
+            .append(
+                Tile {
+                    map_id: map.id,
+                    id: index.try_into().unwrap(),
+                    walkable: true,
+                    terrain_type: TerrainType::Grass.into()
+                }
+            );
         x += 1;
         if x == map.width {
             y += 1;
@@ -87,7 +95,12 @@ fn create_tiles_by_array(map: Map, array: Array<felt252>) -> Array<Tile> {
         // TODO: for now, all tiles are walkeables
         let walkable = true;
 
-        tiles.append(Tile { map_id: map.id, id: index.into(), walkable, terrain_type: terrain_type.into() });
+        tiles
+            .append(
+                Tile {
+                    map_id: map.id, id: index.into(), walkable, terrain_type: terrain_type.into()
+                }
+            );
         index += 1;
     };
     tiles

@@ -38,19 +38,28 @@ mod skill_system {
             let mut store: Store = StoreTrait::new(world);
 
             // [Skill] MeeleAttack
-            store.set_skill(SkillTrait::new(SkillType::MeeleAttack, CharacterType::Warrior.into(), 1));
-            store.set_skill(SkillTrait::new(SkillType::MeeleAttack, CharacterType::Cleric.into(), 1));
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::MeeleAttack, CharacterType::Warrior.into(), 1)
+                );
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::MeeleAttack, CharacterType::Cleric.into(), 1)
+                );
             store.set_skill(SkillTrait::new(SkillType::MeeleAttack, CharacterType::Pig.into(), 1));
 
             // [Skill] RangeAttack
-            store.set_skill(SkillTrait::new(SkillType::RangeAttack, CharacterType::Archer.into(), 1));
-            
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::RangeAttack, CharacterType::Archer.into(), 1)
+                );
+
             // Currently we dont have a Sorcerer
             // [Skill] Fireball
             // store.set_skill(SkillTrait::new(SkillType::Fireball, CharacterType::Sorcerer.into(), 1));
             // store.set_skill(SkillTrait::new(SkillType::Fireball, CharacterType::Sorcerer.into(), 2));
             // store.set_skill(SkillTrait::new(SkillType::Fireball, CharacterType::Sorcerer.into(), 3));
-            
+
             // [Skill] Heal
             store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 1));
             store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 2));

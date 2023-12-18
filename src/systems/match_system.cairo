@@ -15,7 +15,7 @@ trait IMatchSystem<TContractState> {
 }
 
 #[starknet::contract]
-mod actions {
+mod match_system {
     use super::{IMatchSystem, PlayerCharacter};
     use starkane::models::data::starkane::{MatchIndex, MATCH_IDX_KEY};
     use starkane::models::entities::map::{Map, MapTrait};
@@ -67,31 +67,35 @@ mod actions {
                 let p: PlayerCharacter = *players_characters[i];
                 let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
                 let character = store.get_character(p.character_id);
+
                 set!(
                     world,
                     CharacterState {
                         match_id: match_index,
                         character_id: character.character_id,
-                        turn: 0,
                         player: p.player,
-                        action_state: ActionState {
-                            match_id: match_index,
-                            character_id: character.character_id,
-                            action: false,
-                            movement: false
-                        },
+                        turn: 0,
                         remain_hp: character.hp,
                         remain_mp: character.mp,
                         x: x,
                         y: y
                     }
                 );
+                set!(
+                    world,
+                    ActionState {
+                        match_id: match_index,
+                        player: p.player,
+                        character_id: character.character_id,
+                        action: false,
+                        movement: false
+                    }
+                );
                 i += 1;
             };
-
-            // TODO: agregar mapa y asignar id
-            set!(world, (new_match));
-            set!(world, MatchIndex { id: MATCH_IDX_KEY, index: match_index + 1 });
+        // TODO: agregar mapa y asignar id
+        // set!(world, (new_match));
+        // set!(world, MatchIndex { id: MATCH_IDX_KEY, index: match_index + 1 });
         }
     }
 

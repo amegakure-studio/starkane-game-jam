@@ -27,7 +27,7 @@ trait SkillTrait {
 }
 
 impl SkillImpl of SkillTrait {
-    fn new(skill_type: SkillType, character_id: u32,  level: u8) -> Skill {
+    fn new(skill_type: SkillType, character_id: u32, level: u8) -> Skill {
         match skill_type {
             SkillType::MeeleAttack => create_meele(character_id, skill_type.into(), level),
             SkillType::RangeAttack => create_range(character_id, skill_type.into(), level),

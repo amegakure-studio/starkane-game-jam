@@ -4,6 +4,8 @@ struct ActionState {
     match_id: u32,
     #[key]
     character_id: u32,
+    #[key]
+    player: felt252,
     action: bool,
     movement: bool,
 }
@@ -17,7 +19,6 @@ struct CharacterState {
     #[key]
     player: felt252,
     turn: u32,
-    action_state: ActionState,
     remain_hp: u128,
     remain_mp: u128,
     x: u128,

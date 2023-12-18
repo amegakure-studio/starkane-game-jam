@@ -25,7 +25,7 @@ mod map_system {
             let (map, tiles) = MapTrait::new(map_id);
 
             store.set_map(map);
-            
+
             let mut idx = 0;
             loop {
                 if idx == tiles.len() {

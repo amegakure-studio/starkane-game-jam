@@ -28,7 +28,8 @@ fn test_initialize_skills() {
     systems.skill_system.init(world);
 
     // [Assert] MeeleAttack
-    let meele_warrior = store.get_skill(SkillType::MeeleAttack.into(), CharacterType::Warrior.into(), 1);
+    let meele_warrior = store
+        .get_skill(SkillType::MeeleAttack.into(), CharacterType::Warrior.into(), 1);
     assert(meele_warrior.character_id == 3, 'meele warrior wrong char_id');
     assert(meele_warrior.skill_type == 1, 'meele warrior wrong skill_type');
     assert(meele_warrior.level == 1, 'meele warrior wrong level');
@@ -36,7 +37,8 @@ fn test_initialize_skills() {
     assert(meele_warrior.mp_cost == 0, 'meele warrior wrong mp_cost');
     assert(meele_warrior.range == 2, 'meele warrior wrong range');
 
-    let meele_cleric = store.get_skill(SkillType::MeeleAttack.into(), CharacterType::Cleric.into(), 1);
+    let meele_cleric = store
+        .get_skill(SkillType::MeeleAttack.into(), CharacterType::Cleric.into(), 1);
     assert(meele_cleric.character_id == 2, 'meele cleric wrong char_id');
     assert(meele_cleric.skill_type == 1, 'meele cleric wrong skill_type');
     assert(meele_cleric.level == 1, 'meele cleric wrong level');
@@ -53,7 +55,8 @@ fn test_initialize_skills() {
     assert(meele_pig.range == 2, 'meele pig wrong range');
 
     // [Assert] RangeAttack
-    let range_archer = store.get_skill(SkillType::RangeAttack.into(), CharacterType::Archer.into(), 1);
+    let range_archer = store
+        .get_skill(SkillType::RangeAttack.into(), CharacterType::Archer.into(), 1);
     assert(range_archer.character_id == 1, 'range archer wrong char_id');
     assert(range_archer.skill_type == 2, 'range archer wrong skill_type');
     assert(range_archer.level == 1, 'range archer wrong level');
