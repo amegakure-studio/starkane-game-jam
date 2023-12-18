@@ -63,13 +63,6 @@ fn test_attack() {
     store.set_character_state(cs_player_2);
 
     // [Attack]
-    // match_id: u32,
-    // player: felt252,
-    // player_character_id: u32,
-    // skill_id: u32,
-    // level: u32,
-    // receiver: felt252,
-    // receiver_character_id: u32
     systems
         .action_system
         .action(
@@ -82,4 +75,30 @@ fn test_attack() {
             '0x2',
             CharacterType::Warrior.into()
         );
+
+
+    let mut cs_player_2_af = store
+        .get_character_state(match_state, CharacterType::Warrior.into(), '0x2');
+
+    // 300 start hp minus 20 + 25 from warrior attack + skill power
+    assert(cs_player_2_af.match_id == cs_player_2.match_id, 'wrong player 2 char match_id');
+    assert(cs_player_2_af.character_id == cs_player_2.character_id, 'wrong player 2 character_id');
+    assert(cs_player_2_af.remain_hp == cs_player_2.remain_hp - (20 + 25), 'wrong player 2 character hp');
+    assert(cs_player_2_af.remain_mp == cs_player_2.remain_mp, 'wrong player 2 character mp');
+    assert(cs_player_2_af.x == cs_player_2.x, 'wrong player 2 character x');
+    assert(cs_player_2_af.y == cs_player_2.y, 'wrong player 2 character y');
+    assert(cs_player_2_af.turn == cs_player_2.turn, 'wrong player 2 character turn');
+    assert(cs_player_2_af.player == cs_player_2.player, 'wrong player 2 character turn');
+
+    let mut cs_player_1_af = store
+        .get_character_state(match_state, CharacterType::Warrior.into(), '0x1');
+
+    assert(cs_player_1_af.match_id == cs_player_1.match_id, 'wrong player 1 char match_id');
+    assert(cs_player_1_af.character_id == cs_player_1.character_id, 'wrong player 1 character_id');
+    assert(cs_player_1_af.remain_hp == cs_player_1.remain_hp, 'wrong player 1 character hp');
+    assert(cs_player_1_af.remain_mp == cs_player_1.remain_mp, 'wrong player 1 character mp');
+    assert(cs_player_1_af.x == cs_player_1.x, 'wrong player 1 character x');
+    assert(cs_player_1_af.y == cs_player_1.y, 'wrong player 1 character y');
+    assert(cs_player_1_af.turn == cs_player_1.turn, 'wrong player 1 character turn');
+    assert(cs_player_1_af.player == cs_player_1.player, 'wrong player 1 character turn');
 }

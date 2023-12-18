@@ -29,8 +29,6 @@ mod action_system {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-    use debug::PrintTrait;
-
     #[storage]
     struct Storage {}
 
@@ -66,13 +64,10 @@ mod action_system {
                 .get_character_state(match_state, receiver_character_id, receiver);
 
             // obtener skill
-            let skill = store.get_skill(player_character_id, skill_id, level);
+            let skill = store.get_skill(skill_id, player_character_id, level);
 
             // fijarse que tenga el skill el que ataca
-            'antes skilltpye'.print();
-            skill.skill_type.print();
             let skill_type: SkillType = skill.skill_type.try_into().unwrap();
-            'me re pego'.print();
 
             match skill_type {
                 SkillType::MeeleAttack => attack(
@@ -191,9 +186,9 @@ mod action_system {
             to_x - from_x
         };
         let distance_y = if from_y > to_y {
-            to_x - to_y
+            from_y - to_y
         } else {
-            to_y - to_x
+            to_y - from_y
         };
         distance_x + distance_y
     }
