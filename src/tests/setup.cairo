@@ -26,6 +26,7 @@ mod setup {
     use starkane::systems::match_system::{match_system, IMatchSystemDispatcher};
     use starkane::systems::action_system::{action_system, IActionSystemDispatcher};
     use starkane::systems::move_system::{move_system, IMoveSystemDispatcher};
+    use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
 
     // Constants
 
@@ -41,6 +42,7 @@ mod setup {
         match_system: IMatchSystemDispatcher,
         action_system: IActionSystemDispatcher,
         move_system: IMoveSystemDispatcher,
+        turn_system: ITurnSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -63,8 +65,11 @@ mod setup {
         let skill_system_address = deploy_contract(skill_system::TEST_CLASS_HASH, array![].span());
         let map_system_address = deploy_contract(map_system::TEST_CLASS_HASH, array![].span());
         let match_system_address = deploy_contract(match_system::TEST_CLASS_HASH, array![].span());
-        let action_system_address = deploy_contract(action_system::TEST_CLASS_HASH, array![].span());
+        let action_system_address = deploy_contract(
+            action_system::TEST_CLASS_HASH, array![].span()
+        );
         let move_system_address = deploy_contract(move_system::TEST_CLASS_HASH, array![].span());
+        let turn_system_address = deploy_contract(turn_system::TEST_CLASS_HASH, array![].span());
 
         let systems = Systems {
             character_system: ICharacterSystemDispatcher {
@@ -75,6 +80,7 @@ mod setup {
             match_system: IMatchSystemDispatcher { contract_address: match_system_address },
             action_system: IActionSystemDispatcher { contract_address: action_system_address },
             move_system: IMoveSystemDispatcher { contract_address: move_system_address },
+            turn_system: ITurnSystemDispatcher { contract_address: turn_system_address },
         };
 
         // [Return]

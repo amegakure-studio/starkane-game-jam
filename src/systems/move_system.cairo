@@ -16,7 +16,9 @@ trait IMoveSystem<TContractState> {
 mod move_system {
     use super::IMoveSystem;
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::{CharacterState, ActionState, ActionStateTrait};
+    use starkane::models::states::character_state::{
+        CharacterState, ActionState, ActionStateTrait
+    };
 
     use starkane::models::entities::map::{Map, Tile, MapTrait};
     use starkane::models::entities::character::Character;
@@ -53,8 +55,9 @@ mod move_system {
             let (to_x, to_y) = position;
             let map = store.get_map(match_state.map_id);
             assert(map.is_inside((to_x, to_y)), 'position is outside of map');
-            
-            let mut character_state = store.get_character_state(match_state.id, character_id, player);
+
+            let mut character_state = store
+                .get_character_state(match_state.id, character_id, player);
             assert(
                 character_state.x != to_x && character_state.y != to_y, 'already in that position'
             );

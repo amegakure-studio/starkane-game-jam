@@ -51,15 +51,6 @@ struct MatchPlayerCharacter {
     character_id: u32,
 }
 
-// #[derive(Model, Copy, Drop, Serde)]
-// struct MatchPlayers {
-//     #[key]
-//     match_id: u32,
-//     #[key]
-//     id: u32,
-//     player: felt252,
-// }
-
 trait MatchTrait {
     fn new(match_id: u32, map_id: u32) -> MatchState;
 }
