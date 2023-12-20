@@ -64,14 +64,13 @@ mod turn_system {
         } else {
             let mut i = 0;
             loop {
-                if match_players_len == i {
+                if match_players_len == i || next_player != 0 {
                     break;
                 }
                 let match_player: MatchPlayer = *match_players[i];
                 if match_player.player == player {
                     let next_match_player: MatchPlayer = *match_players[i + 1];
                     next_player = next_match_player.player;
-                    break;
                 }
                 i += 1;
             };
