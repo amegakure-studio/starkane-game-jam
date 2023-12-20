@@ -43,11 +43,11 @@ mod move_system {
             let mut store: Store = StoreTrait::new(world);
 
             let match_state = store.get_match_state(match_id);
-            assert(match_state.winner == 0, 'ERR: this match is over!');
-            assert(match_state.player_turn == player, 'ERR: wait for your turn!');
+            assert(match_state.winner == 0, 'this match is over');
+            assert(match_state.player_turn == player, 'wait for your turn');
 
             let character_progress = store.get_character_player_progress(player, character_id);
-            assert(character_progress.owned, 'ERR: player wrong character_id');
+            assert(character_progress.owned, 'player wrong character_id');
 
             let last_action_state = store.get_action_state(match_id, character_id, player);
             assert(!last_action_state.movement, 'already move in this turn');

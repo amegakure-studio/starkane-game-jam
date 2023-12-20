@@ -52,6 +52,8 @@ mod action_system {
             let mut store: Store = StoreTrait::new(world);
 
             let match_state = store.get_match_state(match_id);
+            assert(match_state.winner == 0, 'this match is over');
+            assert(match_state.player_turn == player, 'wait for your turn');
 
             let last_action_state = store.get_action_state(match_id, player_character_id, player);
             assert(!last_action_state.action, 'already took action this turn');
