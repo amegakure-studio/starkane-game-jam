@@ -46,7 +46,6 @@ struct MatchPlayerCharacter {
     #[key]
     id: u32,
     character_id: u32,
-    dead: bool,
 }
 
 trait MatchTrait {

@@ -79,15 +79,14 @@ mod match_system {
                 // track how many character has every player
                 characters_per_player.insert(p.player, characters_per_player.get(p.player) + 1);
 
-                let (x, y) = obtain_position(player_index(p.player, players), players_len, i);
+                let (x, y) = obtain_position(player_index(p.player, players), i);
                 let character = store.get_character(p.character_id);
 
                 let match_player_character = MatchPlayerCharacter {
                     match_id: match_count,
                     player: p.player,
                     id: i,
-                    character_id: character.character_id,
-                    dead: false
+                    character_id: character.character_id
                 };
                 store.set_match_player_character(match_player_character);
 
@@ -131,15 +130,16 @@ mod match_system {
         }
     }
 
-    fn obtain_position(player_index: u32, players_len: u32, i: u32) -> (u128, u128) {
-        // if players_len == 4 {
-        // } else if players_len == 3 {
-        // } else if players_len == 2 {
-        // } else {
-        //     assert(1 == 0, 'its only one player!')
-        // }
-
-        (1, 1)
+    fn obtain_position(player_index: u32, i: u32) -> (u128, u128) {
+        if player_index == 0 {
+            (5 + i.into(), 5)
+        } else if player_index == 1 {
+            (5 + i.into(), 25)
+        } else if player_index == 2 {
+            (5, 15 + i.into())
+        } else {
+            (25, 15 + i.into())
+        }
     }
 
     fn get_players(players_characters: @Array<PlayerCharacter>) -> @Array<felt252> {

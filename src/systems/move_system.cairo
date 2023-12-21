@@ -26,6 +26,8 @@ mod move_system {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
+    use debug::PrintTrait;
+    
     #[storage]
     struct Storage {}
 
@@ -49,7 +51,7 @@ mod move_system {
             let character_progress = store.get_character_player_progress(player, character_id);
             assert(character_progress.owned, 'player wrong character_id');
 
-            let last_action_state = store.get_action_state(match_id, character_id, player);
+            let mut last_action_state = store.get_action_state(match_id, character_id, player);
             assert(!last_action_state.movement, 'already move in this turn');
 
             let (to_x, to_y) = position;
@@ -58,10 +60,9 @@ mod move_system {
 
             let mut character_state = store
                 .get_character_state(match_state.id, character_id, player);
-            assert(
-                character_state.x != to_x && character_state.y != to_y, 'already in that position'
-            );
+            assert(!(character_state.x == to_x && character_state.y == to_y), 'already in that position');
 
+            // TODO: remove map_id hardcoded
             assert(
                 store.get_tile(1, (to_y * map.width + to_x).try_into().unwrap()).walkable,
                 'tile not walkable'
@@ -73,11 +74,10 @@ mod move_system {
 
             character_state.x = to_x;
             character_state.y = to_y;
+            store.set_character_state(character_state);
 
-            let action_state = ActionStateTrait::new(
-                match_id, character_id, player, action: last_action_state.action, movement: true
-            );
-            store.set_action_state(action_state);
+            last_action_state.movement = true;
+            store.set_action_state(last_action_state);
         }
     }
 
@@ -91,9 +91,9 @@ mod move_system {
             to_x - from_x
         };
         let distance_y = if from_y > to_y {
-            to_x - to_y
+            from_y - to_y
         } else {
-            to_y - to_x
+            to_y - from_y
         };
         distance_x + distance_y
     }
