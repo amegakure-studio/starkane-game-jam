@@ -30,10 +30,10 @@ mod systems {
 #[cfg(test)]
 mod tests {
     mod setup;
-    // mod test_character_system;
-    // mod test_skill_system;
-    // mod test_map_system;
+    mod test_character_system;
+    mod test_skill_system;
+    mod test_map_system;
     mod test_match_system;
-    // mod test_turn_system;
+    mod test_turn_system;
 }
 

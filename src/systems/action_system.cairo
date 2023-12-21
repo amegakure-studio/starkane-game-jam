@@ -31,6 +31,8 @@ mod action_system {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
+    use debug::PrintTrait;
+
     #[storage]
     struct Storage {}
 
@@ -70,33 +72,52 @@ mod action_system {
             let skill = store.get_skill(skill_id, player_character_id, level);
 
             // fijarse que tenga el skill el que ataca
-            let skill_type: SkillType = skill.skill_type.try_into().expect('char doesnt possess that skill');
+            let skill_type: SkillType = skill
+                .skill_type
+                .try_into()
+                .expect('char doesnt possess that skill');
 
             match skill_type {
-                SkillType::MeeleAttack => attack(
-                    world,
-                    player_character,
-                    player_character_state,
-                    skill,
-                    receiver_character,
-                    receiver_character_state
-                ),
-                SkillType::RangeAttack => attack(
-                    world,
-                    player_character,
-                    player_character_state,
-                    skill,
-                    receiver_character,
-                    receiver_character_state
-                ),
-                SkillType::Fireball => attack(
-                    world,
-                    player_character,
-                    player_character_state,
-                    skill,
-                    receiver_character,
-                    receiver_character_state
-                ),
+                SkillType::MeeleAttack => {
+                    attack(
+                        world,
+                        player_character,
+                        player_character_state,
+                        skill,
+                        receiver_character,
+                        receiver_character_state
+                    );
+                    check_and_update_game_state_winner(
+                        ref store, match_id, player, receiver_character_id, receiver
+                    );
+                },
+                SkillType::RangeAttack => {
+                    attack(
+                        world,
+                        player_character,
+                        player_character_state,
+                        skill,
+                        receiver_character,
+                        receiver_character_state
+                    );
+                    check_and_update_game_state_winner(
+                        ref store, match_id, player, receiver_character_id, receiver
+                    );
+                },
+                SkillType::Fireball => {
+                    attack(
+                        world,
+                        player_character,
+                        player_character_state,
+                        skill,
+                        receiver_character,
+                        receiver_character_state
+                    );
+
+                    check_and_update_game_state_winner(
+                        ref store, match_id, player, receiver_character_id, receiver
+                    );
+                },
                 SkillType::Heal => heal(
                     world,
                     player_character,
@@ -113,6 +134,34 @@ mod action_system {
                 match_id, player_character_id, player, true, last_action_state.movement
             );
             store.set_action_state(action_state);
+        }
+    }
+
+    fn check_and_update_game_state_winner(
+        ref store: Store,
+        match_id: u32,
+        attacker: felt252,
+        receiver_character_id: u32,
+        receiver: felt252
+    ) {
+        let receiver_state = store.get_character_state(match_id, receiver_character_id, receiver);
+
+        if receiver_state.remain_hp.is_zero() {
+            let mut match_player_characters_len = store
+                .get_match_player_characters_len(match_id, receiver);
+            if match_player_characters_len.remain_characters == 1 {
+                match_player_characters_len.remain_characters = 0;
+                store.set_match_player_character_len(match_player_characters_len);
+
+                // Set attacker as winner
+                let mut match_state = store.get_match_state(match_id);
+                match_state.winner = attacker;
+                store.set_match_state(match_state);
+            // TODO: Register stadistics
+            } else {
+                match_player_characters_len.remain_characters -= 1;
+                store.set_match_player_character_len(match_player_characters_len);
+            }
         }
     }
 
@@ -141,7 +190,6 @@ mod action_system {
                 } else {
                     receiver_state.remain_hp - (attacker.attack + skill.power)
                 };
-        // TODO: revisar
         set!(world, (receiver_state));
     }
 

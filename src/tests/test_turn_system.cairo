@@ -53,14 +53,17 @@ fn test_end_turn() {
 
     // Actual turn is for player 1
     assert(match_state.player_turn == PLAYER_1, 'turn should be player 0x1');
+    assert(match_state.turn == 0, 'turn should be number 0');
     systems.turn_system.end_turn(world, MATCH_ID, PLAYER_1);
 
     // End turn, so player 2 turn
     let match_state = store.get_match_state(MATCH_ID);
     assert(match_state.player_turn == PLAYER_2, 'turn should be player 0x2');
+    assert(match_state.turn == 1, 'turn should be number 1');
     systems.turn_system.end_turn(world, MATCH_ID, PLAYER_2);
 
     // It should be player 1 again
     let match_state = store.get_match_state(MATCH_ID);
+    assert(match_state.turn == 2, 'turn should be number 2');
     assert(match_state.player_turn == PLAYER_1, 'turn should be player 0x1');
 }

@@ -86,7 +86,8 @@ mod match_system {
                     match_id: match_count,
                     player: p.player,
                     id: i,
-                    character_id: character.character_id
+                    character_id: character.character_id,
+                    dead: false
                 };
                 store.set_match_player_character(match_player_character);
 
@@ -116,7 +117,8 @@ mod match_system {
                         MatchPlayerCharacterLen {
                             match_id: match_count,
                             player: *players[i],
-                            characters_len: characters_per_player.get(*players[i])
+                            characters_len: characters_per_player.get(*players[i]),
+                            remain_characters: characters_per_player.get(*players[i])
                         }
                     );
                 i += 1;

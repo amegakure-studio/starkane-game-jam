@@ -38,6 +38,9 @@ trait StoreTrait {
     fn get_match_players(ref self: Store, match_id: u32) -> Array<MatchPlayer>;
     fn set_match_player(ref self: Store, match_player: MatchPlayer);
     fn set_match_player_len(ref self: Store, match_players_len: MatchPlayerLen);
+    fn get_match_player_characters_len(
+        ref self: Store, match_id: u32, player: felt252
+    ) -> MatchPlayerCharacterLen;
     fn get_match_player_characters_states(
         ref self: Store, match_id: u32, player: felt252
     ) -> Array<CharacterState>;
@@ -193,6 +196,13 @@ impl StoreImpl of StoreTrait {
             i += 1;
         };
         characters
+    }
+
+
+    fn get_match_player_characters_len(
+        ref self: Store, match_id: u32, player: felt252
+    ) -> MatchPlayerCharacterLen {
+        get!(self.world, (match_id, player).into(), (MatchPlayerCharacterLen))
     }
 
     // Entities

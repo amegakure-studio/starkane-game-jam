@@ -7,10 +7,6 @@ struct MatchState {
     id: u32,
     turn: u32,
     player_turn: felt252,
-    // TODO: remove players_len & characters_len
-    // use the new Models MatchPlayer & MatchPlayerCharacter
-    players_len: u32,
-    characters_len: u32,
     map_id: u32,
     winner: felt252,
 }
@@ -38,6 +34,7 @@ struct MatchPlayerCharacterLen {
     #[key]
     player: felt252,
     characters_len: u32,
+    remain_characters: u32,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -49,6 +46,7 @@ struct MatchPlayerCharacter {
     #[key]
     id: u32,
     character_id: u32,
+    dead: bool,
 }
 
 trait MatchTrait {
@@ -58,14 +56,6 @@ trait MatchTrait {
 impl MatchImpl of MatchTrait {
     #[inline(always)]
     fn new(match_id: u32, map_id: u32) -> MatchState {
-        MatchState {
-            id: match_id,
-            turn: 0,
-            player_turn: 0,
-            players_len: 0,
-            characters_len: 0,
-            map_id,
-            winner: 0
-        }
+        MatchState { id: match_id, turn: 0, player_turn: 0, map_id, winner: 0 }
     }
 }

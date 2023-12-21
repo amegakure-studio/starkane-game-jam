@@ -257,6 +257,125 @@ fn test_player_attack_twice_same_turn() {
 
 #[test]
 #[available_gas(1_000_000_000)]
+fn test_end_match_set_correct_winner() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Archer, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(world, CharacterType::Archer, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Archer.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Archer.into() },
+    ];
+
+    systems.match_system.init(world, player_characters);
+    let MATCH_ID = 0;
+    let match_state = store.get_match_state(MATCH_ID);
+
+    let mut cs_player_1_warrior = store
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
+    let mut cs_player_1_archer = store
+        .get_character_state(match_state.id, CharacterType::Archer.into(), PLAYER_1);
+    let mut cs_player_2_warrior = store
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+    let mut cs_player_2_archer = store
+        .get_character_state(match_state.id, CharacterType::Archer.into(), PLAYER_2);
+
+    cs_player_1_warrior.x = 1;
+    cs_player_1_warrior.y = 1;
+
+    cs_player_1_archer.x = 2;
+    cs_player_1_archer.y = 2;
+
+    cs_player_2_warrior.x = 2;
+    cs_player_2_warrior.y = 1;
+    cs_player_2_warrior.remain_hp = 10;
+
+    cs_player_2_archer.x = 1;
+    cs_player_2_archer.y = 2;
+    cs_player_2_archer.remain_hp = 10;
+
+    store.set_character_state(cs_player_1_warrior);
+    store.set_character_state(cs_player_1_archer);
+    store.set_character_state(cs_player_2_warrior);
+    store.set_character_state(cs_player_2_archer);
+
+    // Check remainder characters for player 2
+    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    assert(remain_characters_player_2 == 2, 'it should be remain 2 character');
+
+    // [Attack]
+    systems
+        .action_system
+        .action(
+            world,
+            MATCH_ID,
+            PLAYER_1,
+            CharacterType::Warrior.into(),
+            SkillType::MeeleAttack.into(),
+            1,
+            PLAYER_2,
+            CharacterType::Warrior.into()
+        );
+
+    // Player 2 warrior should be dead
+    let cs_player_2_warrior = store
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+    assert(cs_player_2_warrior.remain_hp.is_zero(), 'warrior should be dead');
+
+    // Game shouldnt be over yet
+    let match_state = store.get_match_state(MATCH_ID);
+    assert(match_state.winner.is_zero(), 'winner should be 0 (not setted)');
+
+    // Check remainder characters for player 2
+    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    assert(remain_characters_player_2 == 1, 'it should be remain 1 character');
+
+    // [Attack]
+    systems
+        .action_system
+        .action(
+            world,
+            MATCH_ID,
+            PLAYER_1,
+            CharacterType::Archer.into(),
+            SkillType::RangeAttack.into(),
+            1,
+            PLAYER_2,
+            CharacterType::Archer.into()
+        );
+
+    // Player 2 warrior should be dead
+    let cs_player_2_archer = store
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+    assert(cs_player_2_archer.remain_hp.is_zero(), 'warrior should be dead');
+
+    // Game shouldnt be over yet
+    let match_state = store.get_match_state(MATCH_ID);
+    assert(match_state.winner == PLAYER_1, 'winner should be 0x1');
+
+    // Check remainder characters for player 2
+    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    assert(remain_characters_player_2 == 0, 'it should be remain 0 character');
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
 #[should_panic(expected: ('wait for your turn', 'ENTRYPOINT_FAILED'))]
 fn test_player_attack_when_isnt_their_turn() {
     // [Setup]
