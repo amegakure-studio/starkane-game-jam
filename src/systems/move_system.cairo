@@ -56,7 +56,7 @@ mod move_system {
 
             let (to_x, to_y) = position;
             let map = store.get_map(match_state.map_id);
-            assert(map.is_inside((to_x, to_y)), 'position is outside of map');
+            assert(map.is_inside((to_x, to_y)), 'target is outside of map');
 
             let mut character_state = store
                 .get_character_state(match_state.id, character_id, player);

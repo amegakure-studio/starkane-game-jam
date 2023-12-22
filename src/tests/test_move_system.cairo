@@ -57,11 +57,123 @@ fn test_move_update_character_position() {
     systems
         .move_system
         .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+
     let player_1_character_state = store
         .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
 
     assert(player_1_character_state.x == 6, 'wrong x position');
     assert(player_1_character_state.y == 6, 'wrong y position');
+
+    let action_state = store.get_action_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
+    assert(action_state.movement == true, 'wrong movement action state');
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('this match is over', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_match_is_over() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+    let MATCH_ID = 0;
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+    ];
+
+    systems.match_system.init(store.world, player_characters);
+    let mut match_state = store.get_match_state(MATCH_ID);
+
+    // Set a winner
+    match_state.winner = PLAYER_2;
+    store.set_match_state(match_state);
+
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('wait for your turn', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_isnt_your_turn() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+    let MATCH_ID = 0;
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+    ];
+
+    systems.match_system.init(store.world, player_characters);
+    let match_state = store.get_match_state(MATCH_ID);
+
+    // initial position for second player is (5, 25)
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('player wrong character_id', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_player_try_to_move_a_non_owned_character() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+    let MATCH_ID = 0;
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+    ];
+
+    systems.match_system.init(store.world, player_characters);
+    let match_state = store.get_match_state(MATCH_ID);
+
+    // initial position for first character is (5, 5)
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Cleric.into(), (6, 5));
 }
 
 #[test]
@@ -104,8 +216,8 @@ fn test_fail_when_move_twice_same_character_same_turn() {
 
 #[test]
 #[available_gas(1_000_000_000)]
-#[should_panic(expected: ('wait for your turn', 'ENTRYPOINT_FAILED'))]
-fn test_fail_when_isnt_your_turn() {
+#[should_panic(expected: ('tile not walkable', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_try_to_move_into_non_walkable_tile() {
     // [Setup]
     let (world, systems) = setup::spawn_game();
     let mut store = StoreTrait::new(world);
@@ -131,10 +243,17 @@ fn test_fail_when_isnt_your_turn() {
     systems.match_system.init(store.world, player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
-    // initial position for second player is (5, 25)
+    // Set the tile (6, 5) as non walkable
+    let map = store.get_map(1);
+    let tile_id = (5 * map.width.try_into().unwrap()) + 6;
+    let mut tile = store.get_tile(map.id, tile_id);
+    tile.walkable = false;
+    store.set_tile(tile);
+
+    // initial position for first player is (5, 25)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
 }
 
 #[test]
@@ -171,9 +290,82 @@ fn test_fail_when_move_target_is_gt_character_movement() {
     systems
         .move_system
         .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
+}
 
-    let player_1_character_state = store
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('already in that position', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_move_target_same_place() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+    let MATCH_ID = 0;
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+    ];
+
+    systems.match_system.init(store.world, player_characters);
+    let match_state = store.get_match_state(MATCH_ID);
+
+    // initial position for first character is (5, 5)
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (5, 5));
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('target is outside of map', 'ENTRYPOINT_FAILED'))]
+fn test_fail_when_move_target_outside_of_the_map() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    let PLAYER_1 = '0x1';
+    let PLAYER_2 = '0x2';
+    let MATCH_ID = 0;
+
+    // [Create]
+    systems.character_system.init(world);
+    systems.skill_system.init(world);
+    systems.map_system.init(world);
+
+    // [Mint]
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+
+    let player_characters = array![
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+    ];
+
+    systems.match_system.init(store.world, player_characters);
+    let match_state = store.get_match_state(MATCH_ID);
+
+    let mut player_1_character_state = store
         .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
-    player_1_character_state.x.print();
-    player_1_character_state.y.print();
+
+    // Put character in the map border
+    let map = store.get_map(1);
+    player_1_character_state.x = map.width; 
+    player_1_character_state.y = map.height;
+    store.set_character_state(player_1_character_state);
+
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
 }
