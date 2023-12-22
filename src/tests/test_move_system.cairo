@@ -7,7 +7,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Internal imports
 use starkane::store::{Store, StoreTrait};
 use starkane::systems::character_system::ICharacterSystemDispatcherTrait;
-use starkane::systems::turn_system::ITurnSystemDispatcherTrait;
+// use starkane::systems::turn_system::ITurnSystemDispatcherTrait;
 use starkane::systems::map_system::IMapSystemDispatcherTrait;
 use starkane::systems::skill_system::ISkillSystemDispatcherTrait;
 use starkane::systems::match_system::{IMatchSystemDispatcherTrait, PlayerCharacter};
@@ -36,27 +36,27 @@ fn test_move_update_character_position() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
     // move warrior player 1, then character position should be updated
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
 
     let player_1_character_state = store
         .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
@@ -81,20 +81,20 @@ fn test_fail_when_match_is_over() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let mut match_state = store.get_match_state(MATCH_ID);
 
     // Set a winner
@@ -103,7 +103,7 @@ fn test_fail_when_match_is_over() {
 
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
 }
 
 #[test]
@@ -119,26 +119,26 @@ fn test_fail_when_isnt_your_turn() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for second player is (5, 25)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
+        .move(MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
 }
 
 #[test]
@@ -154,26 +154,26 @@ fn test_fail_when_player_try_to_move_a_non_owned_character() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Cleric.into(), (6, 5));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Cleric.into(), (6, 5));
 }
 
 #[test]
@@ -189,29 +189,29 @@ fn test_fail_when_move_twice_same_character_same_turn() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
 }
 
 #[test]
@@ -227,20 +227,20 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // Set the tile (6, 5) as non walkable
@@ -253,7 +253,7 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
     // initial position for first player is (5, 25)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
 }
 
 #[test]
@@ -269,27 +269,27 @@ fn test_fail_when_move_target_is_gt_character_movement() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
     // warrior has 5 movement so, if we move to x: 11 (6 tiles) then should fail
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
 }
 
 #[test]
@@ -305,26 +305,26 @@ fn test_fail_when_move_target_same_place() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (5, 5));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (5, 5));
 }
 
 #[test]
@@ -340,20 +340,20 @@ fn test_fail_when_move_target_outside_of_the_map() {
     let MATCH_ID = 0;
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(store.world, player_characters);
+    systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
     let mut player_1_character_state = store
@@ -367,5 +367,5 @@ fn test_fail_when_move_target_outside_of_the_map() {
 
     systems
         .move_system
-        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
+        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
 }

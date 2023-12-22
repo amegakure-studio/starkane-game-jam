@@ -1,10 +1,7 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 #[starknet::interface]
 trait IActionSystem<TContractState> {
     fn action(
         self: @TContractState,
-        world: IWorldDispatcher,
         match_id: u32,
         player: felt252,
         player_character_id: u32,
@@ -15,7 +12,7 @@ trait IActionSystem<TContractState> {
     );
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod action_system {
     use super::IActionSystem;
 
@@ -27,10 +24,8 @@ mod action_system {
     use starkane::models::states::character_state::{
         CharacterState, ActionState, ActionStateTrait
     };
-    use starkane::systems::stadistics_system::stadistics_system::StadisticsSystem;
+    use starkane::systems::stadistics_system::stadistics_system;
     use starkane::store::{Store, StoreTrait};
-
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use debug::PrintTrait;
 
@@ -42,7 +37,6 @@ mod action_system {
         // Character -> Character
         fn action(
             self: @ContractState,
-            world: IWorldDispatcher,
             match_id: u32,
             player: felt252,
             player_character_id: u32,
@@ -52,6 +46,7 @@ mod action_system {
             receiver_character_id: u32
         ) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             let match_state = store.get_match_state(match_id);
@@ -88,7 +83,7 @@ mod action_system {
                         receiver_character,
                         receiver_character_state
                     );
-                    check_and_update_game_state_winner(
+                    check_and_update_game_state_winner(world,
                         ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
@@ -101,7 +96,7 @@ mod action_system {
                         receiver_character,
                         receiver_character_state
                     );
-                    check_and_update_game_state_winner(
+                    check_and_update_game_state_winner(world,
                         ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
@@ -115,7 +110,7 @@ mod action_system {
                         receiver_character_state
                     );
 
-                    check_and_update_game_state_winner(
+                    check_and_update_game_state_winner(world,
                         ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
@@ -130,7 +125,6 @@ mod action_system {
             }
 
             // character can do the action, so we have to save that
-
             let action_state = ActionStateTrait::new(
                 match_id, player_character_id, player, true, last_action_state.movement
             );
@@ -139,6 +133,7 @@ mod action_system {
     }
 
     fn check_and_update_game_state_winner(
+        world: IWorldDispatcher,
         ref store: Store,
         match_id: u32,
         attacker: felt252,
@@ -158,11 +153,11 @@ mod action_system {
                 let mut match_state = store.get_match_state(match_id);
                 match_state.winner = attacker;
                 store.set_match_state(match_state);
+                stadistics_system::record_match_stadistics(world, match_id);
             } else {
                 match_player_characters_len.remain_characters -= 1;
                 store.set_match_player_character_len(match_player_characters_len);
             }
-            // StadisticsSystem::record_match_stadistics(store.world, match_id);
         }
     }
 

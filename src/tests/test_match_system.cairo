@@ -33,20 +33,20 @@ fn test_attack() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
     let MATCH_ID = 0;
     let match_state = store.get_match_state(MATCH_ID);
 
@@ -68,7 +68,6 @@ fn test_attack() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Warrior.into(),
@@ -116,20 +115,20 @@ fn test_player_attack_twice_same_character_same_turn() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
     let MATCH_ID = 0;
     let match_state = store.get_match_state(MATCH_ID);
 
@@ -151,7 +150,6 @@ fn test_player_attack_twice_same_character_same_turn() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Warrior.into(),
@@ -164,7 +162,6 @@ fn test_player_attack_twice_same_character_same_turn() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Warrior.into(),
@@ -186,15 +183,15 @@ fn test_player_attack_twice_same_turn() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Archer, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
-    systems.character_system.mint(world, CharacterType::Archer, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Archer, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -203,7 +200,7 @@ fn test_player_attack_twice_same_turn() {
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Archer.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
     let MATCH_ID = 0;
     let match_state = store.get_match_state(MATCH_ID);
 
@@ -231,7 +228,6 @@ fn test_player_attack_twice_same_turn() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Warrior.into(),
@@ -244,7 +240,6 @@ fn test_player_attack_twice_same_turn() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Archer.into(),
@@ -266,15 +261,15 @@ fn test_end_match_set_correct_winner() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Archer, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
-    systems.character_system.mint(world, CharacterType::Archer, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Archer, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -283,7 +278,7 @@ fn test_end_match_set_correct_winner() {
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Archer.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
     let MATCH_ID = 0;
     let match_state = store.get_match_state(MATCH_ID);
 
@@ -325,7 +320,6 @@ fn test_end_match_set_correct_winner() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Warrior.into(),
@@ -354,7 +348,6 @@ fn test_end_match_set_correct_winner() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_1,
             CharacterType::Archer.into(),
@@ -392,20 +385,20 @@ fn test_player_attack_when_isnt_their_turn() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
         PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
     let MATCH_ID = 0;
     let match_state = store.get_match_state(MATCH_ID);
 
@@ -427,7 +420,6 @@ fn test_player_attack_when_isnt_their_turn() {
     systems
         .action_system
         .action(
-            world,
             MATCH_ID,
             PLAYER_2,
             CharacterType::Warrior.into(),
@@ -451,16 +443,16 @@ fn test_init_match_with_one_player() {
     let PLAYER_2 = '0x2';
 
     // [Create]
-    systems.character_system.init(world);
-    systems.skill_system.init(world);
-    systems.map_system.init(world);
+    systems.character_system.init();
+    systems.skill_system.init();
+    systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(world, CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
     ];
 
-    systems.match_system.init(world, player_characters);
+    systems.match_system.init(player_characters);
 }

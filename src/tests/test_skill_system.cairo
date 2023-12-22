@@ -25,7 +25,7 @@ fn test_initialize_skills() {
     let mut store = StoreTrait::new(world);
 
     // [Create]
-    systems.skill_system.init(world);
+    systems.skill_system.init();
 
     // [Assert] MeeleAttack
     let meele_warrior = store

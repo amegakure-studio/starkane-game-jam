@@ -1,18 +1,14 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 #[starknet::interface]
 trait ISkillSystem<TContractState> {
-    fn init(self: @TContractState, world: IWorldDispatcher);
+    fn init(self: @TContractState);
     fn has_skill(
         self: @TContractState,
-        world: IWorldDispatcher,
         character_id: u32,
         player: felt252,
         skill_id: u32
     ) -> bool;
     fn can_use_skill(
         self: @TContractState,
-        world: IWorldDispatcher,
         character_id: u32,
         player: felt252,
         skill_id: u32,
@@ -20,21 +16,21 @@ trait ISkillSystem<TContractState> {
     ) -> bool;
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod skill_system {
     use super::ISkillSystem;
     use starkane::models::entities::character::{Character, CharacterType};
     use starkane::models::entities::skill::{Skill, SkillTrait, SkillType};
     use starkane::store::{Store, StoreTrait};
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
     struct Storage {}
 
     #[external(v0)]
     impl SkillSystem of ISkillSystem<ContractState> {
-        fn init(self: @ContractState, world: IWorldDispatcher) {
+        fn init(self: @ContractState) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             // [Skill] MeeleAttack
@@ -68,7 +64,6 @@ mod skill_system {
 
         fn has_skill(
             self: @ContractState,
-            world: IWorldDispatcher,
             character_id: u32,
             player: felt252,
             skill_id: u32
@@ -79,7 +74,6 @@ mod skill_system {
 
         fn can_use_skill(
             self: @ContractState,
-            world: IWorldDispatcher,
             character_id: u32,
             player: felt252,
             skill_id: u32,

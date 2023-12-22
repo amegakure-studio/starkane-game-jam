@@ -26,7 +26,7 @@ mod setup {
     use starkane::systems::match_system::{match_system, IMatchSystemDispatcher};
     use starkane::systems::action_system::{action_system, IActionSystemDispatcher};
     use starkane::systems::move_system::{move_system, IMoveSystemDispatcher};
-    use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
+    // use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
 
     // Constants
 
@@ -42,46 +42,74 @@ mod setup {
         match_system: IMatchSystemDispatcher,
         action_system: IActionSystemDispatcher,
         move_system: IMoveSystemDispatcher,
-        turn_system: ITurnSystemDispatcher,
+        // turn_system: ITurnSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
         // [Setup] World
-        let mut models = array::ArrayTrait::new();
-        models.append(match_state::TEST_CLASS_HASH);
-        models.append(character_state::TEST_CLASS_HASH);
-        models.append(character::TEST_CLASS_HASH);
-        models.append(skill::TEST_CLASS_HASH);
-        models.append(tile::TEST_CLASS_HASH);
-        models.append(character_player_progress::TEST_CLASS_HASH);
-        models.append(match_count::TEST_CLASS_HASH);
-
+        let models = array![
+            match_state::TEST_CLASS_HASH,
+            character_state::TEST_CLASS_HASH,
+            character::TEST_CLASS_HASH,
+            skill::TEST_CLASS_HASH,
+            tile::TEST_CLASS_HASH,
+            character_player_progress::TEST_CLASS_HASH,
+            match_count::TEST_CLASS_HASH,
+        ];
+        
         let world = spawn_test_world(models);
 
         // [Setup] Systems
-        let character_system_address = deploy_contract(
-            character_system::TEST_CLASS_HASH, array![].span()
-        );
-        let skill_system_address = deploy_contract(skill_system::TEST_CLASS_HASH, array![].span());
-        let map_system_address = deploy_contract(map_system::TEST_CLASS_HASH, array![].span());
-        let match_system_address = deploy_contract(match_system::TEST_CLASS_HASH, array![].span());
-        let action_system_address = deploy_contract(
-            action_system::TEST_CLASS_HASH, array![].span()
-        );
-        let move_system_address = deploy_contract(move_system::TEST_CLASS_HASH, array![].span());
-        let turn_system_address = deploy_contract(turn_system::TEST_CLASS_HASH, array![].span());
-
         let systems = Systems {
             character_system: ICharacterSystemDispatcher {
-                contract_address: character_system_address
+                contract_address: world
+                    .deploy_contract('paper', character_system::TEST_CLASS_HASH.try_into().unwrap())
             },
-            skill_system: ISkillSystemDispatcher { contract_address: skill_system_address },
-            map_system: IMapSystemDispatcher { contract_address: map_system_address },
-            match_system: IMatchSystemDispatcher { contract_address: match_system_address },
-            action_system: IActionSystemDispatcher { contract_address: action_system_address },
-            move_system: IMoveSystemDispatcher { contract_address: move_system_address },
-            turn_system: ITurnSystemDispatcher { contract_address: turn_system_address },
-        };
+            skill_system: ISkillSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', skill_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            map_system: IMapSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', map_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            match_system: IMatchSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', match_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            action_system: IActionSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', action_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            move_system: IMoveSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', move_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+        };        
+        
+        // let character_system_address = deploy_contract(
+        //     character_system::TEST_CLASS_HASH, array![].span()
+        // );
+        // let skill_system_address = deploy_contract(skill_system::TEST_CLASS_HASH, array![].span());
+        // let map_system_address = deploy_contract(map_system::TEST_CLASS_HASH, array![].span());
+        // let match_system_address = deploy_contract(match_system::TEST_CLASS_HASH, array![].span());
+        // let action_system_address = deploy_contract(
+        //     action_system::TEST_CLASS_HASH, array![].span()
+        // );
+        // let move_system_address = deploy_contract(move_system::TEST_CLASS_HASH, array![].span());
+        // let turn_system_address = deploy_contract(turn_system::TEST_CLASS_HASH, array![].span());
+
+        // let systems = Systems {
+        //     character_system: ICharacterSystemDispatcher {
+        //         contract_address: character_system_address
+        //     },
+        //     skill_system: ISkillSystemDispatcher { contract_address: skill_system_address },
+        //     map_system: IMapSystemDispatcher { contract_address: map_system_address },
+        //     match_system: IMatchSystemDispatcher { contract_address: match_system_address },
+        //     action_system: IActionSystemDispatcher { contract_address: action_system_address },
+        //     move_system: IMoveSystemDispatcher { contract_address: move_system_address },
+        //     // turn_system: ITurnSystemDispatcher { contract_address: turn_system_address },
+        // };
 
         // [Return]
         set_contract_address(PLAYER());

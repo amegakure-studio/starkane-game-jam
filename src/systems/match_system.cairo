@@ -1,5 +1,4 @@
 use starkane::models::entities::character::Character;
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[derive(Copy, Drop, Serde)]
 struct PlayerCharacter {
@@ -10,11 +9,11 @@ struct PlayerCharacter {
 #[starknet::interface]
 trait IMatchSystem<TContractState> {
     fn init(
-        self: @TContractState, world: IWorldDispatcher, players_characters: Array<PlayerCharacter>
+        self: @TContractState, players_characters: Array<PlayerCharacter>
     );
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod match_system {
     use super::{IMatchSystem, PlayerCharacter};
     use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
@@ -29,8 +28,6 @@ mod match_system {
     };
     use starkane::store::{Store, StoreTrait};
 
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
     #[storage]
     struct Storage {}
 
@@ -38,10 +35,10 @@ mod match_system {
     impl MatchSystem of IMatchSystem<ContractState> {
         fn init(
             self: @ContractState,
-            world: IWorldDispatcher,
             players_characters: Array<PlayerCharacter>
         ) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             assert(players_characters.len() > 0, 'characters cannot be empty');

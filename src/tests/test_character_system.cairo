@@ -24,7 +24,7 @@ fn test_initialize_characters() {
     let mut store = StoreTrait::new(world);
 
     // [Create]
-    systems.character_system.init(world);
+    systems.character_system.init();
 
     // [Assert] Archer
     let archer = store.get_character(1);

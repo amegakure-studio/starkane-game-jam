@@ -1,11 +1,9 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 #[starknet::interface]
 trait ITurnSystem<TContractState> {
-    fn end_turn(self: @TContractState, world: IWorldDispatcher, match_id: u32, player: felt252);
+    fn end_turn(self: @TContractState, match_id: u32, player: felt252);
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod turn_system {
     use super::ITurnSystem;
     use starkane::store::{Store, StoreTrait};
@@ -19,9 +17,9 @@ mod turn_system {
 
     #[external(v0)]
     impl TurnSystem of ITurnSystem<ContractState> {
-        fn end_turn(self: @ContractState, world: IWorldDispatcher, match_id: u32, player: felt252) {
+        fn end_turn(self: @ContractState, match_id: u32, player: felt252) {
             // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(self.world_dispatcher.read());
 
             let mut match_state = store.get_match_state(match_id);
             assert(match_state.winner.is_zero(), 'match already ended');

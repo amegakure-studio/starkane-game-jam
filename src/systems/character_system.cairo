@@ -1,33 +1,31 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starkane::models::entities::character::CharacterType;
 
 #[starknet::interface]
 trait ICharacterSystem<TContractState> {
-    fn init(self: @TContractState, world: IWorldDispatcher);
+    fn init(self: @TContractState);
     fn mint(
         self: @TContractState,
-        world: IWorldDispatcher,
         character_type: CharacterType,
         owner: felt252,
         skin_id: u32
     );
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod character_system {
     use super::ICharacterSystem;
     use starkane::models::data::starkane::CharacterPlayerProgress;
     use starkane::models::entities::character::{Character, CharacterTrait, CharacterType};
     use starkane::store::{Store, StoreTrait};
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     #[storage]
     struct Storage {}
 
     #[external(v0)]
     impl CharacterSystem of ICharacterSystem<ContractState> {
-        fn init(self: @ContractState, world: IWorldDispatcher) {
+        fn init(self: @ContractState) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             store.set_character(CharacterTrait::new(CharacterType::Archer));
@@ -38,12 +36,12 @@ mod character_system {
 
         fn mint(
             self: @ContractState,
-            world: IWorldDispatcher,
             character_type: CharacterType,
             owner: felt252,
             skin_id: u32
         ) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             assert(owner.is_non_zero(), 'owner cannot be zero');

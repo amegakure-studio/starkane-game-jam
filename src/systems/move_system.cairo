@@ -1,10 +1,7 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 #[starknet::interface]
 trait IMoveSystem<TContractState> {
     fn move(
         self: @TContractState,
-        world: IWorldDispatcher,
         match_id: u32,
         player: felt252,
         character_id: u32,
@@ -12,7 +9,7 @@ trait IMoveSystem<TContractState> {
     );
 }
 
-#[starknet::contract]
+#[dojo::contract]
 mod move_system {
     use super::IMoveSystem;
     use starkane::models::states::match_state::MatchState;
@@ -24,8 +21,6 @@ mod move_system {
     use starkane::models::entities::character::Character;
     use starkane::store::{Store, StoreTrait};
 
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
     use debug::PrintTrait;
 
     #[storage]
@@ -35,13 +30,13 @@ mod move_system {
     impl MoveSystem of IMoveSystem<ContractState> {
         fn move(
             self: @ContractState,
-            world: IWorldDispatcher,
             match_id: u32,
             player: felt252,
             character_id: u32,
             position: (u128, u128)
         ) {
             // [Setup] Datastore
+            let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             let match_state = store.get_match_state(match_id);

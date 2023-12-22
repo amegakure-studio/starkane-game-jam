@@ -1,24 +1,25 @@
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 #[starknet::interface]
 trait IStadisticsSystem<TContractState> {
-    fn record_match_stadistics(self: @TContractState, world: IWorldDispatcher, match_id: u32);
+    // fn record_match_stadistics(self: @TContractState, match_id: u32);
 }
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
-#[starknet::contract]
+#[dojo::contract]
 mod stadistics_system {
     use super::IStadisticsSystem;
     use starkane::store::{Store, StoreTrait};
     use starkane::models::states::match_state::{ MatchState, MatchPlayer };
     use starkane::models::states::character_state::CharacterState;
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+
 
     #[storage]
     struct Storage {}
 
     #[external(v0)]
     impl StadisticsSystem of IStadisticsSystem<ContractState> {
-        fn record_match_stadistics(self: @ContractState, world: IWorldDispatcher, match_id: u32) {
+    }
+
+    fn record_match_stadistics(world: IWorldDispatcher, match_id: u32) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
             
@@ -45,7 +46,6 @@ mod stadistics_system {
                 i += 1;
             }
         }
-    }
 
     fn calculate_score(match_state: MatchState, characters_states: @Array<CharacterState>) -> u128 {
         let mut score = 0;
