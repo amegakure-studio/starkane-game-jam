@@ -27,7 +27,7 @@ mod move_system {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use debug::PrintTrait;
-    
+
     #[storage]
     struct Storage {}
 
@@ -60,7 +60,10 @@ mod move_system {
 
             let mut character_state = store
                 .get_character_state(match_state.id, character_id, player);
-            assert(!(character_state.x == to_x && character_state.y == to_y), 'already in that position');
+            assert(
+                !(character_state.x == to_x && character_state.y == to_y),
+                'already in that position'
+            );
 
             // TODO: remove map_id hardcoded
             assert(

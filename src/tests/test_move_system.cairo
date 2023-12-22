@@ -54,8 +54,11 @@ fn test_move_update_character_position() {
 
     // initial position for first character is (5, 5)
     // move warrior player 1, then character position should be updated
-    systems.move_system.move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
-    let player_1_character_state = store.get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+    let player_1_character_state = store
+        .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
 
     assert(player_1_character_state.x == 6, 'wrong x position');
     assert(player_1_character_state.y == 6, 'wrong y position');
@@ -91,8 +94,12 @@ fn test_fail_when_move_twice_same_character_same_turn() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
-    systems.move_system.move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
-    systems.move_system.move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
 }
 
 #[test]
@@ -125,7 +132,9 @@ fn test_fail_when_isnt_your_turn() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for second player is (5, 25)
-    systems.move_system.move(store.world, MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
 }
 
 #[test]
@@ -159,9 +168,12 @@ fn test_fail_when_move_target_is_gt_character_movement() {
 
     // initial position for first character is (5, 5)
     // warrior has 5 movement so, if we move to x: 11 (6 tiles) then should fail
-    systems.move_system.move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
-    
-    let player_1_character_state = store.get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
+    systems
+        .move_system
+        .move(store.world, MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
+
+    let player_1_character_state = store
+        .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
     player_1_character_state.x.print();
     player_1_character_state.y.print();
 }

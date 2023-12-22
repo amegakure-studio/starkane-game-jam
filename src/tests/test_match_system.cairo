@@ -316,7 +316,9 @@ fn test_end_match_set_correct_winner() {
     store.set_character_state(cs_player_2_archer);
 
     // Check remainder characters for player 2
-    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    let remain_characters_player_2 = store
+        .get_match_player_characters_len(MATCH_ID, PLAYER_2)
+        .remain_characters;
     assert(remain_characters_player_2 == 2, 'it should be remain 2 character');
 
     // [Attack]
@@ -343,7 +345,9 @@ fn test_end_match_set_correct_winner() {
     assert(match_state.winner.is_zero(), 'winner should be 0 (not setted)');
 
     // Check remainder characters for player 2
-    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    let remain_characters_player_2 = store
+        .get_match_player_characters_len(MATCH_ID, PLAYER_2)
+        .remain_characters;
     assert(remain_characters_player_2 == 1, 'it should be remain 1 character');
 
     // [Attack]
@@ -370,7 +374,9 @@ fn test_end_match_set_correct_winner() {
     assert(match_state.winner == PLAYER_1, 'winner should be 0x1');
 
     // Check remainder characters for player 2
-    let remain_characters_player_2 = store.get_match_player_characters_len(MATCH_ID, PLAYER_2).remain_characters;
+    let remain_characters_player_2 = store
+        .get_match_player_characters_len(MATCH_ID, PLAYER_2)
+        .remain_characters;
     assert(remain_characters_player_2 == 0, 'it should be remain 0 character');
 }
 
