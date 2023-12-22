@@ -27,6 +27,7 @@ mod action_system {
     use starkane::models::states::character_state::{
         CharacterState, ActionState, ActionStateTrait
     };
+    use starkane::systems::stadistics_system::stadistics_system::StadisticsSystem;
     use starkane::store::{Store, StoreTrait};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
@@ -157,11 +158,11 @@ mod action_system {
                 let mut match_state = store.get_match_state(match_id);
                 match_state.winner = attacker;
                 store.set_match_state(match_state);
-            // TODO: Register stadistics
             } else {
                 match_player_characters_len.remain_characters -= 1;
                 store.set_match_player_character_len(match_player_characters_len);
             }
+            // StadisticsSystem::record_match_stadistics(store.world, match_id);
         }
     }
 

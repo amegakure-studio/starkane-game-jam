@@ -20,21 +20,21 @@ mod systems {
     mod action_system;
     mod character_system;
     mod match_system;
-    mod move_system;
-    mod skill_system;
     mod map_system;
+    mod move_system;
     mod turn_system;
+    mod stadistics_system;
+    mod skill_system;
 }
-
 
 #[cfg(test)]
 mod tests {
     mod setup;
     mod test_character_system;
-    mod test_skill_system;
     mod test_map_system;
     mod test_match_system;
     mod test_move_system;
+    mod test_skill_system;
     mod test_turn_system;
 }
 

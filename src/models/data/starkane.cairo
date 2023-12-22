@@ -52,5 +52,5 @@ struct PlayerStadistics {
     matchs_won: u128,
     matchs_lost: u128,
     characters_owned: u32,
-    total_score: u256,
+    total_score: u128,
 }

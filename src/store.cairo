@@ -5,7 +5,7 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Components imports
-
+use starkane::models::data::starkane::PlayerStadistics;
 use starkane::models::states::match_state::{
     MatchState, MatchPlayerLen, MatchPlayer, MatchPlayerCharacterLen, MatchPlayerCharacter
 };
@@ -69,6 +69,8 @@ trait StoreTrait {
     fn set_character_player_progress(
         ref self: Store, character_player_progress: CharacterPlayerProgress
     );
+    fn get_player_stadistics(ref self: Store, player: felt252) -> PlayerStadistics;
+    fn set_player_stadistics(ref self: Store, player_stadistics: PlayerStadistics);
 }
 
 /// Implementation of the `StoreTrait` trait for the `Store` struct.
@@ -262,5 +264,13 @@ impl StoreImpl of StoreTrait {
         ref self: Store, character_player_progress: CharacterPlayerProgress
     ) {
         set!(self.world, (character_player_progress));
+    }
+
+    fn get_player_stadistics(ref self: Store, player: felt252) -> PlayerStadistics {
+        get!(self.world, (player), (PlayerStadistics))
+    }
+
+    fn set_player_stadistics(ref self: Store, player_stadistics: PlayerStadistics) {
+        set!(self.world, (player_stadistics))
     }
 }
