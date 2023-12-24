@@ -43,8 +43,10 @@ impl RandomImpl of RandomTrait {
 
     fn between<
         T,
+        +Into<T, u64>,
         +Into<T, u128>,
         +Into<T, u256>,
+        +TryInto<u64, T>,
         +TryInto<u128, T>,
         +PartialOrd<T>,
         +Zeroable<T>,

@@ -182,14 +182,14 @@ mod action_system {
         // Check if the receiver evades the attack
         let mut randomizer = RandomImpl::new(world);
         randomizer.next_seed();
-        let receiver_evade_attack = randomizer.between::<u128>(0, 100) < receiver.evasion;
+        let receiver_evade_attack = randomizer.between::<u64>(0, 100) < receiver.evasion;
 
         if !receiver_evade_attack {
             let mut receiver_state = receiver_state;
             let mut damage = attacker.attack + skill.power;
 
             randomizer.next_seed();
-            let attacker_crit_attack = randomizer.between::<u128>(0, 100) < attacker.crit_chance;
+            let attacker_crit_attack = randomizer.between::<u64>(0, 100) < attacker.crit_chance;
 
             if attacker_crit_attack {
                 damage = damage * attacker.crit_rate;
@@ -236,7 +236,7 @@ mod action_system {
         set!(world, (receiver_state));
     }
 
-    fn distance(from: (u128, u128), to: (u128, u128)) -> u128 {
+    fn distance(from: (u64, u64), to: (u64, u64)) -> u64 {
         let (from_x, from_y) = from;
         let (to_x, to_y) = to;
 

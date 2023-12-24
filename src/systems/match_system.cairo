@@ -122,7 +122,7 @@ mod match_system {
         }
     }
 
-    fn obtain_position(player_index: u32, i: u32) -> (u128, u128) {
+    fn obtain_position(player_index: u32, i: u32) -> (u64, u64) {
         if player_index == 0 {
             (5 + i.into(), 5)
         } else if player_index == 1 {

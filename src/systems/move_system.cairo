@@ -5,7 +5,7 @@ trait IMoveSystem<TContractState> {
         match_id: u32,
         player: felt252,
         character_id: u32,
-        position: (u128, u128)
+        position: (u64, u64)
     );
 }
 
@@ -33,7 +33,7 @@ mod move_system {
             match_id: u32,
             player: felt252,
             character_id: u32,
-            position: (u128, u128)
+            position: (u64, u64)
         ) {
             // [Setup] Datastore
             let world = self.world();
@@ -79,7 +79,7 @@ mod move_system {
         }
     }
 
-    fn distance(from: (u128, u128), to: (u128, u128)) -> u128 {
+    fn distance(from: (u64, u64), to: (u64, u64)) -> u64 {
         let (from_x, from_y) = from;
         let (to_x, to_y) = to;
 

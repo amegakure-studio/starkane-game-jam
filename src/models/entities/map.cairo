@@ -4,8 +4,8 @@ use starkane::constants;
 struct Map {
     #[key]
     id: u32,
-    width: u128,
-    height: u128,
+    width: u64,
+    height: u64,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -28,7 +28,7 @@ enum TerrainType {
 
 trait MapTrait {
     fn new(id: u32) -> (Map, Array<Tile>);
-    fn is_inside(self: Map, position: (u128, u128)) -> bool;
+    fn is_inside(self: Map, position: (u64, u64)) -> bool;
 }
 
 impl MapImpl of MapTrait {
@@ -37,7 +37,7 @@ impl MapImpl of MapTrait {
         create_map_1()
     }
 
-    fn is_inside(self: Map, position: (u128, u128)) -> bool {
+    fn is_inside(self: Map, position: (u64, u64)) -> bool {
         let (x, y) = position;
         x >= 0 && x < self.width && y >= 0 && y < self.height
     }

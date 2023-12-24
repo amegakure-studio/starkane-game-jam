@@ -50,10 +50,10 @@ impl CharacterPlayerProgressImpl of CharacterPlayerProgressTrait {
 struct PlayerStadistics {
     #[key]
     owner: felt252,
-    matchs_won: u128,
-    matchs_lost: u128,
+    matchs_won: u64,
+    matchs_lost: u64,
     characters_owned: u32,
-    total_score: u128,
+    total_score: u64,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -61,15 +61,15 @@ struct Ranking {
     #[key]
     id: u32,
     player: felt252,
-    score: u128
+    score: u64
 }
 
 trait RankingTrait {
-    fn new(id: u32, player: felt252, score: u128) -> Ranking;
+    fn new(id: u32, player: felt252, score: u64) -> Ranking;
 }
 
 impl RankingImpl of RankingTrait {
-    fn new(id: u32, player: felt252, score: u128) -> Ranking {
+    fn new(id: u32, player: felt252, score: u64) -> Ranking {
         Ranking { id, player, score }
     }
 }
