@@ -5,7 +5,6 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Components imports
-use starkane::models::data::starkane::PlayerStadistics;
 use starkane::models::states::match_state::{
     MatchState, MatchPlayerLen, MatchPlayer, MatchPlayerCharacterLen, MatchPlayerCharacter
 };
@@ -13,7 +12,9 @@ use starkane::models::states::character_state::{CharacterState, ActionState};
 use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
 use starkane::models::entities::map::{Map, Tile};
-use starkane::models::data::starkane::{CharacterPlayerProgress, MatchCount};
+use starkane::models::data::starkane::{
+    CharacterPlayerProgress, MatchCount, PlayerStadistics, Ranking, RankingCount
+};
 
 /// Store struct.
 #[derive(Drop)]
@@ -71,6 +72,10 @@ trait StoreTrait {
     );
     fn get_player_stadistics(ref self: Store, player: felt252) -> PlayerStadistics;
     fn set_player_stadistics(ref self: Store, player_stadistics: PlayerStadistics);
+    fn get_ranking(ref self: Store, ranking_id: u32) -> Ranking;
+    fn set_ranking(ref self: Store, ranking: Ranking);
+    fn get_ranking_count(ref self: Store, id: felt252) -> RankingCount;
+    fn set_ranking_count(ref self: Store, ranking_count: RankingCount);
 }
 
 /// Implementation of the `StoreTrait` trait for the `Store` struct.
@@ -272,5 +277,21 @@ impl StoreImpl of StoreTrait {
 
     fn set_player_stadistics(ref self: Store, player_stadistics: PlayerStadistics) {
         set!(self.world, (player_stadistics))
+    }
+
+    fn get_ranking(ref self: Store, ranking_id: u32) -> Ranking {
+        get!(self.world, ranking_id, (Ranking))
+    }
+
+    fn set_ranking(ref self: Store, ranking: Ranking) {
+        set!(self.world, (ranking));
+    }
+
+    fn get_ranking_count(ref self: Store, id: felt252) -> RankingCount {
+        get!(self.world, id, (RankingCount))
+    }
+
+    fn set_ranking_count(ref self: Store, ranking_count: RankingCount) {
+        set!(self.world, (ranking_count));
     }
 }

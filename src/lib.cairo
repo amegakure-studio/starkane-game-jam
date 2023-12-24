@@ -23,6 +23,7 @@ mod systems {
     mod map_system;
     mod move_system;
     mod turn_system;
+    mod ranking_system;
     mod stadistics_system;
     mod skill_system;
 }
@@ -40,5 +41,6 @@ mod tests {
     mod test_move_system;
     mod test_skill_system;
     mod test_turn_system;
+    mod test_ranking_system;
 }
 

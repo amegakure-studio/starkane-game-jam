@@ -8,6 +8,8 @@ sierra-replace-ids = true
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", version = "0.4.0" }
+alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "ecc881e2aee668332441bdfa32336e3404cf8eb1"}
+alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "ecc881e2aee668332441bdfa32336e3404cf8eb1"}
 
 [[target.dojo]]
 
