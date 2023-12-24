@@ -13,7 +13,7 @@ use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
 use starkane::models::entities::map::{Map, Tile};
 use starkane::models::data::starkane::{
-    CharacterPlayerProgress, MatchCount, PlayerStadistics, Ranking, RankingCount
+    CharacterPlayerProgress, MatchCount, PlayerStadistics, Ranking, RankingCount, Recommendation
 };
 
 /// Store struct.
@@ -76,6 +76,8 @@ trait StoreTrait {
     fn set_ranking(ref self: Store, ranking: Ranking);
     fn get_ranking_count(ref self: Store, id: felt252) -> RankingCount;
     fn set_ranking_count(ref self: Store, ranking_count: RankingCount);
+    fn set_recommendation(ref self: Store, recommendation: Recommendation);
+    fn get_recommendation(ref self: Store, player: felt252) -> Recommendation;
 }
 
 /// Implementation of the `StoreTrait` trait for the `Store` struct.
@@ -293,5 +295,14 @@ impl StoreImpl of StoreTrait {
 
     fn set_ranking_count(ref self: Store, ranking_count: RankingCount) {
         set!(self.world, (ranking_count));
+    }
+
+    fn set_recommendation(ref self: Store, recommendation: Recommendation) {
+        set!(self.world, (recommendation));
+    }
+
+    fn get_recommendation(ref self: Store, from: felt252, to: felt252) -> Recommendation {
+        let recommendation_key = (player, to);
+        get!(self.world, recommendation_key.into(), (Recommendation))
     }
 }

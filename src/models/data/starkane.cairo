@@ -43,9 +43,6 @@ impl CharacterPlayerProgressImpl of CharacterPlayerProgressTrait {
     }
 }
 
-// calculate_attack(cahracetr, character_progress.level)  
-
-// relacion user -> score by match o total score
 #[derive(Model, Copy, Drop, Serde)]
 struct PlayerStadistics {
     #[key]
@@ -54,6 +51,15 @@ struct PlayerStadistics {
     matchs_lost: u128,
     characters_owned: u32,
     total_score: u128,
+    recommendation_score: u64
+}
+
+struct Recommendation {
+    #[key]
+    from: felt252,
+    #[key]
+    to: felt252,
+    recommended: bool
 }
 
 #[derive(Model, Copy, Drop, Serde)]
