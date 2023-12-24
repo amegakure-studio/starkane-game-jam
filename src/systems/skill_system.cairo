@@ -1,18 +1,9 @@
 #[starknet::interface]
 trait ISkillSystem<TContractState> {
     fn init(self: @TContractState);
-    fn has_skill(
-        self: @TContractState,
-        character_id: u32,
-        player: felt252,
-        skill_id: u32
-    ) -> bool;
+    fn has_skill(self: @TContractState, character_id: u32, player: felt252, skill_id: u32) -> bool;
     fn can_use_skill(
-        self: @TContractState,
-        character_id: u32,
-        player: felt252,
-        skill_id: u32,
-        level: u32
+        self: @TContractState, character_id: u32, player: felt252, skill_id: u32, level: u32
     ) -> bool;
 }
 
@@ -63,21 +54,14 @@ mod skill_system {
         }
 
         fn has_skill(
-            self: @ContractState,
-            character_id: u32,
-            player: felt252,
-            skill_id: u32
+            self: @ContractState, character_id: u32, player: felt252, skill_id: u32
         ) -> bool {
             // TODO: Not implemented
             true
         }
 
         fn can_use_skill(
-            self: @ContractState,
-            character_id: u32,
-            player: felt252,
-            skill_id: u32,
-            level: u32
+            self: @ContractState, character_id: u32, player: felt252, skill_id: u32, level: u32
         ) -> bool {
             // TODO: Not implemented
             true

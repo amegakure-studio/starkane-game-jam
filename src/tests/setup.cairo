@@ -42,7 +42,7 @@ mod setup {
         match_system: IMatchSystemDispatcher,
         action_system: IActionSystemDispatcher,
         move_system: IMoveSystemDispatcher,
-        // turn_system: ITurnSystemDispatcher,
+    // turn_system: ITurnSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -56,7 +56,7 @@ mod setup {
             character_player_progress::TEST_CLASS_HASH,
             match_count::TEST_CLASS_HASH,
         ];
-        
+
         let world = spawn_test_world(models);
 
         // [Setup] Systems
@@ -85,8 +85,8 @@ mod setup {
                 contract_address: world
                     .deploy_contract('paper', move_system::TEST_CLASS_HASH.try_into().unwrap())
             },
-        };        
-        
+        };
+
         // let character_system_address = deploy_contract(
         //     character_system::TEST_CLASS_HASH, array![].span()
         // );

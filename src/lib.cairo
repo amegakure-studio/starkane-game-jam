@@ -27,6 +27,10 @@ mod systems {
     mod skill_system;
 }
 
+mod utils {
+    mod random;
+}
+
 #[cfg(test)]
 mod tests {
     mod setup;
@@ -35,6 +39,6 @@ mod tests {
     mod test_match_system;
     mod test_move_system;
     mod test_skill_system;
-    // mod test_turn_system;
+// mod test_turn_system;
 }
 

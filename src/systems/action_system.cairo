@@ -26,6 +26,7 @@ mod action_system {
     };
     use starkane::systems::stadistics_system::stadistics_system;
     use starkane::store::{Store, StoreTrait};
+    use starkane::utils::random::{Random, RandomImpl, RandomTrait};
 
     use debug::PrintTrait;
 
@@ -83,8 +84,8 @@ mod action_system {
                         receiver_character,
                         receiver_character_state
                     );
-                    check_and_update_game_state_winner(world,
-                        ref store, match_id, player, receiver_character_id, receiver
+                    check_and_update_game_state_winner(
+                        world, ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
                 SkillType::RangeAttack => {
@@ -96,8 +97,8 @@ mod action_system {
                         receiver_character,
                         receiver_character_state
                     );
-                    check_and_update_game_state_winner(world,
-                        ref store, match_id, player, receiver_character_id, receiver
+                    check_and_update_game_state_winner(
+                        world, ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
                 SkillType::Fireball => {
@@ -110,8 +111,8 @@ mod action_system {
                         receiver_character_state
                     );
 
-                    check_and_update_game_state_winner(world,
-                        ref store, match_id, player, receiver_character_id, receiver
+                    check_and_update_game_state_winner(
+                        world, ref store, match_id, player, receiver_character_id, receiver
                     );
                 },
                 SkillType::Heal => heal(
@@ -178,14 +179,21 @@ mod action_system {
         );
         assert(distance_to <= skill.range, 'character cannot attk that far');
 
-        let mut receiver_state = receiver_state;
-        receiver_state
-            .remain_hp =
-                if receiver_state.remain_hp < (attacker.attack + skill.power) {
-                    0
-                } else {
-                    receiver_state.remain_hp - (attacker.attack + skill.power)
-                };
+        // Check if the receiver evades the attack
+        let mut randomizer = RandomImpl::new(world);
+        let receiver_evade_attack = randomizer.between::<u128>(0, 100) <= receiver.evasion;
+
+        if !receiver_evade_attack {
+            let mut receiver_state = receiver_state;
+            receiver_state
+                .remain_hp =
+                    if receiver_state.remain_hp < (attacker.attack + skill.power) {
+                        0
+                    } else {
+                        receiver_state.remain_hp - (attacker.attack + skill.power)
+                    };
+        }
+      
         set!(world, (receiver_state));
     }
 

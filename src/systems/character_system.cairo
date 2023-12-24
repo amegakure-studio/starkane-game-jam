@@ -3,12 +3,7 @@ use starkane::models::entities::character::CharacterType;
 #[starknet::interface]
 trait ICharacterSystem<TContractState> {
     fn init(self: @TContractState);
-    fn mint(
-        self: @TContractState,
-        character_type: CharacterType,
-        owner: felt252,
-        skin_id: u32
-    );
+    fn mint(self: @TContractState, character_type: CharacterType, owner: felt252, skin_id: u32);
 }
 
 #[dojo::contract]
@@ -34,12 +29,7 @@ mod character_system {
             store.set_character(CharacterTrait::new(CharacterType::Pig));
         }
 
-        fn mint(
-            self: @ContractState,
-            character_type: CharacterType,
-            owner: felt252,
-            skin_id: u32
-        ) {
+        fn mint(self: @ContractState, character_type: CharacterType, owner: felt252, skin_id: u32) {
             // [Setup] Datastore
             let world = self.world();
             let mut store: Store = StoreTrait::new(world);

@@ -54,9 +54,7 @@ fn test_move_update_character_position() {
 
     // initial position for first character is (5, 5)
     // move warrior player 1, then character position should be updated
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
 
     let player_1_character_state = store
         .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
@@ -101,9 +99,7 @@ fn test_fail_when_match_is_over() {
     match_state.winner = PLAYER_2;
     store.set_match_state(match_state);
 
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
 }
 
 #[test]
@@ -136,9 +132,7 @@ fn test_fail_when_isnt_your_turn() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for second player is (5, 25)
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
+    systems.move_system.move(MATCH_ID, PLAYER_2, CharacterType::Warrior.into(), (6, 24));
 }
 
 #[test]
@@ -171,9 +165,7 @@ fn test_fail_when_player_try_to_move_a_non_owned_character() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Cleric.into(), (6, 5));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Cleric.into(), (6, 5));
 }
 
 #[test]
@@ -206,12 +198,8 @@ fn test_fail_when_move_twice_same_character_same_turn() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 6));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (7, 7));
 }
 
 #[test]
@@ -251,9 +239,7 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
     store.set_tile(tile);
 
     // initial position for first player is (5, 25)
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
 }
 
 #[test]
@@ -287,9 +273,7 @@ fn test_fail_when_move_target_is_gt_character_movement() {
 
     // initial position for first character is (5, 5)
     // warrior has 5 movement so, if we move to x: 11 (6 tiles) then should fail
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
 }
 
 #[test]
@@ -322,9 +306,7 @@ fn test_fail_when_move_target_same_place() {
     let match_state = store.get_match_state(MATCH_ID);
 
     // initial position for first character is (5, 5)
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (5, 5));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (5, 5));
 }
 
 #[test]
@@ -361,11 +343,9 @@ fn test_fail_when_move_target_outside_of_the_map() {
 
     // Put character in the map border
     let map = store.get_map(1);
-    player_1_character_state.x = map.width; 
+    player_1_character_state.x = map.width;
     player_1_character_state.y = map.height;
     store.set_character_state(player_1_character_state);
 
-    systems
-        .move_system
-        .move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (31, 31));
 }

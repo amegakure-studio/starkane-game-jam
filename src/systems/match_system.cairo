@@ -8,9 +8,7 @@ struct PlayerCharacter {
 
 #[starknet::interface]
 trait IMatchSystem<TContractState> {
-    fn init(
-        self: @TContractState, players_characters: Array<PlayerCharacter>
-    );
+    fn init(self: @TContractState, players_characters: Array<PlayerCharacter>);
 }
 
 #[dojo::contract]
@@ -33,10 +31,7 @@ mod match_system {
 
     #[external(v0)]
     impl MatchSystem of IMatchSystem<ContractState> {
-        fn init(
-            self: @ContractState,
-            players_characters: Array<PlayerCharacter>
-        ) {
+        fn init(self: @ContractState, players_characters: Array<PlayerCharacter>) {
             // [Setup] Datastore
             let world = self.world();
             let mut store: Store = StoreTrait::new(world);
