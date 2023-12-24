@@ -53,6 +53,11 @@ mod character_system {
                 owned: true,
                 level: 1
             };
+
+            let mut player_stadistics = store.get_player_stadistics(owner);
+            player_stadistics.characters_owned += 1;
+
+            store.set_player_stadistics(player_stadistics);
             store.set_character_player_progress(character_player_progress);
         }
     }

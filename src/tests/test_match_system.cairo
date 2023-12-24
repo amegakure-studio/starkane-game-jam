@@ -14,6 +14,7 @@ use starkane::systems::action_system::IActionSystemDispatcherTrait;
 use starkane::models::entities::character::{Character, CharacterType};
 use starkane::models::entities::skill::{Skill, SkillType};
 use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
+use starkane::models::states::character_state::CharacterState;
 
 use starkane::tests::setup::{setup, setup::Systems, setup::PLAYER};
 
@@ -372,6 +373,30 @@ fn test_end_match_set_correct_winner() {
         .get_match_player_characters_len(MATCH_ID, PLAYER_2)
         .remain_characters;
     assert(remain_characters_player_2 == 0, 'it should be remain 0 character');
+
+    // Check match stadistics update
+    let player_1_stadistics = store.get_player_stadistics(PLAYER_1);
+    assert(player_1_stadistics.matchs_lost == 0, 'wrong 0x1 match lost');
+    assert(player_1_stadistics.matchs_won == 1, 'wrong 0x1 match won');
+
+    // 
+    let match_characters_player_1 = store.get_match_player_characters_states(MATCH_ID, PLAYER_1);
+    let mut total_remain_hp = 0;
+    let mut i = 0;
+    loop {
+        if match_characters_player_1.len() == i {
+            break;
+        }
+        let character_state: CharacterState = *match_characters_player_1[i];
+        total_remain_hp += character_state.remain_hp;
+        i += 1;
+    };
+    assert(player_1_stadistics.total_score == 100 + total_remain_hp, 'wrong 0x1 wrong score');
+
+    let player_2_stadistics = store.get_player_stadistics(PLAYER_2);
+    assert(player_2_stadistics.matchs_lost == 1, 'wrong 0x2 match lost');
+    assert(player_2_stadistics.matchs_won == 0, 'wrong 0x2 match won');
+    assert(player_2_stadistics.total_score == 50, 'wrong 0x2 wrong score');
 }
 
 #[test]

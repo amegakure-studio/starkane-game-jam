@@ -36,8 +36,8 @@ mod stadistics_system {
             let match_player: MatchPlayer = (*match_players[i]);
             let mut player_stadistics = store.get_player_stadistics(match_player.player);
             if match_player.player == match_state.winner {
-                player_stadistics
-                    .total_score += calculate_score(match_state, @winner_characters_states);
+                player_stadistics.total_score += 100
+                    + calculate_score(match_state, @winner_characters_states);
                 player_stadistics.matchs_won += 1;
             } else {
                 // give 50 points to player for participate

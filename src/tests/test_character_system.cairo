@@ -73,4 +73,61 @@ fn test_initialize_characters() {
     assert(pig.crit_chance == 15, 'pig wrong crit_chance');
     assert(pig.crit_rate == 2, 'pig wrong initial crit_rate');
     assert(pig.movement_range == 4, 'pig wrong initial movement');
+
+    // [Assert] Peasent
+    let peasent = store.get_character(5);
+    assert(peasent.character_type == 5, 'peasent wrong id');
+    assert(peasent.hp == 300, 'peasent wrong initial hp');
+    assert(peasent.mp == 100, 'peasent wrong initial mp');
+    assert(peasent.attack == 20, 'peasent wrong initial attack');
+    assert(peasent.defense == 15, 'peasent wrong initial defense');
+    assert(peasent.evasion == 0, 'peasent wrong initial evasion');
+    assert(peasent.crit_chance == 0, 'peasent wrong crit_chance');
+    assert(peasent.crit_rate == 2, 'peasent wrong initial crit_rate');
+    assert(peasent.movement_range == 5, 'peasent wrong initial movement');
 }
+
+#[test]
+#[available_gas(1_000_000_000)]
+fn test_mint_character() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+    let PLAYER_1 = '0x1';
+
+    // [Create]
+    systems.character_system.init();
+
+    // [Create]
+    systems.character_system.init();
+
+    // [Mint]
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
+
+    let player_stadistics = store.get_player_stadistics(PLAYER_1);
+    assert(player_stadistics.characters_owned == 2, 'wrong characters owned number');
+}
+
+#[test]
+#[available_gas(1_000_000_000)]
+#[should_panic(expected: ('ERR: character already owned', 'ENTRYPOINT_FAILED'))]
+fn test_mint_same_character_twice() {
+    // [Setup]
+    let (world, systems) = setup::spawn_game();
+    let mut store = StoreTrait::new(world);
+
+    // [Create]
+    systems.character_system.init();
+
+    // [Mint] Warrior
+    let PLAYER_1 = '0x1';
+
+    // [Create]
+    systems.character_system.init();
+
+    // [Mint]
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+}
+
