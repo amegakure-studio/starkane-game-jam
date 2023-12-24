@@ -38,12 +38,12 @@ fn test_attack() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Peasant, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Peasant, PLAYER_2, 1);
 
     let player_characters = array![
-        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
-        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Peasant.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Peasant.into() },
     ];
 
     systems.match_system.init(player_characters);
@@ -51,9 +51,9 @@ fn test_attack() {
     let match_state = store.get_match_state(MATCH_ID);
 
     let mut cs_player_1 = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_1);
     let mut cs_player_2 = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_2);
 
     cs_player_1.x = 1;
     cs_player_1.y = 1;
@@ -70,19 +70,20 @@ fn test_attack() {
         .action(
             MATCH_ID,
             PLAYER_1,
-            CharacterType::Warrior.into(),
+            CharacterType::Peasant.into(),
             SkillType::MeeleAttack.into(),
             1,
             PLAYER_2,
-            CharacterType::Warrior.into()
+            CharacterType::Peasant.into()
         );
 
     let mut cs_player_2_af = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_2);
 
     // 300 start hp minus 20 + 25 from warrior attack + skill power
     assert(cs_player_2_af.match_id == cs_player_2.match_id, 'wrong player 2 char match_id');
     assert(cs_player_2_af.character_id == cs_player_2.character_id, 'wrong player 2 character_id');
+
     assert(
         cs_player_2_af.remain_hp == cs_player_2.remain_hp - (20 + 25), 'wrong player 2 character hp'
     );
@@ -92,7 +93,7 @@ fn test_attack() {
     assert(cs_player_2_af.player == cs_player_2.player, 'wrong player 2 character player');
 
     let mut cs_player_1_af = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_1);
 
     assert(cs_player_1_af.match_id == cs_player_1.match_id, 'wrong player 1 char match_id');
     assert(cs_player_1_af.character_id == cs_player_1.character_id, 'wrong player 1 character_id');
@@ -120,12 +121,12 @@ fn test_player_attack_twice_same_character_same_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Peasant, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Peasant, PLAYER_2, 1);
 
     let player_characters = array![
-        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
-        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Warrior.into() },
+        PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Peasant.into() },
+        PlayerCharacter { player: PLAYER_2, character_id: CharacterType::Peasant.into() },
     ];
 
     systems.match_system.init(player_characters);
@@ -133,9 +134,9 @@ fn test_player_attack_twice_same_character_same_turn() {
     let match_state = store.get_match_state(MATCH_ID);
 
     let mut cs_player_1 = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_1);
     let mut cs_player_2 = store
-        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_2);
+        .get_character_state(match_state.id, CharacterType::Peasant.into(), PLAYER_2);
 
     cs_player_1.x = 1;
     cs_player_1.y = 1;
@@ -152,11 +153,11 @@ fn test_player_attack_twice_same_character_same_turn() {
         .action(
             MATCH_ID,
             PLAYER_1,
-            CharacterType::Warrior.into(),
+            CharacterType::Peasant.into(),
             SkillType::MeeleAttack.into(),
             1,
             PLAYER_2,
-            CharacterType::Warrior.into()
+            CharacterType::Peasant.into()
         );
 
     systems
@@ -164,11 +165,11 @@ fn test_player_attack_twice_same_character_same_turn() {
         .action(
             MATCH_ID,
             PLAYER_1,
-            CharacterType::Warrior.into(),
+            CharacterType::Peasant.into(),
             SkillType::MeeleAttack.into(),
             1,
             PLAYER_2,
-            CharacterType::Warrior.into()
+            CharacterType::Peasant.into()
         );
 }
 

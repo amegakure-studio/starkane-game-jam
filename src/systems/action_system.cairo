@@ -181,20 +181,29 @@ mod action_system {
 
         // Check if the receiver evades the attack
         let mut randomizer = RandomImpl::new(world);
-        let receiver_evade_attack = randomizer.between::<u128>(0, 100) <= receiver.evasion;
+        randomizer.next_seed();
+        let receiver_evade_attack = randomizer.between::<u128>(0, 100) < receiver.evasion;
 
         if !receiver_evade_attack {
             let mut receiver_state = receiver_state;
+            let mut damage = attacker.attack + skill.power;
+
+            randomizer.next_seed();
+            let attacker_crit_attack = randomizer.between::<u128>(0, 100) < attacker.crit_chance;
+
+            if attacker_crit_attack {
+                damage = damage * attacker.crit_rate;
+            }
+
             receiver_state
                 .remain_hp =
-                    if receiver_state.remain_hp < (attacker.attack + skill.power) {
+                    if receiver_state.remain_hp < damage {
                         0
                     } else {
-                        receiver_state.remain_hp - (attacker.attack + skill.power)
+                        receiver_state.remain_hp - damage
                     };
+            set!(world, (receiver_state));
         }
-      
-        set!(world, (receiver_state));
     }
 
     fn heal(

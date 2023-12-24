@@ -27,6 +27,7 @@ mod character_system {
             store.set_character(CharacterTrait::new(CharacterType::Cleric));
             store.set_character(CharacterTrait::new(CharacterType::Warrior));
             store.set_character(CharacterTrait::new(CharacterType::Pig));
+            store.set_character(CharacterTrait::new(CharacterType::Peasant));
         }
 
         fn mint(self: @ContractState, character_type: CharacterType, owner: felt252, skin_id: u32) {

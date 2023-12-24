@@ -6,6 +6,8 @@ enum CharacterType {
     Cleric,
     Warrior,
     Pig,
+    // Peasant character doesnt have crit or evasion stats, mainly for tests
+    Peasant,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -34,6 +36,7 @@ impl CharacterImpl of CharacterTrait {
             CharacterType::Cleric => create_cleric(character_type.into()),
             CharacterType::Warrior => create_warrior(character_type.into()),
             CharacterType::Pig => create_pig(character_type.into()),
+            CharacterType::Peasant => create_peasant(character_type.into()),
         };
         character
     }
@@ -99,6 +102,21 @@ fn create_pig(id: u32) -> Character {
     }
 }
 
+fn create_peasant(id: u32) -> Character {
+    Character {
+        character_id: id,
+        character_type: CharacterType::Peasant.into(),
+        hp: 300,
+        mp: 100,
+        attack: 20,
+        defense: 15,
+        evasion: 0,
+        crit_chance: 0,
+        crit_rate: 2,
+        movement_range: 5,
+    }
+}
+
 // Converters
 
 impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
@@ -109,6 +127,7 @@ impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
             CharacterType::Cleric => 2,
             CharacterType::Warrior => 3,
             CharacterType::Pig => 4,
+            CharacterType::Peasant => 5,
         }
     }
 }
@@ -121,6 +140,7 @@ impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
             CharacterType::Cleric => 2,
             CharacterType::Warrior => 3,
             CharacterType::Pig => 4,
+            CharacterType::Peasant => 5,
         }
     }
 }

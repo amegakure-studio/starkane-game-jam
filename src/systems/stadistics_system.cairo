@@ -1,5 +1,7 @@
 #[starknet::interface]
-trait IStadisticsSystem<TContractState> {// fn record_match_stadistics(self: @TContractState, match_id: u32);
+trait IStadisticsSystem<
+    TContractState
+> { // fn record_match_stadistics(self: @TContractState, match_id: u32);
 }
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
