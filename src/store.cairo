@@ -11,7 +11,7 @@ use starkane::models::states::match_state::{
 use starkane::models::states::character_state::{CharacterState, ActionState};
 use starkane::models::entities::character::Character;
 use starkane::models::entities::skill::Skill;
-use starkane::models::entities::map::{Map, Tile};
+use starkane::models::entities::map_cc::MapCC;
 use starkane::models::data::starkane::{
     CharacterPlayerProgress, MatchCount, PlayerStadistics, Ranking, RankingCount, Recommendation
 };
@@ -57,10 +57,8 @@ trait StoreTrait {
     fn set_character(ref self: Store, character: Character);
     fn get_skill(ref self: Store, skill_id: u32, character_id: u32, level: u32) -> Skill;
     fn set_skill(ref self: Store, skill: Skill);
-    fn get_tile(ref self: Store, map_id: u32, tile_id: u32) -> Tile;
-    fn set_tile(ref self: Store, tile: Tile);
-    fn get_map(ref self: Store, map_id: u32) -> Map;
-    fn set_map(ref self: Store, map: Map);
+    fn get_map_cc(ref self: Store, map_id: u32) -> MapCC;
+    fn set_map_cc(ref self: Store, map: MapCC);
     // Data
     fn get_match_count(ref self: Store, id: felt252) -> MatchCount;
     fn set_match_count(ref self: Store, match_count: MatchCount);
@@ -233,20 +231,11 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (skill));
     }
 
-    fn get_tile(ref self: Store, map_id: u32, tile_id: u32) -> Tile {
-        let tile_key = (map_id, tile_id);
-        get!(self.world, tile_key.into(), (Tile))
+    fn get_map_cc(ref self: Store, map_id: u32) -> MapCC {
+        get!(self.world, map_id, (MapCC))
     }
 
-    fn set_tile(ref self: Store, tile: Tile) {
-        set!(self.world, (tile));
-    }
-
-    fn get_map(ref self: Store, map_id: u32) -> Map {
-        get!(self.world, map_id, (Map))
-    }
-
-    fn set_map(ref self: Store, map: Map) {
+    fn set_map_cc(ref self: Store, map: MapCC) {
         set!(self.world, (map));
     }
 

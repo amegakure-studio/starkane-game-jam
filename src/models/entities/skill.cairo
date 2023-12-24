@@ -17,9 +17,9 @@ struct Skill {
     level: u8,
     character_level_required: u8,
     skill_type: u8,
-    power: u128,
-    mp_cost: u128,
-    range: u128,
+    power: u64,
+    mp_cost: u64,
+    range: u64,
 }
 
 trait SkillTrait {

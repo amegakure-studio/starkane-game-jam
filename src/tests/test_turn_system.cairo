@@ -8,7 +8,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starkane::store::{Store, StoreTrait};
 use starkane::systems::character_system::ICharacterSystemDispatcherTrait;
 use starkane::systems::turn_system::ITurnSystemDispatcherTrait;
-use starkane::systems::map_system::IMapSystemDispatcherTrait;
+use starkane::systems::map_cc_system::IMapCCSystemDispatcherTrait;
 use starkane::systems::skill_system::ISkillSystemDispatcherTrait;
 use starkane::systems::match_system::{IMatchSystemDispatcherTrait, PlayerCharacter};
 use starkane::systems::action_system::IActionSystemDispatcherTrait;

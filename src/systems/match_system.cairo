@@ -15,7 +15,7 @@ trait IMatchSystem<TContractState> {
 mod match_system {
     use super::{IMatchSystem, PlayerCharacter};
     use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
-    use starkane::models::entities::map::{Map, MapTrait};
+    use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::models::entities::character::Character;
     use starkane::models::states::character_state::{
         ActionState, ActionStateTrait, CharacterState, CharacterStateTrait
@@ -122,7 +122,7 @@ mod match_system {
         }
     }
 
-    fn obtain_position(player_index: u32, i: u32) -> (u128, u128) {
+    fn obtain_position(player_index: u32, i: u32) -> (u64, u64) {
         if player_index == 0 {
             (5 + i.into(), 5)
         } else if player_index == 1 {

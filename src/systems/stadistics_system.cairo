@@ -49,7 +49,7 @@ mod stadistics_system {
         }
     }
 
-    fn calculate_score(match_state: MatchState, characters_states: @Array<CharacterState>) -> u128 {
+    fn calculate_score(match_state: MatchState, characters_states: @Array<CharacterState>) -> u64 {
         let mut score = 0;
         let mut i = 0;
         loop {

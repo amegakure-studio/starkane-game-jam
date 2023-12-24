@@ -3,13 +3,13 @@ use starkane::models::data::starkane::Ranking;
 
 #[starknet::interface]
 trait IRankingSystem<TContractState> {
-    fn update(self: @TContractState, player: felt252, score: u128);
+    fn update(self: @TContractState, player: felt252, score: u64);
 }
 
 #[dojo::contract]
 mod ranking_system {
     use super::IRankingSystem;
-    use starkane::models::entities::map::{Map, MapTrait};
+    use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::store::{Store, StoreTrait};
     use starkane::models::data::starkane::{
         Ranking, RankingTrait, RankingCount, RankingCountTrait, RANKING_COUNT_KEY
@@ -23,7 +23,7 @@ mod ranking_system {
 
     #[external(v0)]
     impl RankingSystem of IRankingSystem<ContractState> {
-        fn update(self: @ContractState, player: felt252, score: u128) {
+        fn update(self: @ContractState, player: felt252, score: u64) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(self.world());
             let ranking_count = store.get_ranking_count(RANKING_COUNT_KEY).index;
@@ -53,7 +53,7 @@ mod ranking_system {
     }
 
     fn get_rankings(
-        ref store: Store, player: felt252, ranking_len: u32, score: u128
+        ref store: Store, player: felt252, ranking_len: u32, score: u64
     ) -> (Array<Ranking>, bool) {
         let mut rankings = array![];
         let mut founded = false;

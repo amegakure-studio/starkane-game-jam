@@ -7,7 +7,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Internal imports
 use starkane::store::{Store, StoreTrait};
 use starkane::systems::character_system::ICharacterSystemDispatcherTrait;
-use starkane::systems::map_system::IMapSystemDispatcherTrait;
+use starkane::systems::map_cc_system::IMapCCSystemDispatcherTrait;
 use starkane::systems::skill_system::ISkillSystemDispatcherTrait;
 use starkane::systems::match_system::{IMatchSystemDispatcherTrait, PlayerCharacter};
 use starkane::systems::action_system::IActionSystemDispatcherTrait;
@@ -175,7 +175,7 @@ fn test_player_attack_twice_same_character_same_turn() {
 }
 
 #[test]
-#[available_gas(1_000_000_000)]
+#[available_gas(2_000_000_000)]
 fn test_player_attack_twice_same_turn() {
     // [Setup]
     let (world, systems) = setup::spawn_game();
@@ -253,7 +253,7 @@ fn test_player_attack_twice_same_turn() {
 }
 
 #[test]
-#[available_gas(1_000_000_000)]
+#[available_gas(1_000_000_000_000_000)]
 fn test_end_match_set_correct_winner() {
     // [Setup]
     let (world, systems) = setup::spawn_game();

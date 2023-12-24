@@ -15,14 +15,14 @@ mod setup {
     use starkane::models::states::character_state::{character_state, CharacterState};
     use starkane::models::entities::character::{character, Character};
     use starkane::models::entities::skill::{skill, Skill};
-    use starkane::models::entities::map::{tile, Tile};
+    use starkane::models::entities::map_cc::{map_cc, MapCC};
     use starkane::models::data::starkane::{
         character_player_progress, CharacterPlayerProgress, match_count, MatchCount
     };
 
     use starkane::systems::character_system::{character_system, ICharacterSystemDispatcher};
     use starkane::systems::skill_system::{skill_system, ISkillSystemDispatcher};
-    use starkane::systems::map_system::{map_system, IMapSystemDispatcher};
+    use starkane::systems::map_cc_system::{map_cc_system, IMapCCSystemDispatcher};
     use starkane::systems::match_system::{match_system, IMatchSystemDispatcher};
     use starkane::systems::action_system::{action_system, IActionSystemDispatcher};
     use starkane::systems::move_system::{move_system, IMoveSystemDispatcher};
@@ -39,7 +39,7 @@ mod setup {
     struct Systems {
         character_system: ICharacterSystemDispatcher,
         skill_system: ISkillSystemDispatcher,
-        map_system: IMapSystemDispatcher,
+        map_system: IMapCCSystemDispatcher,
         match_system: IMatchSystemDispatcher,
         action_system: IActionSystemDispatcher,
         move_system: IMoveSystemDispatcher,
@@ -54,9 +54,9 @@ mod setup {
             character_state::TEST_CLASS_HASH,
             character::TEST_CLASS_HASH,
             skill::TEST_CLASS_HASH,
-            tile::TEST_CLASS_HASH,
             character_player_progress::TEST_CLASS_HASH,
             match_count::TEST_CLASS_HASH,
+            map_cc::TEST_CLASS_HASH,
         ];
 
         let world = spawn_test_world(models);
@@ -71,9 +71,9 @@ mod setup {
                 contract_address: world
                     .deploy_contract('paper', skill_system::TEST_CLASS_HASH.try_into().unwrap())
             },
-            map_system: IMapSystemDispatcher {
+            map_system: IMapCCSystemDispatcher {
                 contract_address: world
-                    .deploy_contract('paper', map_system::TEST_CLASS_HASH.try_into().unwrap())
+                    .deploy_contract('paper', map_cc_system::TEST_CLASS_HASH.try_into().unwrap())
             },
             match_system: IMatchSystemDispatcher {
                 contract_address: world
@@ -96,30 +96,6 @@ mod setup {
                     .deploy_contract('paper', ranking_system::TEST_CLASS_HASH.try_into().unwrap())
             },
         };
-
-        // let character_system_address = deploy_contract(
-        //     character_system::TEST_CLASS_HASH, array![].span()
-        // );
-        // let skill_system_address = deploy_contract(skill_system::TEST_CLASS_HASH, array![].span());
-        // let map_system_address = deploy_contract(map_system::TEST_CLASS_HASH, array![].span());
-        // let match_system_address = deploy_contract(match_system::TEST_CLASS_HASH, array![].span());
-        // let action_system_address = deploy_contract(
-        //     action_system::TEST_CLASS_HASH, array![].span()
-        // );
-        // let move_system_address = deploy_contract(move_system::TEST_CLASS_HASH, array![].span());
-        // let turn_system_address = deploy_contract(turn_system::TEST_CLASS_HASH, array![].span());
-
-        // let systems = Systems {
-        //     character_system: ICharacterSystemDispatcher {
-        //         contract_address: character_system_address
-        //     },
-        //     skill_system: ISkillSystemDispatcher { contract_address: skill_system_address },
-        //     map_system: IMapSystemDispatcher { contract_address: map_system_address },
-        //     match_system: IMatchSystemDispatcher { contract_address: match_system_address },
-        //     action_system: IActionSystemDispatcher { contract_address: action_system_address },
-        //     move_system: IMoveSystemDispatcher { contract_address: move_system_address },
-        //     // turn_system: ITurnSystemDispatcher { contract_address: turn_system_address },
-        // };
 
         // [Return]
         set_contract_address(PLAYER());

@@ -5,7 +5,7 @@ trait IMoveSystem<TContractState> {
         match_id: u32,
         player: felt252,
         character_id: u32,
-        position: (u128, u128)
+        position: (u64, u64)
     );
 }
 
@@ -17,7 +17,7 @@ mod move_system {
         CharacterState, ActionState, ActionStateTrait
     };
 
-    use starkane::models::entities::map::{Map, Tile, MapTrait};
+    use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::models::entities::character::Character;
     use starkane::store::{Store, StoreTrait};
 
@@ -33,7 +33,7 @@ mod move_system {
             match_id: u32,
             player: felt252,
             character_id: u32,
-            position: (u128, u128)
+            position: (u64, u64)
         ) {
             // [Setup] Datastore
             let world = self.world();
@@ -50,7 +50,7 @@ mod move_system {
             assert(!last_action_state.movement, 'already move in this turn');
 
             let (to_x, to_y) = position;
-            let map = store.get_map(match_state.map_id);
+            let map = store.get_map_cc(match_state.map_id);
             assert(map.is_inside((to_x, to_y)), 'target is outside of map');
 
             let mut character_state = store
@@ -60,11 +60,7 @@ mod move_system {
                 'already in that position'
             );
 
-            // TODO: remove map_id hardcoded
-            assert(
-                store.get_tile(1, (to_y * map.width + to_x).try_into().unwrap()).walkable,
-                'tile not walkable'
-            );
+            assert(map.is_walkable((to_y, to_x)), 'tile not walkable');
 
             let character = store.get_character(character_id);
             let distance_to = distance((character_state.x, character_state.y), (to_x, to_y));
@@ -79,7 +75,7 @@ mod move_system {
         }
     }
 
-    fn distance(from: (u128, u128), to: (u128, u128)) -> u128 {
+    fn distance(from: (u64, u64), to: (u64, u64)) -> u64 {
         let (from_x, from_y) = from;
         let (to_x, to_y) = to;
 

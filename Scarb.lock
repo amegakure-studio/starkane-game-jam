@@ -40,6 +40,14 @@ version = "0.1.0"
 source = "git+https://github.com/keep-starknet-strange/alexandria.git?rev=ecc881e2aee668332441bdfa32336e3404cf8eb1#ecc881e2aee668332441bdfa32336e3404cf8eb1"
 
 [[package]]
+name = "cc_starknet"
+version = "0.1.1"
+source = "git+https://github.com/CheDAOLabs/cryptsandcaverns.git?tag=v0.1.1-rc0#0ad6a6443106e176ddc1cfd4fa0ff3e0da3b82e1"
+dependencies = [
+ "openzeppelin",
+]
+
+[[package]]
 name = "dojo"
 version = "0.4.1"
 source = "git+https://github.com/dojoengine/dojo#9ba9192b8ccd0e5c12c8b9fe592f53ebe5b20f7e"
@@ -53,10 +61,16 @@ version = "0.3.11"
 source = "git+https://github.com/dojoengine/dojo?tag=v0.3.11#1e651b5d4d3b79b14a7d8aa29a92062fcb9e6659"
 
 [[package]]
+name = "openzeppelin"
+version = "0.8.0-beta.0"
+source = "git+https://github.com/OpenZeppelin/cairo-contracts.git?tag=v0.8.0-beta.0#4c95981a7178e43730f152c85a92336dc6a22d62"
+
+[[package]]
 name = "starkane"
 version = "0.4.0"
 dependencies = [
  "alexandria_data_structures",
  "alexandria_sorting",
+ "cc_starknet",
  "dojo",
 ]

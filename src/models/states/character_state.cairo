@@ -32,10 +32,10 @@ struct CharacterState {
     character_id: u32,
     #[key]
     player: felt252,
-    remain_hp: u128,
-    remain_mp: u128,
-    x: u128,
-    y: u128,
+    remain_hp: u64,
+    remain_mp: u64,
+    x: u64,
+    y: u64,
 }
 
 trait CharacterStateTrait {
@@ -43,10 +43,10 @@ trait CharacterStateTrait {
         match_id: u32,
         character_id: u32,
         player: felt252,
-        remain_hp: u128,
-        remain_mp: u128,
-        x: u128,
-        y: u128
+        remain_hp: u64,
+        remain_mp: u64,
+        x: u64,
+        y: u64
     ) -> CharacterState;
 }
 
@@ -55,10 +55,10 @@ impl CharacterStateImpl of CharacterStateTrait {
         match_id: u32,
         character_id: u32,
         player: felt252,
-        remain_hp: u128,
-        remain_mp: u128,
-        x: u128,
-        y: u128
+        remain_hp: u64,
+        remain_mp: u64,
+        x: u64,
+        y: u64
     ) -> CharacterState {
         CharacterState { match_id, character_id, player, remain_hp, remain_mp, x, y, }
     }

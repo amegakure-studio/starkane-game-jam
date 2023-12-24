@@ -15,14 +15,14 @@ struct Character {
     #[key]
     character_id: u32,
     character_type: u8,
-    hp: u128,
-    mp: u128,
-    attack: u128,
-    defense: u128,
-    evasion: u128,
-    crit_chance: u128,
-    crit_rate: u128,
-    movement_range: u128,
+    hp: u64,
+    mp: u64,
+    attack: u64,
+    defense: u64,
+    evasion: u64,
+    crit_chance: u64,
+    crit_rate: u64,
+    movement_range: u64,
 }
 
 trait CharacterTrait {
