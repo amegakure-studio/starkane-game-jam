@@ -15,7 +15,7 @@ trait IMatchSystem<TContractState> {
 mod match_system {
     use super::{IMatchSystem, PlayerCharacter};
     use starkane::models::data::starkane::{MatchCount, MATCH_COUNT_KEY};
-    use starkane::models::entities::map::{Map, MapTrait};
+    use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::models::entities::character::Character;
     use starkane::models::states::character_state::{
         ActionState, ActionStateTrait, CharacterState, CharacterStateTrait

@@ -4,7 +4,7 @@ mod store;
 mod models {
     mod entities {
         mod character;
-        mod map;
+        mod map_cc;
         mod skill;
     }
     mod data {
@@ -20,7 +20,7 @@ mod systems {
     mod action_system;
     mod character_system;
     mod match_system;
-    mod map_system;
+    mod map_cc_system;
     mod move_system;
     mod turn_system;
     mod ranking_system;
@@ -36,7 +36,7 @@ mod utils {
 mod tests {
     mod setup;
     mod test_character_system;
-    // mod test_map_system;
+    mod test_map_cc_system;
     mod test_match_system;
     mod test_move_system;
     mod test_skill_system;

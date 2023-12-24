@@ -9,7 +9,7 @@ trait IRankingSystem<TContractState> {
 #[dojo::contract]
 mod ranking_system {
     use super::IRankingSystem;
-    use starkane::models::entities::map::{Map, MapTrait};
+    use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::store::{Store, StoreTrait};
     use starkane::models::data::starkane::{
         Ranking, RankingTrait, RankingCount, RankingCountTrait, RANKING_COUNT_KEY

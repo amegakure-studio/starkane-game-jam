@@ -1,5 +1,5 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use starkane::models::entities::map::{Map, MapTrait};
+use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
 
 #[derive(Model, Copy, Drop, Serde)]
 struct MatchState {

@@ -7,8 +7,8 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 // Internal imports
 use starkane::store::{Store, StoreTrait};
 use starkane::systems::character_system::ICharacterSystemDispatcherTrait;
-// use starkane::systems::turn_system::ITurnSystemDispatcherTrait;
-use starkane::systems::map_system::IMapSystemDispatcherTrait;
+use starkane::systems::turn_system::ITurnSystemDispatcherTrait;
+use starkane::systems::map_cc_system::IMapCCSystemDispatcherTrait;
 use starkane::systems::skill_system::ISkillSystemDispatcherTrait;
 use starkane::systems::match_system::{IMatchSystemDispatcherTrait, PlayerCharacter};
 use starkane::systems::move_system::IMoveSystemDispatcherTrait;
@@ -231,15 +231,20 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
     systems.match_system.init(player_characters);
     let match_state = store.get_match_state(MATCH_ID);
 
-    // Set the tile (6, 5) as non walkable
-    let map = store.get_map(1);
-    let tile_id = (5 * map.width.try_into().unwrap()) + 6;
-    let mut tile = store.get_tile(map.id, tile_id);
-    tile.walkable = false;
-    store.set_tile(tile);
+    // // Set the tile (6, 5) as non walkable
+    // let map = store.get_map_cc(1);
+    // let tile_id = (5 * map.width.try_into().unwrap()) + 6;
+    // let mut tile = store.get_tile(map.id, tile_id);
+    // tile.walkable = false;
+    // store.set_tile(tile);
 
-    // initial position for first player is (5, 25)
-    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (6, 5));
+    let mut cs_player_1 = store
+        .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
+    cs_player_1.x = 8;
+    cs_player_1.y = 0;
+    store.set_character_state(cs_player_1);
+
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (9, 1));
 }
 
 #[test]
@@ -273,7 +278,7 @@ fn test_fail_when_move_target_is_gt_character_movement() {
 
     // initial position for first character is (5, 5)
     // warrior has 5 movement so, if we move to x: 11 (6 tiles) then should fail
-    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (11, 5));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (0, 0));
 }
 
 #[test]
@@ -342,7 +347,7 @@ fn test_fail_when_move_target_outside_of_the_map() {
         .get_character_state(MATCH_ID, CharacterType::Warrior.into(), PLAYER_1);
 
     // Put character in the map border
-    let map = store.get_map(1);
+    let map = store.get_map_cc(1);
     player_1_character_state.x = map.width;
     player_1_character_state.y = map.height;
     store.set_character_state(player_1_character_state);
