@@ -26,7 +26,7 @@ mod setup {
     use starkane::systems::match_system::{match_system, IMatchSystemDispatcher};
     use starkane::systems::action_system::{action_system, IActionSystemDispatcher};
     use starkane::systems::move_system::{move_system, IMoveSystemDispatcher};
-    // use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
+    use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
 
     // Constants
 
@@ -42,7 +42,7 @@ mod setup {
         match_system: IMatchSystemDispatcher,
         action_system: IActionSystemDispatcher,
         move_system: IMoveSystemDispatcher,
-    // turn_system: ITurnSystemDispatcher,
+        turn_system: ITurnSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -84,6 +84,10 @@ mod setup {
             move_system: IMoveSystemDispatcher {
                 contract_address: world
                     .deploy_contract('paper', move_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            turn_system: ITurnSystemDispatcher {
+                contract_address: world
+                    .deploy_contract('paper', turn_system::TEST_CLASS_HASH.try_into().unwrap())
             },
         };
 

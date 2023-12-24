@@ -7,7 +7,6 @@ trait ITurnSystem<TContractState> {
 mod turn_system {
     use super::ITurnSystem;
     use starkane::store::{Store, StoreTrait};
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use starkane::models::states::match_state::MatchPlayer;
 
     use debug::PrintTrait;
