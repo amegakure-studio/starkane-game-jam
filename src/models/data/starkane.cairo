@@ -54,6 +54,7 @@ struct PlayerStadistics {
     recommendation_score: u64
 }
 
+#[derive(Model, Copy, Drop, Serde)]
 struct Recommendation {
     #[key]
     from: felt252,

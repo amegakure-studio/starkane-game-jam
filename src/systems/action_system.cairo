@@ -17,13 +17,9 @@ mod action_system {
     use super::IActionSystem;
 
     use starkane::models::entities::character::{Character, CharacterTrait};
-    use starkane::models::entities::skill::{
-        Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType
-    };
+    use starkane::models::entities::skill::{Skill, SkillType, SkillTypeIntoU8, U8TryIntoSkillType};
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::{
-        CharacterState, ActionState, ActionStateTrait
-    };
+    use starkane::models::states::character_state::{CharacterState, ActionState, ActionStateTrait};
     use starkane::systems::stadistics_system::stadistics_system;
     use starkane::store::{Store, StoreTrait};
     use starkane::utils::random::{Random, RandomImpl, RandomTrait};

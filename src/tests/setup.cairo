@@ -28,6 +28,9 @@ mod setup {
     use starkane::systems::move_system::{move_system, IMoveSystemDispatcher};
     use starkane::systems::turn_system::{turn_system, ITurnSystemDispatcher};
     use starkane::systems::ranking_system::{ranking_system, IRankingSystemDispatcher};
+    use starkane::systems::recommendation_system::{
+        recommendation_system, IRecommendationSystemDispatcher
+    };
 
     // Constants
 
@@ -45,6 +48,7 @@ mod setup {
         move_system: IMoveSystemDispatcher,
         turn_system: ITurnSystemDispatcher,
         ranking_system: IRankingSystemDispatcher,
+        recommendation_system: IRecommendationSystemDispatcher,
     }
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
@@ -94,6 +98,12 @@ mod setup {
             ranking_system: IRankingSystemDispatcher {
                 contract_address: world
                     .deploy_contract('paper', ranking_system::TEST_CLASS_HASH.try_into().unwrap())
+            },
+            recommendation_system: IRecommendationSystemDispatcher {
+                contract_address: world
+                    .deploy_contract(
+                        'paper', recommendation_system::TEST_CLASS_HASH.try_into().unwrap()
+                    )
             },
         };
 

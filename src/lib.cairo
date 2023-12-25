@@ -26,6 +26,7 @@ mod systems {
     mod ranking_system;
     mod stadistics_system;
     mod skill_system;
+    mod recommendation_system;
 }
 
 mod utils {
@@ -42,5 +43,6 @@ mod tests {
     mod test_skill_system;
     mod test_turn_system;
     mod test_ranking_system;
+    mod test_recommendation_system;
 }
 

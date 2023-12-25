@@ -13,9 +13,7 @@ trait IMoveSystem<TContractState> {
 mod move_system {
     use super::IMoveSystem;
     use starkane::models::states::match_state::MatchState;
-    use starkane::models::states::character_state::{
-        CharacterState, ActionState, ActionStateTrait
-    };
+    use starkane::models::states::character_state::{CharacterState, ActionState, ActionStateTrait};
 
     use starkane::models::entities::map_cc::{MapCC, MapCCTrait};
     use starkane::models::entities::character::Character;
