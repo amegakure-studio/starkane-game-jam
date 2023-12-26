@@ -62,7 +62,6 @@ mod character_system {
             store.set_character_player_progress(character_player_progress);
         }
 
-
         fn mint_recommendation(self: @ContractState, owner: felt252) {
             // [Setup] Datastore
             let world = self.world();
