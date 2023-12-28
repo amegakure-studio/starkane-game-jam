@@ -39,8 +39,8 @@ fn test_attack() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Peasant, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Peasant, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Peasant.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Peasant.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Peasant.into() },
@@ -122,8 +122,8 @@ fn test_player_attack_twice_same_character_same_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Peasant, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Peasant, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Peasant.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Peasant.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Peasant.into() },
@@ -190,10 +190,10 @@ fn test_player_attack_twice_same_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
-    systems.character_system.mint(CharacterType::Archer, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Archer.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -268,10 +268,10 @@ fn test_end_match_set_correct_winner() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
-    systems.character_system.mint(CharacterType::Archer, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Archer.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -416,8 +416,8 @@ fn test_player_attack_when_isnt_their_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -474,7 +474,7 @@ fn test_init_match_with_one_player() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },

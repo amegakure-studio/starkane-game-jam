@@ -40,8 +40,8 @@ fn test_end_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },

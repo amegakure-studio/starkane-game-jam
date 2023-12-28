@@ -41,8 +41,8 @@ fn test_move_update_character_position() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -84,8 +84,8 @@ fn test_fail_when_match_is_over() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -120,8 +120,8 @@ fn test_fail_when_isnt_your_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -153,8 +153,8 @@ fn test_fail_when_player_try_to_move_a_non_owned_character() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -186,8 +186,8 @@ fn test_fail_when_move_twice_same_character_same_turn() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -220,8 +220,8 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -265,8 +265,8 @@ fn test_fail_when_move_target_is_gt_character_movement() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -299,8 +299,8 @@ fn test_fail_when_move_target_same_place() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },
@@ -332,8 +332,8 @@ fn test_fail_when_move_target_outside_of_the_map() {
     systems.map_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_2, 1);
+        systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+        systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },

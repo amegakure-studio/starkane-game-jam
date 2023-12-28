@@ -3,7 +3,7 @@ use starkane::models::entities::character::CharacterType;
 #[starknet::interface]
 trait ICharacterSystem<TContractState> {
     fn init(self: @TContractState);
-    fn mint(self: @TContractState, character_type: CharacterType, owner: felt252, skin_id: u32);
+    fn mint(self: @TContractState, character_type: u32, owner: felt252, skin_id: u32);
     fn mint_recommendation(self: @TContractState, owner: felt252);
 }
 
@@ -31,25 +31,24 @@ mod character_system {
             store.set_character(CharacterTrait::new(CharacterType::Peasant));
         }
 
-        fn mint(self: @ContractState, character_type: CharacterType, owner: felt252, skin_id: u32) {
+        fn mint(self: @ContractState, character_type: u32, owner: felt252, skin_id: u32) {
             // [Setup] Datastore
             let world = self.world();
             let mut store: Store = StoreTrait::new(world);
 
             assert(owner.is_non_zero(), 'owner cannot be zero');
             assert(
-                store.get_character(character_type.into()).character_type != 0,
-                'character id doesnt exists'
+                character_type != 0,
+                'character id cannot be zero'
             );
 
-            // TODO: sending character_type as character_id
             let character_progress = store
-                .get_character_player_progress(owner, character_type.into());
+                .get_character_player_progress(owner, character_type);
             assert(!character_progress.owned, 'ERR: character already owned');
 
             let character_player_progress = CharacterPlayerProgress {
                 owner: owner,
-                character_id: character_type.into(),
+                character_id: character_type,
                 skin_id: skin_id,
                 owned: true,
                 level: 1

@@ -102,10 +102,17 @@ fn test_mint_character() {
     systems.character_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Archer, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Archer.into(), PLAYER_1, 1);
 
     let player_stadistics = store.get_player_stadistics(PLAYER_1);
+    let archer = store.get_character(1); // ARCHER
+    let warrior = store.get_character(3); // WARRIOR
+
+    assert(warrior.hp == 300, 'wrong hp');
+    assert(warrior.mp == 100, 'wrong mp');
+    assert(archer.hp == 250, 'wrong hp');
+    assert(archer.mp == 100, 'wrong mp');
     assert(player_stadistics.characters_owned == 2, 'wrong characters owned number');
 }
 
@@ -127,7 +134,7 @@ fn test_mint_same_character_twice() {
     systems.character_system.init();
 
     // [Mint]
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
-    systems.character_system.mint(CharacterType::Warrior, PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
 }
 
