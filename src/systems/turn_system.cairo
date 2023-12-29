@@ -8,6 +8,7 @@ mod turn_system {
     use super::ITurnSystem;
     use starkane::store::{Store, StoreTrait};
     use starkane::models::states::match_state::MatchPlayer;
+    use starkane::models::entities::character::Character;
 
     use debug::PrintTrait;
 
@@ -31,9 +32,10 @@ mod turn_system {
                 if player_characters.len() == i {
                     break;
                 }
-                let mut character = *player_characters[i];
+                let mut character: Character = *player_characters[i];
                 let mut action_state = store
                     .get_action_state(match_id, character.character_id, player);
+
                 action_state.movement = false;
                 action_state.action = false;
                 store.set_action_state(action_state);

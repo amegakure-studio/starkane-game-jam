@@ -74,12 +74,16 @@ mod match_system {
                 let (x, y) = obtain_position(player_index(p.player, players), i);
                 let character = store.get_character(p.character_id);
 
+                let mut match_player_characters_len = store
+                    .get_match_player_characters_len(match_count, p.player);
                 let match_player_character = MatchPlayerCharacter {
                     match_id: match_count,
                     player: p.player,
-                    id: i,
+                    id: match_player_characters_len.characters_len,
                     character_id: character.character_id
                 };
+                match_player_characters_len.characters_len += 1;
+                store.set_match_player_character_len(match_player_characters_len);
                 store.set_match_player_character(match_player_character);
 
                 // create a state for that character

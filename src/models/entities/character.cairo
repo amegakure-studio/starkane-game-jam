@@ -5,7 +5,7 @@ enum CharacterType {
     Archer,
     Cleric,
     Warrior,
-    Pig,
+    Goblin,
     // Peasant character doesnt have crit or evasion stats, mainly for tests
     Peasant,
 }
@@ -35,7 +35,7 @@ impl CharacterImpl of CharacterTrait {
             CharacterType::Archer => create_archer(character_type.into()),
             CharacterType::Cleric => create_cleric(character_type.into()),
             CharacterType::Warrior => create_warrior(character_type.into()),
-            CharacterType::Pig => create_pig(character_type.into()),
+            CharacterType::Goblin => create_goblin(character_type.into()),
             CharacterType::Peasant => create_peasant(character_type.into()),
         };
         character
@@ -87,10 +87,10 @@ fn create_warrior(id: u32) -> Character {
     }
 }
 
-fn create_pig(id: u32) -> Character {
+fn create_goblin(id: u32) -> Character {
     Character {
         character_id: id,
-        character_type: CharacterType::Pig.into(),
+        character_type: CharacterType::Goblin.into(),
         hp: 150,
         mp: 0,
         attack: 25,
@@ -126,7 +126,7 @@ impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
             CharacterType::Archer => 1,
             CharacterType::Cleric => 2,
             CharacterType::Warrior => 3,
-            CharacterType::Pig => 4,
+            CharacterType::Goblin => 4,
             CharacterType::Peasant => 5,
         }
     }
@@ -139,7 +139,7 @@ impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
             CharacterType::Archer => 1,
             CharacterType::Cleric => 2,
             CharacterType::Warrior => 3,
-            CharacterType::Pig => 4,
+            CharacterType::Goblin => 4,
             CharacterType::Peasant => 5,
         }
     }

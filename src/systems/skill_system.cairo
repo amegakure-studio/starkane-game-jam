@@ -33,7 +33,10 @@ mod skill_system {
                 .set_skill(
                     SkillTrait::new(SkillType::MeeleAttack, CharacterType::Cleric.into(), 1)
                 );
-            store.set_skill(SkillTrait::new(SkillType::MeeleAttack, CharacterType::Pig.into(), 1));
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::MeeleAttack, CharacterType::Goblin.into(), 1)
+                );
             store
                 .set_skill(
                     SkillTrait::new(SkillType::MeeleAttack, CharacterType::Peasant.into(), 1)

@@ -27,7 +27,7 @@ mod character_system {
             store.set_character(CharacterTrait::new(CharacterType::Archer));
             store.set_character(CharacterTrait::new(CharacterType::Cleric));
             store.set_character(CharacterTrait::new(CharacterType::Warrior));
-            store.set_character(CharacterTrait::new(CharacterType::Pig));
+            store.set_character(CharacterTrait::new(CharacterType::Goblin));
             store.set_character(CharacterTrait::new(CharacterType::Peasant));
         }
 
@@ -37,21 +37,13 @@ mod character_system {
             let mut store: Store = StoreTrait::new(world);
 
             assert(owner.is_non_zero(), 'owner cannot be zero');
-            assert(
-                character_type != 0,
-                'character id cannot be zero'
-            );
+            assert(character_type != 0, 'character id cannot be zero');
 
-            let character_progress = store
-                .get_character_player_progress(owner, character_type);
+            let character_progress = store.get_character_player_progress(owner, character_type);
             assert(!character_progress.owned, 'ERR: character already owned');
 
             let character_player_progress = CharacterPlayerProgress {
-                owner: owner,
-                character_id: character_type,
-                skin_id: skin_id,
-                owned: true,
-                level: 1
+                owner: owner, character_id: character_type, skin_id: skin_id, owned: true, level: 1
             };
 
             let mut player_stadistics = store.get_player_stadistics(owner);

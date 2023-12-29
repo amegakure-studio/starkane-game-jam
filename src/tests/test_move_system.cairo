@@ -332,8 +332,8 @@ fn test_fail_when_move_target_outside_of_the_map() {
     systems.map_system.init();
 
     // [Mint]
-        systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
-        systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_1, 1);
+    systems.character_system.mint(CharacterType::Warrior.into(), PLAYER_2, 1);
 
     let player_characters = array![
         PlayerCharacter { player: PLAYER_1, character_id: CharacterType::Warrior.into() },

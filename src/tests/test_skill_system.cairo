@@ -46,13 +46,14 @@ fn test_initialize_skills() {
     assert(meele_cleric.mp_cost == 0, 'meele cleric wrong mp_cost');
     assert(meele_cleric.range == 2, 'meele cleric wrong range');
 
-    let meele_pig = store.get_skill(SkillType::MeeleAttack.into(), CharacterType::Pig.into(), 1);
-    assert(meele_pig.character_id == 4, 'meele pig wrong char_id');
-    assert(meele_pig.skill_type == 1, 'meele pig wrong skill_type');
-    assert(meele_pig.level == 1, 'meele pig wrong level');
-    assert(meele_pig.power == 25, 'meele pig wrong power');
-    assert(meele_pig.mp_cost == 0, 'meele pig wrong mp_cost');
-    assert(meele_pig.range == 2, 'meele pig wrong range');
+    let meele_goblin = store
+        .get_skill(SkillType::MeeleAttack.into(), CharacterType::Goblin.into(), 1);
+    assert(meele_goblin.character_id == 4, 'meele goblin wrong char_id');
+    assert(meele_goblin.skill_type == 1, 'meele goblin wrong skill_type');
+    assert(meele_goblin.level == 1, 'meele goblin wrong level');
+    assert(meele_goblin.power == 25, 'meele goblin wrong power');
+    assert(meele_goblin.mp_cost == 0, 'meele goblin wrong mp_cost');
+    assert(meele_goblin.range == 2, 'meele goblin wrong range');
 
     // [Assert] RangeAttack
     let range_archer = store

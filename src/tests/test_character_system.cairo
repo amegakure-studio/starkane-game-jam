@@ -62,17 +62,17 @@ fn test_initialize_characters() {
     assert(warrior.crit_rate == 2, 'warrior wrong initial crit_rate');
     assert(warrior.movement_range == 5, 'warrior wrong initial movement');
 
-    // [Assert] Pig
-    let pig = store.get_character(4);
-    assert(pig.character_type == 4, 'pig wrong id');
-    assert(pig.hp == 150, 'pig wrong initial hp');
-    assert(pig.mp == 0, 'pig wrong initial mp');
-    assert(pig.attack == 25, 'pig wrong initial attack');
-    assert(pig.defense == 10, 'pig wrong initial defense');
-    assert(pig.evasion == 5, 'pig wrong initial evasion');
-    assert(pig.crit_chance == 15, 'pig wrong crit_chance');
-    assert(pig.crit_rate == 2, 'pig wrong initial crit_rate');
-    assert(pig.movement_range == 4, 'pig wrong initial movement');
+    // [Assert] Goblin
+    let goblin = store.get_character(4);
+    assert(goblin.character_type == 4, 'goblin wrong id');
+    assert(goblin.hp == 150, 'goblin wrong initial hp');
+    assert(goblin.mp == 0, 'goblin wrong initial mp');
+    assert(goblin.attack == 25, 'goblin wrong initial attack');
+    assert(goblin.defense == 10, 'goblin wrong initial defense');
+    assert(goblin.evasion == 5, 'goblin wrong initial evasion');
+    assert(goblin.crit_chance == 15, 'goblin wrong crit_chance');
+    assert(goblin.crit_rate == 2, 'goblin wrong initial crit_rate');
+    assert(goblin.movement_range == 4, 'goblin wrong initial movement');
 
     // [Assert] Peasent
     let peasent = store.get_character(5);
