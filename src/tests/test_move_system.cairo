@@ -240,11 +240,11 @@ fn test_fail_when_try_to_move_into_non_walkable_tile() {
 
     let mut cs_player_1 = store
         .get_character_state(match_state.id, CharacterType::Warrior.into(), PLAYER_1);
-    cs_player_1.x = 8;
-    cs_player_1.y = 0;
+    cs_player_1.x = 0;
+    cs_player_1.y = 8;
     store.set_character_state(cs_player_1);
 
-    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (9, 1));
+    systems.move_system.move(MATCH_ID, PLAYER_1, CharacterType::Warrior.into(), (0, 9));
 }
 
 #[test]

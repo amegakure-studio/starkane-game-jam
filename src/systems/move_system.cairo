@@ -58,7 +58,7 @@ mod move_system {
                 'already in that position'
             );
 
-            assert(map.is_walkable((to_y, to_x)), 'tile not walkable');
+            assert(map.is_walkable((to_x, to_y)), 'tile not walkable');
 
             let character = store.get_character(character_id);
             let distance_to = distance((character_state.x, character_state.y), (to_x, to_y));
