@@ -130,7 +130,7 @@ mod match_system {
         if player_index == 0 {
             (5 + i.into(), 5)
         } else if player_index == 1 {
-            (5 + i.into(), 24)
+            (6 + i.into(), 11)
         } else if player_index == 2 {
             (5, 15 + i.into())
         } else {
