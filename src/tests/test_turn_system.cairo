@@ -111,7 +111,7 @@ fn test_end_turn_2_turns_resets_actions() {
 
     // initial position for first character is (5, 25)
     // End turn, so player 2 turn
-    systems.move_system.move(MATCH_ID, PLAYER_2, CharacterType::Goblin.into(), (5, 24));
+    systems.move_system.move(MATCH_ID, PLAYER_2, CharacterType::Goblin.into(), (7, 13));
     let mut player_2_action_state = store
         .get_action_state(MATCH_ID, CharacterType::Goblin.into(), PLAYER_2);
     assert(player_2_action_state.movement, 'movement 2 should be true');
@@ -136,7 +136,7 @@ fn test_end_turn_2_turns_resets_actions() {
 
     // initial position for first character is (5, 25)
     // End turn, so player 2 turn
-    systems.move_system.move(MATCH_ID, PLAYER_2, CharacterType::Goblin.into(), (6, 22));
+    systems.move_system.move(MATCH_ID, PLAYER_2, CharacterType::Goblin.into(), (7, 11));
     player_2_action_state = store
         .get_action_state(MATCH_ID, CharacterType::Goblin.into(), PLAYER_2);
     assert(player_2_action_state.movement, 'movement should be true');

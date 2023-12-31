@@ -8,6 +8,8 @@ enum CharacterType {
     Goblin,
     // Peasant character doesnt have crit or evasion stats, mainly for tests
     Peasant,
+    Goblin2,
+    Goblin3,
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -35,8 +37,10 @@ impl CharacterImpl of CharacterTrait {
             CharacterType::Archer => create_archer(character_type.into()),
             CharacterType::Cleric => create_cleric(character_type.into()),
             CharacterType::Warrior => create_warrior(character_type.into()),
-            CharacterType::Goblin => create_goblin(character_type.into()),
+            CharacterType::Goblin => create_goblin(character_type.into(), CharacterType::Goblin),
             CharacterType::Peasant => create_peasant(character_type.into()),
+            CharacterType::Goblin2 => create_goblin(character_type.into(), CharacterType::Goblin2),
+            CharacterType::Goblin3 => create_goblin(character_type.into(), CharacterType::Goblin3),
         };
         character
     }
@@ -87,10 +91,10 @@ fn create_warrior(id: u32) -> Character {
     }
 }
 
-fn create_goblin(id: u32) -> Character {
+fn create_goblin(id: u32, character_type: CharacterType) -> Character {
     Character {
         character_id: id,
-        character_type: CharacterType::Goblin.into(),
+        character_type: character_type.into(),
         hp: 150,
         mp: 0,
         attack: 25,
@@ -128,6 +132,8 @@ impl CharacterTypeIntoU8 of Into<CharacterType, u8> {
             CharacterType::Warrior => 3,
             CharacterType::Goblin => 4,
             CharacterType::Peasant => 5,
+            CharacterType::Goblin2 => 6,
+            CharacterType::Goblin3 => 7,
         }
     }
 }
@@ -141,6 +147,8 @@ impl CharacterTypeIntoU32 of Into<CharacterType, u32> {
             CharacterType::Warrior => 3,
             CharacterType::Goblin => 4,
             CharacterType::Peasant => 5,
+            CharacterType::Goblin2 => 6,
+            CharacterType::Goblin3 => 7,
         }
     }
 }

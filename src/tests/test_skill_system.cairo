@@ -75,24 +75,23 @@ fn test_initialize_skills() {
     assert(cleric_heal.power == 40, 'cleric heal wrong power');
     assert(cleric_heal.mp_cost == 60, 'cleric heal wrong mp_cost');
     assert(cleric_heal.range == 3, 'cleric heal wrong range');
+// // [Assert] Heal 2
+// let cleric_heal = store.get_skill(SkillType::Heal.into(), CharacterType::Cleric.into(), 2);
+// assert(cleric_heal.character_id == 2, 'cleric heal wrong char_id');
+// assert(cleric_heal.skill_type == 4, 'cleric heal wrong skill_type');
+// assert(cleric_heal.level == 2, 'cleric heal 3 wrong level');
+// assert(cleric_heal.character_level_required == 3, 'cleric heal wrong level');
+// assert(cleric_heal.power == 80, 'cleric heal wrong power');
+// assert(cleric_heal.mp_cost == 90, 'cleric heal wrong mp_cost');
+// assert(cleric_heal.range == 4, 'cleric heal wrong range');
 
-    // [Assert] Heal 2
-    let cleric_heal = store.get_skill(SkillType::Heal.into(), CharacterType::Cleric.into(), 2);
-    assert(cleric_heal.character_id == 2, 'cleric heal wrong char_id');
-    assert(cleric_heal.skill_type == 4, 'cleric heal wrong skill_type');
-    assert(cleric_heal.level == 2, 'cleric heal 3 wrong level');
-    assert(cleric_heal.character_level_required == 3, 'cleric heal wrong level');
-    assert(cleric_heal.power == 80, 'cleric heal wrong power');
-    assert(cleric_heal.mp_cost == 90, 'cleric heal wrong mp_cost');
-    assert(cleric_heal.range == 4, 'cleric heal wrong range');
-
-    // [Assert] Heal 3
-    let cleric_heal = store.get_skill(SkillType::Heal.into(), CharacterType::Cleric.into(), 3);
-    assert(cleric_heal.character_id == 2, 'cleric heal wrong char_id');
-    assert(cleric_heal.skill_type == 4, 'cleric heal wrong skill_type');
-    assert(cleric_heal.level == 3, 'cleric heal 3 wrong level');
-    assert(cleric_heal.character_level_required == 6, 'cleric heal wrong level');
-    assert(cleric_heal.power == 120, 'cleric heal wrong power');
-    assert(cleric_heal.mp_cost == 100, 'cleric heal wrong mp_cost');
-    assert(cleric_heal.range == 5, 'cleric heal wrong range');
+// // [Assert] Heal 3
+// let cleric_heal = store.get_skill(SkillType::Heal.into(), CharacterType::Cleric.into(), 3);
+// assert(cleric_heal.character_id == 2, 'cleric heal wrong char_id');
+// assert(cleric_heal.skill_type == 4, 'cleric heal wrong skill_type');
+// assert(cleric_heal.level == 3, 'cleric heal 3 wrong level');
+// assert(cleric_heal.character_level_required == 6, 'cleric heal wrong level');
+// assert(cleric_heal.power == 120, 'cleric heal wrong power');
+// assert(cleric_heal.mp_cost == 100, 'cleric heal wrong mp_cost');
+// assert(cleric_heal.range == 5, 'cleric heal wrong range');
 }

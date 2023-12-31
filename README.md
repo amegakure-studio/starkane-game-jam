@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Dojo logo" width="650" src="https://github.com/amegakure-starknet/unity-Starkane/assets/58611754/ab701ac0-a1f3-4048-b40f-8234c6f662fe">
+  <img alt="Dojo logo" width="400" src="https://github.com/amegakure-starknet/unity-Starkane/assets/58611754/ab701ac0-a1f3-4048-b40f-8234c6f662fe">
 </p>
 
 # Starkane
@@ -10,8 +10,8 @@ Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran 
 
 ## Desarrollo Actual
 
-El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet. 
-En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo. 
+El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet.
+En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo.
 Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
 
 ## Mecánicas del Juego
@@ -25,7 +25,7 @@ El juego se desarrolla por turnos, permitiendo a cada jugador realizar dos accio
 
 ### Heroe
 
-Un heroe posee los siguientes atributos. 
+Un heroe posee los siguientes atributos.
 
 1. **HP (puntos de vida):** Representa los puntos de vida que tiene el heroe.
 
@@ -61,7 +61,7 @@ Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tene
 
 ### Mapa
 
-Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables. 
+Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables.
 El mapa esta construido en Dojo con la lib C&C y se renderiza en unity de forma dinamica.
 Actualmente, contamos con un único mapa de 25 x 25.
 
@@ -101,25 +101,42 @@ Unete como Supporters
 * [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Para conectar Dojo con Unity.
 * [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento para el ranking.
 
-### Development
+###  Starkane - Dojo Client
 
-Abre dos terminales y ejecuta los siguientes comandos:
+## Set up local environment
 
-Terminal 1
 ```bash
+# Terminal 1
 make katana
 ```
 
-Terminal 2
 ```bash
+# Terminal 2
 make setup
 ```
 
-Copia la dirección del mundo y úsala como parámetro
+Copy the World Address and pass it as a parameter
 ```bash
 make torii <WORLD_ADDRESS>
 ```
 
-Visita el [Playground de GraphQL](http://localhost:8080/graphql).
+The environment is now configured!
+[Graphql Playground](http://localhost:8080/graphql)
 
-¡El ambiente está configurado y listo para la acción!
+## Special thanks
+
+### Creators ✨
+Thanks goes to these wonderful people
+([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<table>
+  <tbody>
+    <tr>
+    <td align="center" valign="top" width="14.28%"><a href="https://github.com/dubzn"><img src="https://avatars.githubusercontent.com/u/58611754?s=400&u=cdb4e29d9ac5bc41e7ee171375e8cd10fe8c3c24&v=4" width="100px;" alt="Dubzn"/><br /><sub><b>dubzn</b></sub></a><br />😸</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpinones"><img src="https://avatars.githubusercontent.com/u/30808181?v=4" width="100px;" alt="Damián Piñones"/><br /><sub><b>Damián Piñones</b></sub></a><br />🤠</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/cristianFleita"><img src="https://avatars.githubusercontent.com/u/87950451?v=4" width="100px;" alt="Cristian Fleita"/><br /><sub><b>Cristian Fleita</b></sub></a><br />💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aikomisa5"><img src="https://avatars.githubusercontent.com/u/21129776?v=4" width="100px;" alt="Dubzn"/><br /><sub><b>Misael Britos</b></sub></a><br />🐦</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/brendaamareco"><img src="https://avatars.githubusercontent.com/u/107716199?v=4" width="100px;" alt="Brenda Mareco"/><br /><sub><b>Brenda Mareco</b></sub></a><br />🎨</a></td>
+    </tr>
+</tbody>
+</table>
