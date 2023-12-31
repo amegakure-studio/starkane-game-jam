@@ -60,6 +60,8 @@ mod move_system {
 
             assert(map.is_walkable((to_x, to_y)), 'tile not walkable');
 
+            // TODO: check if character ocuppies that position
+
             let character = store.get_character(character_id);
             let distance_to = distance((character_state.x, character_state.y), (to_x, to_y));
             assert(distance_to <= character.movement_range, 'character cannot move that far');

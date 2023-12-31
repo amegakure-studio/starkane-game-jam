@@ -118,7 +118,33 @@ mod action_system {
                     skill,
                     receiver_character,
                     receiver_character_state
-                )
+                ),
+                SkillType::SpecialMeeleAttack => {
+                    attack(
+                        world,
+                        player_character,
+                        player_character_state,
+                        skill,
+                        receiver_character,
+                        receiver_character_state
+                    );
+                    check_and_update_game_state_winner(
+                        world, ref store, match_id, player, receiver_character_id, receiver
+                    );
+                },
+                SkillType::SpecialRangeAttack => {
+                    attack(
+                        world,
+                        player_character,
+                        player_character_state,
+                        skill,
+                        receiver_character,
+                        receiver_character_state
+                    );
+                    check_and_update_game_state_winner(
+                        world, ref store, match_id, player, receiver_character_id, receiver
+                    );
+                },
             }
 
             // character can do the action, so we have to save that

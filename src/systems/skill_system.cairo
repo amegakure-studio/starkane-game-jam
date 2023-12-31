@@ -56,8 +56,17 @@ mod skill_system {
 
             // [Skill] Heal
             store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 1));
-            store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 2));
-            store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 3));
+            // store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 2));
+            // store.set_skill(SkillTrait::new(SkillType::Heal, CharacterType::Cleric.into(), 3));
+
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::SpecialRangeAttack, CharacterType::Archer.into(), 1)
+                );
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::SpecialMeeleAttack, CharacterType::Warrior.into(), 1)
+                );
         }
 
         fn has_skill(
