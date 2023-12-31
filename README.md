@@ -6,13 +6,100 @@
 
 ## Introducción
 
-Starkane es un RPG por turnos en el que los jugadores lideran un grupo de héroes a través de un mundo de mapa general y participan en batallas estratégicas en cuadrícula, tomando decisiones tácticas para derrotar a enemigos. Durante la exploración, reclutas y mejora personajes, mientras que en las batallas, el posicionamiento y la selección de acciones son clave para el éxito.
-
-Starkane es un emocionante juego RPG de estrategia por turnos en un mapa grilla 2D. Sumérgete en batallas épicas, desafiando a tus amigos o enfrentándote a la IA. En este juego, la clave para la victoria radica en tu habilidad estratégica para eliminar a todos los personajes enemigos. ¡Prepárate para vivir una experiencia única donde cada decisión cuenta y el destino de tu equipo está en tus manos!
+Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran un grupo de héroes en un mundo y participan en batallas estratégicas en un mapa 2D, tomando decisiones tácticas para derrotar a enemigos. Durante la exploración, reclutas y mejora personajes, mientras que en las batallas, el posicionamiento y la selección de acciones son clave para el éxito. ¡Prepárate para vivir una experiencia única donde cada decisión cuenta y el destino de tu equipo está en tus manos!
 
 ## Desarrollo Actual
 
-El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet. En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo. Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
+El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet. 
+En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo. 
+Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
+
+## Mecánicas del Juego
+
+El juego se desarrolla por turnos, permitiendo a cada jugador realizar dos acciones por héroe en su turno: movilizarse y/o llevar a cabo una acción (ya sea lanzar magia, atacar o usar un objeto). Estas acciones son independientes y se ajustan a la estrategia única de cada jugador.
+
+## Mecánicas Adicionales
+
+* Juega 5 combates y mintea un mapa de C&C.
+* Haste famoso en Starkane recibiendo recomendaciones de otros jugadores y mintea un heroe exclusivo.
+
+### Heroe
+
+Un heroe posee los siguientes atributos. 
+
+1. **HP (puntos de vida):** Representa los puntos de vida que tiene el heroe.
+
+2. **MP (puntos de magia):** Representa la cantidad de puntos de magia que el heroe tiene. Se suelen consumir al usar habilidades mágicas.
+
+3. **Attack (ataque):** La fuerza física del heroe, que afecta la cantidad de daño infligido en ataques normales.
+
+4. **Defense (defensa):** La capacidad del heroe para resistir el daño físico, reduciendo la cantidad de daño recibido.
+
+5. **Evasion (evasión):** La capacidad del heroe para evitar ataques enemigos.
+
+6. **Crit Chance (probabilidad de crítico):** La probabilidad de que los ataques del heroe sean críticos, infligiendo daño adicional.
+
+7. **Crit Rate (multiplicador de crítico):** El factor por el cual se multiplica el daño cuando se realiza un ataque crítico.
+
+8. **Movement Range (rango de movimiento):** Indica cuántas casillas puede moverse el heroe durante su turno en el juego.
+
+### Skill
+
+Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tenemos ataques magicos especiales y basicos. Son los siguientes:
+
+1. **MeeleAttack (Ataque cuerpo a cuerpo):** Permite al heroe realizar ataques físicos a corta distancia.
+
+2. **RangeAttack (Ataque a distancia):** Permite al heroe realizar ataques físicos desde una distancia.
+
+3. **Fireball (Bola de fuego):** Permite al heroe lanzar proyectiles de fuego hacia el enemigo. Esta habilidad tiene un alcance mayor que los ataques físicos.
+
+4. **Heal (Curar):** Representa habilidades de curación que permiten al heroe restaurar los puntos de vida (HP) de sí mismo o de otros personajes en el juego.
+
+5. **SpecialMeeleAttack (Ataque cuerpo a cuerpo especial):** Este ataque puede diferenciarse de los ataques cuerpo a cuerpo estándar por su naturaleza única o poderosa.
+
+6. **SpecialRangeAttack (Ataque a distancia especial):** Este ataque tiene propiedades únicas que lo distinguen de los ataques a distancia convencionales.
+
+### Mapa
+
+Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables. 
+El mapa esta construido en Dojo con la lib C&C y se renderiza en unity de forma dinamica.
+Actualmente, contamos con un único mapa de 25 x 25.
+
+## Game Loop
+
+```mermaid
+flowchart TD
+  start_story --> hero_warrior
+  hero_warrior --> become_adventurer
+  become_adventurer --> match
+  match --> winner
+  match --> loser
+  loser --> move
+  loser --> action
+  move --> match_2
+  action --> match_2
+  match_2 --> winner2
+  winner2 --> end_story
+  winner --> end_story 
+```
+
+## Supporters
+Unete como Supporters
+
+## Futuro del Juego
+
+* Agregar modo multijugador para enfrentamientos más desafiantes.
+* Implementar una inteligencia artificial mejorada utilizando Orion (ejemplo: tic-tac-toe).
+* Agregar mas personajes y habilidades
+* Construir un mundo abierto donde puedas realizar quest y obtener recompensas
+* Subir de niveles y aprender nuevas habilidades
+* Tener un hilo argumental para mejorar la esencia del juego
+
+### Libs Utilizadas
+
+* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Para la construcción del mapa.
+* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Para conectar Dojo con Unity.
+* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento para el ranking.
 
 ### Development
 
@@ -36,68 +123,3 @@ make torii <WORLD_ADDRESS>
 Visita el [Playground de GraphQL](http://localhost:8080/graphql).
 
 ¡El ambiente está configurado y listo para la acción!
-
-## Características del Juego
-
-### Personajes (Characters)
-
-Cada jugador elige 3 personajes de su pool para la batalla. Los personajes tienen atributos como ataque, defensa, movimiento y puntos de vida.
-Cada personaje tiene habilidades que pueden ser ofensivas y defensivas. Ataques magicos especiales y basicos.
-
-### Mapa
-
-Los mapas son grillas 2D de tamaño N*M, donde cada casilla afecta positiva o negativamente al mecha en esa posición. Actualmente, contamos con un único mapa de 25 x 25.
-
-### Libs Utilizadas
-
-* C&C para la construcción del mapa.
-* Dojo.Unity para conectar Dojo con Unity.
-
-## Acciones del Juego
-
-Ejecuta los siguientes comandos para realizar acciones en el juego:
-
-```bash
-sozo execute ${character_system} init
-```
-
-```bash
-sozo execute ${skill_system} init
-```
-
-```bash
-sozo execute ${map_system} init
-```
-
-## Mecánicas del Juego
-
-Las partidas se juegan por turnos. Cada jugador puede mover a sus personajes y realizar dos acciones por turno: moverse y/o realizar una accion(magia/ataque/uso de item). Las acciones son independientes y dependen de la estrategia del jugador.
-
-## Adicionales
-
-* Juega 5 combates y mintea un mapa de C&C.
-* Haste famoso en Starkane recibiendo recomendaciones de otros jugadores y mintea un personaje exclusivo.
-
-## Game Loop
-
-![Diagrama del juego](link_al_diagrama_del_juego)
-
-## Diseño del Juego
-
-Hemos dividido el juego en 3 secciones:
-
-1. **State**: Representa el estado actual del juego.
-2. **Game**: Gestiona el desarrollo del juego.
-3. **Estadísticas**: Proporciona información detallada sobre el progreso y rendimiento.
-
-## Supporters
-Unete como Supporters
-
-## Futuro del Juego
-
-* Agregar modo multijugador para enfrentamientos más desafiantes.
-* Implementar una inteligencia artificial mejorada utilizando Orion (ejemplo: tic-tac-toe).
-* Agregar mas personajes y habilidades
-* Construir un mundo abierto donde puedas realizar quest y obtener recompensas
-* Subir de niveles y aprender nuevas habilidades
-* Tener un hilo argumental para mejorar la esencia del juego
