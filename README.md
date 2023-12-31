@@ -2,8 +2,6 @@
   <img alt="Dojo logo" width="400" src="https://github.com/amegakure-starknet/unity-Starkane/assets/58611754/ab701ac0-a1f3-4048-b40f-8234c6f662fe">
 </p>
 
-# Starkane
-
 ## Introducción
 
 Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran un grupo de héroes en un mundo y participan en batallas estratégicas en un mapa 2D, tomando decisiones tácticas para derrotar a enemigos. Durante la exploración, reclutas y mejora personajes, mientras que en las batallas, el posicionamiento y la selección de acciones son clave para el éxito. ¡Prepárate para vivir una experiencia única donde cada decisión cuenta y el destino de tu equipo está en tus manos!
@@ -14,11 +12,11 @@ El juego cuenta con un frontend implementado en Unity, mientras que el backend s
 En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo.
 Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
 
-## Mecánicas del Juego
+### Mecánicas del Juego
 
 El juego se desarrolla por turnos, permitiendo a cada jugador realizar dos acciones por héroe en su turno: movilizarse y/o llevar a cabo una acción (ya sea lanzar magia, atacar o usar un objeto). Estas acciones son independientes y se ajustan a la estrategia única de cada jugador.
 
-## Mecánicas Adicionales
+### Mecánicas Adicionales
 
 * Juega 5 combates y mintea un mapa de C&C.
 * Haste famoso en Starkane recibiendo recomendaciones de otros jugadores y mintea un heroe exclusivo.
@@ -65,7 +63,7 @@ Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no 
 El mapa esta construido en Dojo con la lib C&C y se renderiza en unity de forma dinamica.
 Actualmente, contamos con un único mapa de 25 x 25.
 
-## Game Loop
+### Game Loop
 
 ```mermaid
 flowchart TD
@@ -83,8 +81,11 @@ flowchart TD
   winner --> end_story 
 ```
 
-## Supporters
-Unete como Supporters
+### Libs Utilizadas
+
+* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Para la construcción del mapa.
+* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Para conectar Dojo con Unity.
+* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento para el ranking.
 
 ## Futuro del Juego
 
@@ -95,35 +96,10 @@ Unete como Supporters
 * Subir de niveles y aprender nuevas habilidades
 * Tener un hilo argumental para mejorar la esencia del juego
 
-### Libs Utilizadas
-
-* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Para la construcción del mapa.
-* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Para conectar Dojo con Unity.
-* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento para el ranking.
-
-###  Starkane - Dojo Client
-
-## Set up local environment
-
-```bash
-# Terminal 1
-make katana
-```
-
-```bash
-# Terminal 2
-make setup
-```
-
-Copy the World Address and pass it as a parameter
-```bash
-make torii <WORLD_ADDRESS>
-```
-
-The environment is now configured!
-[Graphql Playground](http://localhost:8080/graphql)
-
 ## Special thanks
+
+## Supporters
+Unete como Supporters
 
 ### Creators ✨
 Thanks goes to these wonderful people
