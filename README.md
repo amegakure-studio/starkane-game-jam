@@ -8,7 +8,7 @@ Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran 
 
 ## Desarrollo Actual
 
-El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet.
+El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet (es un juego con el 100% de su lógica onchain!).
 En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo.
 Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
 
