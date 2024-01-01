@@ -67,6 +67,15 @@ mod skill_system {
                 .set_skill(
                     SkillTrait::new(SkillType::SpecialMeeleAttack, CharacterType::Warrior.into(), 1)
                 );
+
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::MeeleAttack, CharacterType::Goblin2.into(), 1)
+                );
+            store
+                .set_skill(
+                    SkillTrait::new(SkillType::MeeleAttack, CharacterType::Goblin3.into(), 1)
+                );
         }
 
         fn has_skill(
