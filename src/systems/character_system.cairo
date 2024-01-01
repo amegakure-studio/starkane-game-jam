@@ -29,6 +29,8 @@ mod character_system {
             store.set_character(CharacterTrait::new(CharacterType::Warrior));
             store.set_character(CharacterTrait::new(CharacterType::Goblin));
             store.set_character(CharacterTrait::new(CharacterType::Peasant));
+            store.set_character(CharacterTrait::new(CharacterType::Goblin2));
+            store.set_character(CharacterTrait::new(CharacterType::Goblin3));
         }
 
         fn mint(self: @ContractState, character_type: u32, owner: felt252, skin_id: u32) {
