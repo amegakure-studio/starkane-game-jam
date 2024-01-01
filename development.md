@@ -1,21 +1,34 @@
-##  Starkane - Dojo Client
+## Starkane - Dojo Client
 
-### Set up local environment
+### Setting up the Local Environment
 
-```bash
-# Terminal 1
-make katana
-```
+To get started with Starkane, follow these steps to set up your local environment.
 
-```bash
-# Terminal 2
-make setup
-```
+1. Clone the project and navigate to the project folder:
 
-Copy the World Address and pass it as a parameter
-```bash
-make torii <WORLD_ADDRESS>
-```
+    ```bash
+    git clone git@github.com:amegakure-starknet/starkane.git
+    cd starkane
+    ```
 
-The environment is now configured!
-[Graphql Playground](http://localhost:8080/graphql)
+2. Run the following commands in separate terminals:
+
+    ```bash
+    # Terminal 1
+    make katana
+    ```
+
+    ```bash
+    # Terminal 2
+    make setup
+    ```
+
+    These commands will prepare the necessary components for the Starkane Dojo Client.
+
+3. With the environment set up, you are now ready to launch the game.
+
+### Running the Game
+
+Download the launcher [here](#) to start playing Starkane.
+
+Feel free to explore the various features and enjoy your gaming experience with Starkane!

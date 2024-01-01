@@ -10,18 +10,47 @@ Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran 
 
 El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet (es un juego con el 100% de su lógica onchain!).
 En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo.
-Actualmente, el juego se juega de forma local mediante un instalador, pero la visión es llevarlo a la web. El bot, implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
+Actualmente, el juego se juega de forma local mediante un ejecutable, pero la visión es llevarlo a la web. El bot esta implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
 
-### Mecánicas del Juego
+### Limitaciones
 
-El juego se desarrolla por turnos, permitiendo a cada jugador realizar dos acciones por héroe en su turno: movilizarse y/o llevar a cabo una acción (ya sea lanzar magia, atacar o usar un objeto). Estas acciones son independientes y se ajustan a la estrategia única de cada jugador.
+Starkane presenta algunas limitaciones que es importante tener en cuenta:
 
-### Mecánicas Adicionales
+* **Restricción de Uso Web:** Actualmente, no es posible utilizar la versión web debido a la falta de soporte en el lib dojo.unity para WEBGL.
 
-* Juega 5 combates y mintea un mapa de C&C.
-* Crea vínculos, obten recomendaciones de otros jugadores de Starkane y mintea un heroes exclusivos.
+* **Falta de Implementación en Slot:** En la actualidad, no procedemos con la implementación de Starkane en Slot debido a la ocurrencia de un error en la lib dojo.unity al establecer conexión con Torii.
 
-### Heroe
+### Bibliotecas Utilizadas
+
+El desarrollo de Starkane se ha beneficiado de varias bibliotecas de código abierto, entre las cuales se encuentran:
+
+* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Utilizada para la construcción del mapa.
+* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Empleada para facilitar la conexión entre Dojo y Unity.
+* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento proporcionados por esta biblioteca para implementar el sistema de ranking.
+
+## ¿Cómo Jugar?
+
+Para obtener instrucciones detalladas sobre cómo configurar el entorno y empezar a jugar Starkane localmente, consulta el [readme de desarrollo](./development.md). Sigue los pasos indicados para disfrutar de la experiencia de juego. ¡Diviértete!
+
+## Mecánicas
+
+Starkane se caracteriza por un sistema de juego por turnos que brinda a cada jugador la oportunidad de realizar dos acciones por héroe durante su turno. Estas acciones incluyen la movilización y la ejecución de una acción, que puede ser lanzar magia, atacar o utilizar un objeto. Cada acción es independiente y se adapta a la estrategia única de cada jugador.
+
+### Funcionalidades Adicionales
+
+Además de las mecánicas principales, tenemos diversas características adicionales para enriquecer la experiencia de juego:
+
+* **Combates y Mint de Mapas C&C:** Participa en 5 combates y mintea un mapa de Crypts & Caverns(C&C).
+  
+* **Creación de Vínculos y Recomendaciones:** Crea vínculos, obten recomendaciones de otros jugadores de Starkane y mintea un heroe exclusivo.
+
+* **Sistema de Rankings:** Cuenta con un sistema de rankings que clasifica a los jugadores según su desempeño en el juego.
+
+* **Factores Aleatorios en Ataques:** Durante la ejecución de acciones de tipo ataque, ten en cuenta que existe un factor aleatorio, lo que significa que los ataques pueden variar en intensidad, ya sea más débiles o más fuertes. Esto añade un elemento de sorpresa y estrategia al juego.
+
+### Modelos
+
+#### Heroe
 
 Un heroe posee los siguientes atributos.
 
@@ -41,7 +70,7 @@ Un heroe posee los siguientes atributos.
 
 8. **Movement Range (rango de movimiento):** Indica cuántas casillas puede moverse el heroe durante su turno en el juego.
 
-### Skill
+#### Skill
 
 Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tenemos ataques magicos especiales y basicos. Son los siguientes:
 
@@ -57,7 +86,7 @@ Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tene
 
 6. **SpecialRangeAttack (Ataque a distancia especial):** Este ataque tiene propiedades únicas que lo distinguen de los ataques a distancia convencionales.
 
-### Mapa
+#### Mapa
 
 Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables.
 El mapa esta construido en Dojo con la lib C&C y se renderiza en unity de forma dinamica.
@@ -81,26 +110,25 @@ flowchart TD
   winner --> end_story 
 ```
 
-### Libs Utilizadas
-
-* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Para la construcción del mapa.
-* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Para conectar Dojo con Unity.
-* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento para el ranking.
-
 ## Futuro del Juego
 
-* Agregar modo multijugador para enfrentamientos más desafiantes.
-* Implementar una inteligencia artificial mejorada utilizando Orion (ejemplo: tic-tac-toe).
-* Agregar mas personajes y habilidades
-* Construir un mundo abierto donde puedas realizar quest y obtener recompensas
-* Subir de niveles y aprender nuevas habilidades
-* Tener un hilo argumental para mejorar la esencia del juego
-* Agregar actualizaciones con nuevos personajes y skills
+El desarrollo continuo de Starkane incluirá emocionantes características para enriquecer la experiencia de juego:
 
-## Special thanks
+* **Modo Multijugador:** Soportar modo multijugador que permitirá enfrentamientos más desafiantes.
+
+* **Inteligencia Artificial Mejorada:** Utilizar un ML Bot la tecnología como en el clásico juego [tic-tac-toe](https://github.com/OwnerOfJK/TicTacToeAgent).
+
+* **Mundo Abierto y Quests:** Un mundo abierto dentro de Starkane, donde los jugadores podrán embarcarse en emocionantes quest para obtener recompensas y sumergirse aún más en la narrativa del juego.
+
+* **Progresión de Niveles y Habilidades:** La capacidad de subir de niveles y aprender nuevas habilidades.
+
+* **Trama Narrativa:** Crear un hilo argumental para mejorar la esencia del juego
+
+* **Actualizaciones Continuas:** Tener actualizaciones periódicas que incluirán nuevos personajes y habilidades, asegurando que la experiencia de juego siempre sea fresca y emocionante.
 
 ## Supporters
-Unete como Supporters
+
+Únete a nosotros como Supporters y sé parte activa del crecimiento y desarrollo continuo de Starkane. Tu apoyo es fundamental para llevar el juego a nuevos horizontes. ¡Únete  [aqui]() y sé parte de esta emocionante aventura!
 
 ### Creators ✨
 Thanks goes to these wonderful people
