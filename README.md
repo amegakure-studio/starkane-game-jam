@@ -1,92 +1,88 @@
-<p align="center">
-  <img alt="Dojo logo" width="400" src="https://github.com/amegakure-starknet/unity-Starkane/assets/58611754/ab701ac0-a1f3-4048-b40f-8234c6f662fe">
-</p>
+# Introduction
 
-# Introducción
+Starkane is an exciting turn-based RPG game where players lead a group of heroes in a world, engaging in strategic battles, making tactical decisions to defeat enemies. During exploration, recruit and upgrade characters, while in battles, positioning and action selection are crucial for success. Get ready to experience a unique journey where every decision counts, and the fate of your team is in your hands!
 
-Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran un grupo de héroes en un mundo y participan en batallas estratégicas, tomando decisiones tácticas para derrotar a enemigos. Durante la exploración, reclutas y mejora personajes, mientras que en las batallas, el posicionamiento y la selección de acciones son clave para el éxito. ¡Prepárate para vivir una experiencia única donde cada decisión cuenta y el destino de tu equipo está en tus manos!
+## Current Development
 
-## Desarrollo Actual
+The game features a frontend implemented in Unity, while the backend is built with Dojo on Starknet (it's a game with 100% on-chain logic!). In Unity, enjoy a freely explorable world, but when the action begins, the combat logic shifts entirely to Dojo. Currently, the game is played locally through an executable, but the vision is to take it to the web. The bot is implemented as an algorithm in Unity, providing challenges even in single-player matches, and you can also challenge your friends to a Starkane match.
 
-El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet (es un juego con el 100% de su lógica onchain!). En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo. Actualmente, el juego se juega de forma local mediante un ejecutable, pero la visión es llevarlo a la web. El bot está implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y además podrías retar a tus amigos a jugar una partida de Starkane.
+### Limitations
 
-### Limitaciones
+Starkane has some limitations that are important to note:
 
-Starkane presenta algunas limitaciones que es importante tener en cuenta:
+- **Web Usage Restriction:** Currently, it's not possible to use the web version due to the lack of support in the dojo.unity library for WEBGL.
 
-- **Restricción de Uso Web:** Actualmente, no es posible utilizar la versión web debido a la falta de soporte en el lib dojo.unity para WEBGL.
+- **Slot Implementation Missing:** Currently, we don't proceed with the implementation of Starkane in Slot due to an error in the dojo.unity library when establishing a connection with Torii.
 
-- **Falta de Implementación en Slot:** En la actualidad, no procedemos con la implementación de Starkane en Slot debido a la ocurrencia de un error en la lib dojo.unity al establecer conexión con Torii.
+### Used Libraries
 
-### Bibliotecas Utilizadas
+The development of Starkane has benefited from several open-source libraries, including:
 
-El desarrollo de Starkane se ha beneficiado de varias bibliotecas de código abierto, entre las cuales se encuentran:
+- [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Used for map construction.
+- [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Used to facilitate the connection between Dojo and Unity.
+- [Alexandria](https://github.com/keep-starknet-strange/alexandria): We use the sorting algorithms provided by this library to implement the ranking system.
 
-- [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Utilizada para la construcción del mapa.
-- [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Empleada para facilitar la conexión entre Dojo y Unity.
-- [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento proporcionados por esta biblioteca para implementar el sistema de ranking.
+## How to Play?
 
-## ¿Cómo Jugar?
+For detailed instructions on how to set up the environment and start playing Starkane locally, check the [development readme](./development.md). Follow the steps provided to enjoy the gaming experience. Have fun!
 
-Para obtener instrucciones detalladas sobre cómo configurar el entorno y empezar a jugar Starkane localmente, consulta el [readme de desarrollo](./development.md). Sigue los pasos indicados para disfrutar de la experiencia de juego. ¡Diviértete!
+## Mechanics
 
-## Mecánicas
+Starkane is characterized by a turn-based gameplay system that gives each player the opportunity to perform two actions per hero during their turn. These actions include mobilization and the execution of an action, which can be casting magic, attacking, or using an item. Each action is independent and adapts to the unique strategy of each player.
 
-Starkane se caracteriza por un sistema de juego por turnos que brinda a cada jugador la oportunidad de realizar dos acciones por héroe durante su turno. Estas acciones incluyen la movilización y la ejecución de una acción, que puede ser lanzar magia, atacar o utilizar un objeto. Cada acción es independiente y se adapta a la estrategia única de cada jugador.
+### Additional Features
 
-### Funcionalidades Adicionales
+In addition to the main mechanics, we have various additional features to enhance the gaming experience:
 
-Además de las mecánicas principales, tenemos diversas características adicionales para enriquecer la experiencia de juego:
+- **Combats and C&C Maps Minting:** Engage in 5 battles and mint a Crypts & Caverns (C&C) map.
 
-- **Combates y Mint de Mapas C&C:** Participa en 5 combates y mintea un mapa de Crypts & Caverns(C&C).
-  
-- **Creación de Vínculos y Recomendaciones:** Crea vínculos, obtén recomendaciones de otros jugadores de Starkane y mintea un héroe exclusivo.
+- **Link Creation and Recommendations:** Create links, get recommendations from other Starkane players, and mint an exclusive hero.
 
-- **Sistema de Rankings:** Cuenta con un sistema de rankings que clasifica a los jugadores según su desempeño en el juego.
+- **Ranking System:** It features a ranking system that ranks players based on their performance in the game.
 
-- **Factores Aleatorios en Ataques:** Durante la ejecución de acciones de tipo ataque, ten en cuenta que existe un factor aleatorio, lo que significa que los ataques pueden variar en intensidad, ya sea más débiles o más fuertes. Esto añade un elemento de sorpresa y estrategia al juego.
+- **Random Factors in Attacks:** During the execution of attack actions, keep in mind that there is a random factor, meaning attacks can vary in intensity, either weaker or stronger. This adds an element of surprise and strategy to the game.
 
-### Modelos
+### Models
 
-#### Heroe
+#### Hero
 
-Un héroe posee los siguientes atributos.
+A hero has the following attributes.
 
-1. **HP (puntos de vida):** Representa los puntos de vida que tiene el héroe.
+1. **HP (Hit Points):** Represents the hero's life points.
 
-2. **MP (puntos de magia):** Representa la cantidad de puntos de magia que el héroe tiene. Se suelen consumir al usar habilidades mágicas.
+2. **MP (Magic Points):** Represents the amount of magic points the hero has. Usually consumed when using magic skills.
 
-3. **Attack (ataque):** La fuerza física del héroe, que afecta la cantidad de daño infligido en ataques normales.
+3. **Attack:** The hero's physical strength, affecting the amount of damage dealt in normal attacks.
 
-4. **Defense (defensa):** La capacidad del héroe para resistir el daño físico, reduciendo la cantidad de daño recibido.
+4. **Defense:** The hero's ability to resist physical damage, reducing the amount of damage received.
 
-5. **Evasion (evasión):** La capacidad del héroe para evitar ataques enemigos.
+5. **Evasion:** The hero's ability to avoid enemy attacks.
 
-6. **Crit Chance (probabilidad de crítico):** La probabilidad de que los ataques del héroe sean críticos, infligiendo daño adicional.
+6. **Crit Chance:** The probability of the hero's attacks being critical, inflicting additional damage.
 
-7. **Crit Rate (multiplicador de crítico):** El factor por el cual se multiplica el daño cuando se realiza un ataque crítico.
+7. **Crit Rate:** The factor by which damage is multiplied when a critical attack is performed.
 
-8. **Movement Range (rango de movimiento):** Indica cuántas casillas puede moverse el héroe durante su turno en el juego.
+8. **Movement Range:** Indicates how many squares the hero can move during their turn in the game.
 
 #### Skill
 
-Cada héroe tiene habilidades que pueden ser ofensivas y defensivas. También tenemos ataques mágicos especiales y básicos. Son los siguientes:
+Each hero has skills that can be offensive and defensive. We also have special and basic magical attacks. They are as follows:
 
-1. **MeeleAttack (Ataque cuerpo a cuerpo):** Permite al héroe realizar ataques físicos a corta distancia.
+1. **MeeleAttack (Melee Attack):** Allows the hero to perform physical attacks at close range.
 
-2. **RangeAttack (Ataque a distancia):** Permite al héroe realizar ataques físicos desde una distancia.
+2. **RangeAttack (Ranged Attack):** Allows the hero to perform physical attacks from a distance.
 
-3. **Fireball (Bola de fuego):** Permite al héroe lanzar proyectiles de fuego hacia el enemigo. Esta habilidad tiene un alcance mayor que los ataques físicos.
+3. **Fireball:** Allows the hero to launch fire projectiles at the enemy. This skill has a greater range than physical attacks.
 
-4. **Heal (Curar):** Representa habilidades de curación que permiten al héroe restaurar los puntos de vida (HP) de sí mismo o de otros personajes en el juego.
+4. **Heal:** Represents healing skills that allow the hero to restore life points (HP) to themselves or other characters in the game.
 
-5. **SpecialMeeleAttack (Ataque cuerpo a cuerpo especial):** Este ataque puede diferenciarse de los ataques cuerpo a cuerpo estándar por su naturaleza única o poderosa.
+5. **SpecialMeeleAttack (Special Melee Attack):** This attack can differ from standard melee attacks due to its unique or powerful nature.
 
-6. **SpecialRangeAttack (Ataque a distancia especial):** Este ataque tiene propiedades únicas que lo distinguen de los ataques a distancia convencionales.
+6. **SpecialRangeAttack (Special Ranged Attack):** This attack has unique properties that distinguish it from conventional ranged attacks.
 
-#### Mapa
+#### Map
 
-Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables. El mapa está construido en Dojo con la lib C&C y se renderiza en Unity de forma dinámica. Actualmente, contamos con un único mapa de 25 x 25.
+Maps are 2D grids of size N*M, where we have walkable and non-walkable tiles. The map is built in Dojo with the C&C library and rendered in Unity dynamically. Currently, we have a single map of size 25 x 25.
 
 ### Game Loop
 
@@ -106,51 +102,22 @@ flowchart TD
   winner --> end_story 
 ```
 
-# Futuro del Juego
+# Future of the Game
 
-El desarrollo continuo de Starkane incluirá emocionantes características para enriquecer la experiencia de juego:
+The ongoing development of Starkane will include exciting features to enrich the gaming experience:
 
-- **Modo Multijugador:** Soportar modo multijugador que permitirá enfrentamientos más desafiantes.
+- **Multiplayer Mode:** Support multiplayer mode for more challenging matchups.
 
-- **Inteligencia Artificial Mejorada:** Utilizar un ML Bot la tecnología como en el clásico juego [tic-tac-toe](https://github.com/OwnerOfJK/TicTacToeAgent).
+- **Improved Artificial Intelligence:** Utilize ML Bot technology as seen in the classic game [tic-tac-toe](https://github.com/OwnerOfJK/TicTacToeAgent).
 
-- **Mundo Abierto y Quests:** Un mundo abierto dentro de Starkane, donde los jugadores podrán embarcarse en emocionantes quest para obtener recompensas y sumergirse aún más en la narrativa del juego.
+- **Open World and Quests:** An open world within Starkane, where players can embark on exciting quests to earn rewards and immerse themselves further in the game's narrative.
 
-- **Progresión de Niveles y Habilidades:** La capacidad de subir de niveles y aprender nuevas habilidades.
+- **Level and Skill Progression:** The ability to level up and learn new skills.
 
-- **Trama Narrativa:** Crear un hilo argumental para mejorar la esencia del juego.
+- **Narrative Plot:** Create a storyline to enhance the essence of the game.
 
-- **Actualizaciones Continuas:** Tener actualizaciones periódicas que incluirán nuevos personajes y habilidades, asegurando que la experiencia de juego siempre sea fresca y emocionante.
+- **Continuous Updates:** Have periodic updates that will include new characters and skills, ensuring the gaming experience is always fresh and exciting.
 
 # Supporters
 
-Únete a nosotros como Supporters y sé parte activa del crecimiento y desarrollo continuo de Starkane. Tu apoyo es fundamental para llevar el juego a nuevos horizontes. ¡Únete [aquí]() y sé parte de esta emocionante aventura!
-
-### Creators ✨
-Thanks goes to these wonderful people
-([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<table>
-  <tbody>
-    <tr>
-    <td align="center" valign="top" width="14.28%"><a href="https://github.com/dubzn"><img src="https://avatars.githubusercontent.com/u/58611754?s=400&u=cdb4e29d9ac5bc41e7ee171375e8cd10fe8c3c24&v=4" width="100px;" alt="Dubzn"/><br /><sub><b>dubzn</b></sub></a><br />😸</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpinones"><img src="https://avatars.githubusercontent.com/u/30808181?v=4" width="100px;" alt="Damián Piñones"/><br /><sub><b>Damián Piñones</b></sub></a><br />🤠</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/cristianFleita"><img src="https://avatars.githubusercontent.com/u/87950451?v=4" width="100px;" alt="Cristian Fleita"/><br /><sub><b>Cristian Fleita</b></sub></a><br />💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aikomisa5"><img src="https://avatars.githubusercontent.com/u/21129776?v=4" width="100px;" alt="Dubzn"/><br /><sub><b>Misael Britos</b></sub></a><br />🐦</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/brendaamareco"><img src="https://avatars.githubusercontent.com/u/107716199?v=4" width="100px;" alt="Brenda Mareco"/><br /><sub><b>Brenda Mareco</b></sub></a><br />🎨</a></td>
-    </tr>
-</tbody>
-</table>
-
-### Dojo Sensei ⛩️
-Thanks goes to these wonderful people
-([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Larkooo"><img src="https://avatars.githubusercontent.com/u/59736843?v=4" width="100px;" alt="Larkooo"/><br /><sub><b>Larkooo</b></sub></a><br />🚬</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ponderingdemocritus"><img src="https://avatars.githubusercontent.com/u/90423308?v=4" width="100px;" alt="Loaf"/><br /><sub><b>Loaf</b></sub></a><br />🍞</a></td>
-    </tr>
-</tbody>
-</table>
+Join us as Supporters and be an active part of Starkane's growth and continuous development. Your support is essential to take the game to new heights. Join [here]() and be part of this exciting adventure!
