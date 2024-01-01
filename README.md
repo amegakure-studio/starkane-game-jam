@@ -19,7 +19,7 @@ El juego se desarrolla por turnos, permitiendo a cada jugador realizar dos accio
 ### Mecánicas Adicionales
 
 * Juega 5 combates y mintea un mapa de C&C.
-* Haste famoso en Starkane recibiendo recomendaciones de otros jugadores y mintea un heroe exclusivo.
+* Crea vínculos, obten recomendaciones de otros jugadores de Starkane y mintea un heroes exclusivos.
 
 ### Heroe
 
