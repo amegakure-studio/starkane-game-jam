@@ -44,3 +44,15 @@ Thanks goes to these wonderful people
 </tbody>
 </table>
 
+### Dojo Sensei ⛩️
+Thanks goes to these wonderful people
+([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Larkooo"><img src="https://avatars.githubusercontent.com/u/59736843?v=4" width="100px;" alt="Larkooo"/><br /><sub><b>Larkooo</b></sub></a><br />🚬</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ponderingdemocritus"><img src="https://avatars.githubusercontent.com/u/90423308?v=4" width="100px;" alt="Loaf"/><br /><sub><b>Loaf</b></sub></a><br />🍞</a></td>
+    </tr>
+</tbody>
+</table>
