@@ -2,31 +2,29 @@
   <img alt="Dojo logo" width="400" src="https://github.com/amegakure-starknet/unity-Starkane/assets/58611754/ab701ac0-a1f3-4048-b40f-8234c6f662fe">
 </p>
 
-## Introducción
+# Introducción
 
 Starkane es un emocionante juego RPG por turnos en el que los jugadores lideran un grupo de héroes en un mundo y participan en batallas estratégicas, tomando decisiones tácticas para derrotar a enemigos. Durante la exploración, reclutas y mejora personajes, mientras que en las batallas, el posicionamiento y la selección de acciones son clave para el éxito. ¡Prepárate para vivir una experiencia única donde cada decisión cuenta y el destino de tu equipo está en tus manos!
 
 ## Desarrollo Actual
 
-El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet (es un juego con el 100% de su lógica onchain!).
-En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo.
-Actualmente, el juego se juega de forma local mediante un ejecutable, pero la visión es llevarlo a la web. El bot esta implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y ademas podrias retar a tus amigos a jugar una partida de Starkane.
+El juego cuenta con un frontend implementado en Unity, mientras que el backend se ha construido con Dojo en Starknet (es un juego con el 100% de su lógica onchain!). En Unity, disfruta de un mundo libre para explorar, pero cuando la acción comienza, la lógica del combate se traslada completamente a Dojo. Actualmente, el juego se juega de forma local mediante un ejecutable, pero la visión es llevarlo a la web. El bot está implementado como un algoritmo en Unity, brinda desafíos incluso en partidas de un solo jugador, y además podrías retar a tus amigos a jugar una partida de Starkane.
 
 ### Limitaciones
 
 Starkane presenta algunas limitaciones que es importante tener en cuenta:
 
-* **Restricción de Uso Web:** Actualmente, no es posible utilizar la versión web debido a la falta de soporte en el lib dojo.unity para WEBGL.
+- **Restricción de Uso Web:** Actualmente, no es posible utilizar la versión web debido a la falta de soporte en el lib dojo.unity para WEBGL.
 
-* **Falta de Implementación en Slot:** En la actualidad, no procedemos con la implementación de Starkane en Slot debido a la ocurrencia de un error en la lib dojo.unity al establecer conexión con Torii.
+- **Falta de Implementación en Slot:** En la actualidad, no procedemos con la implementación de Starkane en Slot debido a la ocurrencia de un error en la lib dojo.unity al establecer conexión con Torii.
 
 ### Bibliotecas Utilizadas
 
 El desarrollo de Starkane se ha beneficiado de varias bibliotecas de código abierto, entre las cuales se encuentran:
 
-* [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Utilizada para la construcción del mapa.
-* [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Empleada para facilitar la conexión entre Dojo y Unity.
-* [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento proporcionados por esta biblioteca para implementar el sistema de ranking.
+- [C&C](https://github.com/CheDAOLabs/cryptsandcaverns): Utilizada para la construcción del mapa.
+- [Dojo.Unity](https://github.com/dojoengine/dojo.unity): Empleada para facilitar la conexión entre Dojo y Unity.
+- [Alexandria](https://github.com/keep-starknet-strange/alexandria): Utilizamos los algoritmos de ordenamiento proporcionados por esta biblioteca para implementar el sistema de ranking.
 
 ## ¿Cómo Jugar?
 
@@ -40,47 +38,47 @@ Starkane se caracteriza por un sistema de juego por turnos que brinda a cada jug
 
 Además de las mecánicas principales, tenemos diversas características adicionales para enriquecer la experiencia de juego:
 
-* **Combates y Mint de Mapas C&C:** Participa en 5 combates y mintea un mapa de Crypts & Caverns(C&C).
+- **Combates y Mint de Mapas C&C:** Participa en 5 combates y mintea un mapa de Crypts & Caverns(C&C).
   
-* **Creación de Vínculos y Recomendaciones:** Crea vínculos, obten recomendaciones de otros jugadores de Starkane y mintea un heroe exclusivo.
+- **Creación de Vínculos y Recomendaciones:** Crea vínculos, obtén recomendaciones de otros jugadores de Starkane y mintea un héroe exclusivo.
 
-* **Sistema de Rankings:** Cuenta con un sistema de rankings que clasifica a los jugadores según su desempeño en el juego.
+- **Sistema de Rankings:** Cuenta con un sistema de rankings que clasifica a los jugadores según su desempeño en el juego.
 
-* **Factores Aleatorios en Ataques:** Durante la ejecución de acciones de tipo ataque, ten en cuenta que existe un factor aleatorio, lo que significa que los ataques pueden variar en intensidad, ya sea más débiles o más fuertes. Esto añade un elemento de sorpresa y estrategia al juego.
+- **Factores Aleatorios en Ataques:** Durante la ejecución de acciones de tipo ataque, ten en cuenta que existe un factor aleatorio, lo que significa que los ataques pueden variar en intensidad, ya sea más débiles o más fuertes. Esto añade un elemento de sorpresa y estrategia al juego.
 
 ### Modelos
 
 #### Heroe
 
-Un heroe posee los siguientes atributos.
+Un héroe posee los siguientes atributos.
 
-1. **HP (puntos de vida):** Representa los puntos de vida que tiene el heroe.
+1. **HP (puntos de vida):** Representa los puntos de vida que tiene el héroe.
 
-2. **MP (puntos de magia):** Representa la cantidad de puntos de magia que el heroe tiene. Se suelen consumir al usar habilidades mágicas.
+2. **MP (puntos de magia):** Representa la cantidad de puntos de magia que el héroe tiene. Se suelen consumir al usar habilidades mágicas.
 
-3. **Attack (ataque):** La fuerza física del heroe, que afecta la cantidad de daño infligido en ataques normales.
+3. **Attack (ataque):** La fuerza física del héroe, que afecta la cantidad de daño infligido en ataques normales.
 
-4. **Defense (defensa):** La capacidad del heroe para resistir el daño físico, reduciendo la cantidad de daño recibido.
+4. **Defense (defensa):** La capacidad del héroe para resistir el daño físico, reduciendo la cantidad de daño recibido.
 
-5. **Evasion (evasión):** La capacidad del heroe para evitar ataques enemigos.
+5. **Evasion (evasión):** La capacidad del héroe para evitar ataques enemigos.
 
-6. **Crit Chance (probabilidad de crítico):** La probabilidad de que los ataques del heroe sean críticos, infligiendo daño adicional.
+6. **Crit Chance (probabilidad de crítico):** La probabilidad de que los ataques del héroe sean críticos, infligiendo daño adicional.
 
 7. **Crit Rate (multiplicador de crítico):** El factor por el cual se multiplica el daño cuando se realiza un ataque crítico.
 
-8. **Movement Range (rango de movimiento):** Indica cuántas casillas puede moverse el heroe durante su turno en el juego.
+8. **Movement Range (rango de movimiento):** Indica cuántas casillas puede moverse el héroe durante su turno en el juego.
 
 #### Skill
 
-Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tenemos ataques magicos especiales y basicos. Son los siguientes:
+Cada héroe tiene habilidades que pueden ser ofensivas y defensivas. También tenemos ataques mágicos especiales y básicos. Son los siguientes:
 
-1. **MeeleAttack (Ataque cuerpo a cuerpo):** Permite al heroe realizar ataques físicos a corta distancia.
+1. **MeeleAttack (Ataque cuerpo a cuerpo):** Permite al héroe realizar ataques físicos a corta distancia.
 
-2. **RangeAttack (Ataque a distancia):** Permite al heroe realizar ataques físicos desde una distancia.
+2. **RangeAttack (Ataque a distancia):** Permite al héroe realizar ataques físicos desde una distancia.
 
-3. **Fireball (Bola de fuego):** Permite al heroe lanzar proyectiles de fuego hacia el enemigo. Esta habilidad tiene un alcance mayor que los ataques físicos.
+3. **Fireball (Bola de fuego):** Permite al héroe lanzar proyectiles de fuego hacia el enemigo. Esta habilidad tiene un alcance mayor que los ataques físicos.
 
-4. **Heal (Curar):** Representa habilidades de curación que permiten al heroe restaurar los puntos de vida (HP) de sí mismo o de otros personajes en el juego.
+4. **Heal (Curar):** Representa habilidades de curación que permiten al héroe restaurar los puntos de vida (HP) de sí mismo o de otros personajes en el juego.
 
 5. **SpecialMeeleAttack (Ataque cuerpo a cuerpo especial):** Este ataque puede diferenciarse de los ataques cuerpo a cuerpo estándar por su naturaleza única o poderosa.
 
@@ -88,9 +86,7 @@ Cada heroe tiene habilidades que pueden ser ofensivas y defensivas. Tambien tene
 
 #### Mapa
 
-Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables.
-El mapa esta construido en Dojo con la lib C&C y se renderiza en unity de forma dinamica.
-Actualmente, contamos con un único mapa de 25 x 25.
+Los mapas son grillas 2D de tamaño N*M, donde tenemos casillas caminables y no caminables. El mapa está construido en Dojo con la lib C&C y se renderiza en Unity de forma dinámica. Actualmente, contamos con un único mapa de 25 x 25.
 
 ### Game Loop
 
@@ -110,25 +106,25 @@ flowchart TD
   winner --> end_story 
 ```
 
-## Futuro del Juego
+# Futuro del Juego
 
 El desarrollo continuo de Starkane incluirá emocionantes características para enriquecer la experiencia de juego:
 
-* **Modo Multijugador:** Soportar modo multijugador que permitirá enfrentamientos más desafiantes.
+- **Modo Multijugador:** Soportar modo multijugador que permitirá enfrentamientos más desafiantes.
 
-* **Inteligencia Artificial Mejorada:** Utilizar un ML Bot la tecnología como en el clásico juego [tic-tac-toe](https://github.com/OwnerOfJK/TicTacToeAgent).
+- **Inteligencia Artificial Mejorada:** Utilizar un ML Bot la tecnología como en el clásico juego [tic-tac-toe](https://github.com/OwnerOfJK/TicTacToeAgent).
 
-* **Mundo Abierto y Quests:** Un mundo abierto dentro de Starkane, donde los jugadores podrán embarcarse en emocionantes quest para obtener recompensas y sumergirse aún más en la narrativa del juego.
+- **Mundo Abierto y Quests:** Un mundo abierto dentro de Starkane, donde los jugadores podrán embarcarse en emocionantes quest para obtener recompensas y sumergirse aún más en la narrativa del juego.
 
-* **Progresión de Niveles y Habilidades:** La capacidad de subir de niveles y aprender nuevas habilidades.
+- **Progresión de Niveles y Habilidades:** La capacidad de subir de niveles y aprender nuevas habilidades.
 
-* **Trama Narrativa:** Crear un hilo argumental para mejorar la esencia del juego
+- **Trama Narrativa:** Crear un hilo argumental para mejorar la esencia del juego.
 
-* **Actualizaciones Continuas:** Tener actualizaciones periódicas que incluirán nuevos personajes y habilidades, asegurando que la experiencia de juego siempre sea fresca y emocionante.
+- **Actualizaciones Continuas:** Tener actualizaciones periódicas que incluirán nuevos personajes y habilidades, asegurando que la experiencia de juego siempre sea fresca y emocionante.
 
-## Supporters
+# Supporters
 
-Únete a nosotros como Supporters y sé parte activa del crecimiento y desarrollo continuo de Starkane. Tu apoyo es fundamental para llevar el juego a nuevos horizontes. ¡Únete  [aqui]() y sé parte de esta emocionante aventura!
+Únete a nosotros como Supporters y sé parte activa del crecimiento y desarrollo continuo de Starkane. Tu apoyo es fundamental para llevar el juego a nuevos horizontes. ¡Únete [aquí]() y sé parte de esta emocionante aventura!
 
 ### Creators ✨
 Thanks goes to these wonderful people
