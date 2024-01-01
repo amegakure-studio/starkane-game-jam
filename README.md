@@ -95,6 +95,7 @@ flowchart TD
 * Construir un mundo abierto donde puedas realizar quest y obtener recompensas
 * Subir de niveles y aprender nuevas habilidades
 * Tener un hilo argumental para mejorar la esencia del juego
+* Agregar actualizaciones con nuevos personajes y skills
 
 ## Special thanks
 
