@@ -29,6 +29,6 @@ To get started with Starkane, follow these steps to set up your local environmen
 
 ### Running the Game
 
-Download the launcher [here](#) to start playing Starkane.
+Download the launcher [here](https://dubzn.itch.io/starkane) to start playing Starkane.
 
 Feel free to explore the various features and enjoy your gaming experience with Starkane!

@@ -6,6 +6,13 @@
 
 Starkane is an exciting turn-based RPG game where players lead a group of heroes in a world, engaging in strategic battles, making tactical decisions to defeat enemies. During exploration, recruit and upgrade characters, while in battles, positioning and action selection are crucial for success. Get ready to experience a unique journey where every decision counts, and the fate of your team is in your hands!
 
+## Game Links
+
+- **Website:** [Starkane](https://starkane.xyz/)
+- **Trailer:** [Watch Trailer](https://www.youtube.com/watch?v=hy_h6x8kFAU)
+- **Gameplay:** [Watch Gameplay](https://www.youtube.com/watch?v=OBTVBRo8JSc)
+- **itch.io:** [Starkane on itch.io](https://dubzn.itch.io/starkane)
+
 ## Current Development
 
 The game features a frontend implemented in Unity, while the backend is built with Dojo on Starknet (it's a game with 100% on-chain logic!). In Unity, enjoy a freely explorable world, but when the action begins, the combat logic shifts entirely to Dojo. Currently, the game is played locally through an executable, but the vision is to take it to the web. The bot is implemented as an algorithm in Unity, providing challenges even in single-player matches, and you can also challenge your friends to a Starkane match.
