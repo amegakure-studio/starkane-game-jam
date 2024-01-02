@@ -131,7 +131,7 @@ The ongoing development of Starkane will include exciting features to enrich the
 
 # Supporters
 
-Join us as Supporters and be an active part of Starkane's growth and continuous development. Your support is essential to take the game to new heights. Join [here]() and be part of this exciting adventure!
+Join us as Supporters and be an active part of Starkane's growth and continuous development. Your support is essential to take the game to new heights. Join [here](pinonesdamian@gmail.com) and be part of this exciting adventure!
 
 ### Creators ✨
 Thanks goes to these wonderful people
