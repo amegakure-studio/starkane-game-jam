@@ -96,24 +96,6 @@ Each hero has skills that can be offensive and defensive. We also have special a
 
 Maps are 2D grids of size N*M, where we have walkable and non-walkable tiles. The map is built in Dojo with the C&C library and rendered in Unity dynamically. Currently, we have a single map of size 25 x 25.
 
-### Game Loop
-
-```mermaid
-flowchart TD
-  start_story --> hero_warrior
-  hero_warrior --> become_adventurer
-  become_adventurer --> match
-  match --> winner
-  match --> loser
-  loser --> move
-  loser --> action
-  move --> match_2
-  action --> match_2
-  match_2 --> winner2
-  winner2 --> end_story
-  winner --> end_story 
-```
-
 # Future of the Game
 
 The ongoing development of Starkane will include exciting features to enrich the gaming experience:
