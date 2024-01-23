@@ -29,7 +29,7 @@ mod match_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl MatchSystem of IMatchSystem<ContractState> {
         fn init(self: @ContractState, players_characters: Array<PlayerCharacter>) {
             // [Setup] Datastore

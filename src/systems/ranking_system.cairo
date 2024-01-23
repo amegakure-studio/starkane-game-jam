@@ -21,7 +21,7 @@ mod ranking_system {
 
     const RANKING_MAX_LEN: u32 = 20;
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl RankingSystem of IRankingSystem<ContractState> {
         fn update(self: @ContractState, player: felt252, score: u64) {
             // [Setup] Datastore

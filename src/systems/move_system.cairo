@@ -24,7 +24,7 @@ mod move_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl MoveSystem of IMoveSystem<ContractState> {
         fn move(
             self: @ContractState,

@@ -18,7 +18,7 @@ mod map_cc_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl MapCCSystem of IMapCCSystem<ContractState> {
         fn init(ref self: ContractState) {
             // [Setup] Datastore
