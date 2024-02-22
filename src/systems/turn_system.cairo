@@ -15,7 +15,7 @@ mod turn_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl TurnSystem of ITurnSystem<ContractState> {
         fn end_turn(self: @ContractState, match_id: u32, player: felt252) {
             // [Setup] Datastore

@@ -17,7 +17,7 @@ mod character_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl CharacterSystem of ICharacterSystem<ContractState> {
         fn init(self: @ContractState) {
             // [Setup] Datastore

@@ -17,7 +17,7 @@ mod skill_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl SkillSystem of ISkillSystem<ContractState> {
         fn init(self: @ContractState) {
             // [Setup] Datastore

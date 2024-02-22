@@ -16,7 +16,7 @@ mod stadistics_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl StadisticsSystem of IStadisticsSystem<ContractState> {}
 
     fn record_match_stadistics(world: IWorldDispatcher, match_id: u32) {

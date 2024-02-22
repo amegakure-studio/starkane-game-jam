@@ -12,7 +12,7 @@ mod recommendation_system {
     #[storage]
     struct Storage {}
 
-    #[external(v0)]
+    #[abi(embed_v0)]
     impl RecommendationSystem of IRecommendationSystem<ContractState> {
         fn recommend_player(self: @ContractState, from: felt252, to: felt252) {
             // [Setup] Datastore
