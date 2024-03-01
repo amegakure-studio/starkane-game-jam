@@ -49,8 +49,8 @@ dependencies = [
 
 [[package]]
 name = "dojo"
-version = "0.5.0"
-source = "git+https://github.com/dojoengine/dojo#3620d7294398e48d6c5d7c30fdd4cdbc4e108d98"
+version = "0.5.1"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.5.1#4a6cad5f21d8da71714ae6ff48c9cc6ecaae642a"
 dependencies = [
  "dojo_plugin",
 ]
@@ -67,7 +67,7 @@ source = "git+https://github.com/OpenZeppelin/cairo-contracts.git?tag=v0.8.0-bet
 
 [[package]]
 name = "starkane"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "alexandria_data_structures",
  "alexandria_sorting",
